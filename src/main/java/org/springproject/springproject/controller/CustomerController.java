@@ -8,6 +8,7 @@ import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.service.CustomerService;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -25,6 +26,11 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<?> createNewCustomer(@RequestBody Customer customer){
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(customer));
+    }
+
+    @PostMapping("/batch")
+    public ResponseEntity<?> createNewBatchOfPersonnel(@RequestBody List<Customer> customers) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createBatchOfPersonnel(customers));
     }
 
     @GetMapping("/{id}")
