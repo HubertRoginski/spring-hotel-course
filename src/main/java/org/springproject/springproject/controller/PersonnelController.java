@@ -4,11 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springproject.springproject.exception.WrongPageException;
+import org.springproject.springproject.model.Error;
 import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.service.PersonnelService;
 
-import java.time.LocalDate;
-import java.util.Collections;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -33,9 +34,11 @@ public class PersonnelController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllPersonnel(){
-        return ResponseEntity.ok(personnelService.getAllPersonnel());
+    public ResponseEntity<List<Personnel>> getPersonnel(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size){
+        return ResponseEntity.ok(personnelService.getAllPersonnel(page,size));
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removePersonnelById(@PathVariable Long id){
@@ -64,5 +67,18 @@ public class PersonnelController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/sick/{sickLeave}")
+    public ResponseEntity<?> getPersonnelBySickLeave(@PathVariable Boolean sickLeave){
+        return ResponseEntity.ok(personnelService.getPersonnelBySickLeave(sickLeave));
+    }
 
+    @GetMapping("/position")
+    public ResponseEntity<?> getPersonnelByPosition(@RequestParam String position){
+        return ResponseEntity.ok(personnelService.getPersonnelByPosition(position));
+    }
+
+    @GetMapping("/cure")
+    public void cureALlPersonnel(){
+        personnelService.cureAllPersonnel();
+    }
 }

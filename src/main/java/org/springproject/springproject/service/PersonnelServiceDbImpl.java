@@ -3,11 +3,16 @@ package org.springproject.springproject.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.repository.PersonnelRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Profile("!old")
 @Service
@@ -29,9 +34,22 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     }
 
     @Override
-    public List<Personnel> getAllPersonnel() {
-        return personnelRepository.findAll();
+    public List<Personnel> getAllPersonnel(Integer page, Integer size) throws WrongPageException {
+        if (!Objects.nonNull(page)){
+            page=1;
+        }
+        if (!Objects.nonNull(size)){
+            size=5;
+        }
+        if (page < 1 ){
+            throw new WrongPageException("Strona nie może być mniejsza niż 1");
+        }
+        Sort sort = Sort.by("salary").descending();
+        Pageable pageable = PageRequest.of(page-1,size,sort);
+        return personnelRepository.findAll(pageable).getContent();
     }
+
+
 
     @Override
     public boolean removePersonnelById(Long id) {
@@ -57,5 +75,20 @@ public class PersonnelServiceDbImpl implements PersonnelService {
             return personnelRepository.save(personnel);
         }
         return null;
+    }
+
+    @Override
+    public List<Personnel> getPersonnelBySickLeave(Boolean sickLeave) {
+        return personnelRepository.findPersonnelsBySickLeaveEquals(sickLeave);
+    }
+
+    @Override
+    public List<Personnel> getPersonnelByPosition(String position) {
+        return personnelRepository.selectAllPersonnelWithPositionEqualTo(position);
+    }
+
+    @Override
+    public void cureAllPersonnel() {
+        personnelRepository.updateAllPersonnelToBeHealthy();
     }
 }

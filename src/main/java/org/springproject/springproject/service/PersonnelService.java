@@ -8,7 +8,7 @@ public interface PersonnelService {
 
     Personnel getPersonnelById(Long id);
 
-    List<Personnel> getAllPersonnel();
+    List<Personnel> getAllPersonnel(Integer page, Integer size);
 
     boolean removePersonnelById(Long id);
 
@@ -18,4 +18,9 @@ public interface PersonnelService {
 
     Personnel updatePersonnelById(Long id, Personnel personnel);
 
+    List<Personnel> getPersonnelBySickLeave(Boolean sickLeave);
+
+    List<Personnel> getPersonnelByPosition(String position);
+
+    void cureAllPersonnel();
 }
