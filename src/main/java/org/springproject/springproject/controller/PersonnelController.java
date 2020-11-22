@@ -10,6 +10,7 @@ import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.service.PersonnelService;
 
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,7 +55,7 @@ public class PersonnelController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createNewPersonnel(@RequestBody Personnel personnels) {
+    public ResponseEntity<?> createNewPersonnel(@Valid @RequestBody Personnel personnels) {
         return ResponseEntity.status(HttpStatus.CREATED).body(personnelService.createNewPersonnel(personnels));
     }
 
