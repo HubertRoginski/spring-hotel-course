@@ -16,7 +16,9 @@
 
     <properties>
         <java.version>11</java.version>
+<!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -49,7 +51,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.1.5.Final</version> <!--dostępna może być nowsza wersja-->
+            <version>6.1.5.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,6 +64,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-resources-plugin</artifactId>-->
+<!--                <version>3.2.0</version>-->
+<!--                <configuration>-->
+<!--                    <encoding>UTF-8</encoding>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
