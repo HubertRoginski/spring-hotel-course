@@ -18,9 +18,9 @@ public interface PersonnelService {
 
     Personnel updatePersonnelById(Long id, Personnel personnel);
 
-    List<Personnel> getPersonnelBySickLeave(Boolean sickLeave);
+    List<Personnel> getPersonnelBySickLeave(Boolean sickLeave, Integer page, Integer size);
 
-    List<Personnel> getPersonnelByPosition(String position);
+    List<Personnel> getPersonnelByPosition(String position, Integer page, Integer size);
 
     void cureAllPersonnel();
 }

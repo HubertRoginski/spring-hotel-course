@@ -69,13 +69,13 @@ public class PersonnelController {
     }
 
     @GetMapping("/sick/{sickLeave}")
-    public ResponseEntity<?> getPersonnelBySickLeave(@PathVariable Boolean sickLeave){
-        return ResponseEntity.ok(personnelService.getPersonnelBySickLeave(sickLeave));
+    public ResponseEntity<?> getPersonnelBySickLeave(@PathVariable Boolean sickLeave, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size){
+        return ResponseEntity.ok(personnelService.getPersonnelBySickLeave(sickLeave,page, size));
     }
 
     @GetMapping("/position")
-    public ResponseEntity<?> getPersonnelByPosition(@RequestParam String position){
-        return ResponseEntity.ok(personnelService.getPersonnelByPosition(position));
+    public ResponseEntity<?> getPersonnelByPosition(@RequestParam String position, @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size){
+        return ResponseEntity.ok(personnelService.getPersonnelByPosition(position,page, size));
     }
 
     @GetMapping("/cure")

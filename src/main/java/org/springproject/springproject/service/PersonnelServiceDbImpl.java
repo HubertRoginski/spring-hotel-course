@@ -22,6 +22,7 @@ public class PersonnelServiceDbImpl implements PersonnelService {
 
 
 
+
     private final PersonnelRepository personnelRepository;
 
     public PersonnelServiceDbImpl(PersonnelRepository personnelRepository) {
@@ -78,14 +79,40 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     }
 
     @Override
-    public List<Personnel> getPersonnelBySickLeave(Boolean sickLeave) {
-        return personnelRepository.findPersonnelsBySickLeaveEquals(sickLeave);
+    public List<Personnel> getPersonnelBySickLeave(Boolean sickLeave, Integer page, Integer size) throws WrongPageException{
+        if (!Objects.nonNull(page)){
+            page=1;
+        }
+        if (!Objects.nonNull(size)){
+            size=5;
+        }
+        if (page < 1 ){
+            throw new WrongPageException("Strona nie może być mniejsza niż 1");
+        }
+        Pageable pageable = PageRequest.of(page-1,size);
+
+        return personnelRepository.findPersonnelsBySickLeaveEquals(sickLeave,pageable);
+
     }
 
     @Override
-    public List<Personnel> getPersonnelByPosition(String position) {
-        return personnelRepository.selectAllPersonnelWithPositionEqualTo(position);
+    public List<Personnel> getPersonnelByPosition(String position, Integer page, Integer size) throws WrongPageException{
+        if (!Objects.nonNull(page)){
+            page=1;
+        }
+        if (!Objects.nonNull(size)){
+            size=5;
+        }
+        if (page < 1 ){
+            throw new WrongPageException("Strona nie może być mniejsza niż 1");
+        }
+        Pageable pageable = PageRequest.of(page-1,size);
+
+        return personnelRepository.selectAllPersonnelWithPositionEqualTo(position,pageable);
+
     }
+
+
 
     @Override
     public void cureAllPersonnel() {

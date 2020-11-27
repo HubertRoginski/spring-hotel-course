@@ -17,51 +17,10 @@ import java.util.Map;
 @Profile("old")
 @Service
 @Scope("singleton")
-public class PersonnelServiceInMemoryImpl implements PersonnelService {
-    @Override
-    public Personnel getPersonnelById(Long id) {
-        return null;
-    }
 
-    @Override
-    public List<Personnel> getAllPersonnel(Integer page, Integer size) {
-        return null;
-    }
+//public class PersonnelServiceInMemoryImpl implements PersonnelService {
+public class PersonnelServiceInMemoryImpl {
 
-    @Override
-    public boolean removePersonnelById(Long id) {
-        return false;
-    }
-
-    @Override
-    public Personnel createNewPersonnel(Personnel personnel) {
-        return null;
-    }
-
-    @Override
-    public List<Personnel> createBatchOfPersonnel(List<Personnel> personnels) {
-        return null;
-    }
-
-    @Override
-    public Personnel updatePersonnelById(Long id, Personnel personnel) {
-        return null;
-    }
-
-    @Override
-    public List<Personnel> getPersonnelBySickLeave(Boolean sickLeave) {
-        return null;
-    }
-
-    @Override
-    public List<Personnel> getPersonnelByPosition(String position) {
-        return null;
-    }
-
-    @Override
-    public void cureAllPersonnel() {
-
-    }
 
 //    private final Map<Long, Personnel> personnelMap = new HashMap<>();
 //    private Long nextId = 1L;
