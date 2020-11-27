@@ -20,7 +20,7 @@ public class Personnel {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Length(min = 5, max = 25)
+//    @Length(min = 5, max = 25)
     private String firstName;
     private String lastName;
     private String position;

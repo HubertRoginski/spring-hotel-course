@@ -82,4 +82,13 @@ public class PersonnelController {
     public void cureALlPersonnel(){
         personnelService.cureAllPersonnel();
     }
+
+    @GetMapping("/various-parameters")
+    public ResponseEntity<List<Personnel>> getPersonnelWithParameters(@RequestParam(required = false) Long id, @RequestParam(required = false) String firstName,
+                                           @RequestParam(required = false) String lastName,@RequestParam(required = false) String position,
+                                           @RequestParam(required = false) String hireDate, @RequestParam(required = false) Double salary,
+                                           @RequestParam(required = false) Boolean sickLeave,@RequestParam(required = false) Integer page,
+                                           @RequestParam(required = false) Integer size){
+        return ResponseEntity.ok(personnelService.getPersonnelBySpecifiedParameters(id, firstName, lastName, position, hireDate,salary,sickLeave,page,size));
+    }
 }

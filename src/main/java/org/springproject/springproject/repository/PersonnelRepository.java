@@ -17,9 +17,6 @@ public interface PersonnelRepository extends JpaRepository<Personnel, Long> {
 
     List<Personnel> findPersonnelsBySickLeaveEquals(Boolean sickLeave,Pageable pageable);
 
-
-
-
     @Query(value = "SELECT p FROM personnel p where p.position = :position",nativeQuery = false)
     List<Personnel> selectAllPersonnelWithPositionEqualTo(@Param("position") String position, Pageable pageable);
 
@@ -27,4 +24,6 @@ public interface PersonnelRepository extends JpaRepository<Personnel, Long> {
     @Query(value = "update personnel p set p.sickLeave = false")
     @Transactional
     void updateAllPersonnelToBeHealthy();
+
+
 }

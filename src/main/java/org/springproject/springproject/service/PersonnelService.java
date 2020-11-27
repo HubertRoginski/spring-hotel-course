@@ -22,5 +22,9 @@ public interface PersonnelService {
 
     List<Personnel> getPersonnelByPosition(String position, Integer page, Integer size);
 
+    List<Personnel> getPersonnelBySpecifiedParameters(Long id, String firstName, String lastName,
+                                                      String position, String hireDate, Double salary,
+                                                      Boolean sickLeave , Integer page, Integer size);
+
     void cureAllPersonnel();
 }
