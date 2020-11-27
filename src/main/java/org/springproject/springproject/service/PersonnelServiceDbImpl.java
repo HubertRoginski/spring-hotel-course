@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springproject.springproject.exception.NoSuchPersonnelId;
 import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.repository.PersonnelRepository;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-@Profile("!old")
+//@Profile("!old")
 @Service
 @Scope("prototype")
 @Slf4j
@@ -31,8 +32,12 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     }
 
     @Override
-    public Personnel getPersonnelById(Long id) {
-        return personnelRepository.findById(id).orElse(null);
+    public Personnel getPersonnelById(Long id) throws NoSuchPersonnelId{
+        Personnel personnel = personnelRepository.findById(id).orElse(null);
+        if (Objects.isNull(personnel)){
+            throw new NoSuchPersonnelId(id.toString());
+        }
+        return personnel;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class PersonnelServiceDbImpl implements PersonnelService {
             size = 5;
         }
         if (page < 1) {
-            throw new WrongPageException("Strona nie może być mniejsza niż 1");
+            throw new WrongPageException("Page number can't be less than 1");
         }
         Sort sort = Sort.by("salary").descending();
         Pageable pageable = PageRequest.of(page - 1, size, sort);
@@ -53,14 +58,16 @@ public class PersonnelServiceDbImpl implements PersonnelService {
 
 
     @Override
-    public boolean removePersonnelById(Long id) {
-        personnelRepository.deleteById(id);
-        return true;
+    public boolean removePersonnelById(Long id) throws NoSuchPersonnelId {
+        if (personnelRepository.existsById(id)) {
+            personnelRepository.deleteById(id);
+            return true;
+        }
+        throw new NoSuchPersonnelId(id.toString());
     }
 
     @Override
     public Personnel createNewPersonnel(Personnel personnel) {
-        log.info("Tworze nowy personel");
         return personnelRepository.save(personnel);
     }
 
@@ -70,12 +77,12 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     }
 
     @Override
-    public Personnel updatePersonnelById(Long id, Personnel personnel) {
+    public Personnel updatePersonnelById(Long id, Personnel personnel) throws NoSuchPersonnelId {
         if (personnelRepository.existsById(id)) {
             personnel.setId(id);
             return personnelRepository.save(personnel);
         }
-        return null;
+        throw new NoSuchPersonnelId(id.toString());
     }
 
     @Override
@@ -86,7 +93,6 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     @Override
     public List<Personnel> getPersonnelBySickLeave(Boolean sickLeave, Integer page, Integer size) throws WrongPageException {
         Pageable pageable = createPagination(page, size);
-
         return personnelRepository.findPersonnelsBySickLeaveEquals(sickLeave, pageable);
 
     }
@@ -94,7 +100,6 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     @Override
     public List<Personnel> getPersonnelByPosition(String position, Integer page, Integer size) throws WrongPageException {
         Pageable pageable = createPagination(page, size);
-
         return personnelRepository.selectAllPersonnelWithPositionEqualTo(position, pageable);
 
     }
