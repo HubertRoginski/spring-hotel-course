@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>one-user</title>
+</head>
+<body>
+<div class="personnel-data">
+    <h1>User information</h1>
+    <div th:object="${user}">
+        <p th:text="*{id}"></p>
+        <p th:text="*{username}"></p>
+        <p th:text="*{role}"></p>
+        <p th:text="*{enabled}"></p>
+    </div>
+</div>
+
+
+<!--<div th:if="${user.role == 'ROLE_ADMIN'}">-->
+    <div>
+        <h1>Aktualizacja uzytkownika</h1>
+        <form method="post" th:action="@{/users/{id}(id=${user.id})}" th:object="${updateUser}">
+            <div class="form-group">
+                <label>
+                    Username:
+                    <input type="text" th:field="*{username}">
+                    <ul th:if="${#fields.hasErrors('username')}">
+                        <li class="text-danger" th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
+                    </ul>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Password:
+                    <input type="text" th:field="*{password}" th:value="null">
+                    <ul th:if="${#fields.hasErrors('password')}">
+                        <li class="text-danger" th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                    </ul>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Role:
+                    <input type="text" th:field="*{role}">
+                    <ul th:if="${#fields.hasErrors('role')}">
+                        <li class="text-danger" th:each="err : ${#fields.errors('role')}" th:text="${err}"></li>
+                    </ul>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Enable:
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="option1" name="option1" class="custom-control-input" value="false"
+                               th:field="*{enabled}">
+                        <label class="custom-control-label" for="option1">false</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="option2" name="option2" class="custom-control-input" value="true"
+                               th:field="*{enabled}">
+                        <label class="custom-control-label" for="option2">true</label>
+                    </div>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">AKTUALIZUJ USERA</button>
+        </form>
+    </div>
+
+    <hr>
+    <a th:href="@{/users}" class="btn btn-large btn-success">Lista uzytkownikow</a>
+</body>
+</html>

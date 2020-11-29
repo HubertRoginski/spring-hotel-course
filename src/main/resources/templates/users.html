@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<h1 th:text="#{user.list}"></h1>
+<div class="card my-5">
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Username</th>
+                <th scope="col">Role</th>
+                <th scope="col">Enabled</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${usersList}">
+                <td><a th:href="@{/users/__${user.id}__}" th:text="${user.id}"></a></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.role}"></td>
+                <td th:text="${user.enabled}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+<a th:href="@{/users/add}" class="btn btn-large btn-success">Dodaj uzytkownika</a>
+<hr>
+<a th:href="@{/}" class="btn btn-large btn-success">Strona glowna</a>
+</body>
+</html>

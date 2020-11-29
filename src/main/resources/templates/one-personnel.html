@@ -71,11 +71,6 @@
     <div class="form-group">
         <label>
             Chorobowe:
-<!--            <input type="text" th:field="*{sickLeave}">-->
-<!--            <ul th:if="${#fields.hasErrors('sickLeave')}">-->
-<!--                <li class="text-danger" th:each="err : ${#fields.errors('sickLeave')}" th:text="${err}">-->
-<!--                </li>-->
-<!--            </ul>-->
             <div class="custom-control custom-radio custom-control-inline">
                 <input type="radio" id="option1" name="option1" class="custom-control-input" value="false" th:field="*{sickLeave}">
                 <label class="custom-control-label" for="option1">false</label>
@@ -87,11 +82,8 @@
         </label>
     </div>
     <button type="submit" class="btn btn-primary mb-2">AKTUALIZUJ PRACOWNIKA</button>
-
-    <hr>
-    <a href="/personnel" class="btn btn-large btn-success">Lista pracownikow</a>
-
 </form>
-
+<hr>
+<a href="/personnel" class="btn btn-large btn-success">Lista pracownikow</a>
 </body>
 </html>

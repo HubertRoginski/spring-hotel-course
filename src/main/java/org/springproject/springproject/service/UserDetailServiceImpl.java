@@ -11,6 +11,7 @@ import org.springproject.springproject.repository.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService, UserService {
@@ -51,5 +52,21 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         List<User> users = userRepository.findAll();
         users.forEach(user -> user.setPassword(null));
         return users;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
+    }
+
+    @Override
+    public User updateUserById(Long id, User user) {
+        if (userRepository.existsById(id)){
+            user.setId(id);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            return userRepository.save(user);
+        }
+        return null;
     }
 }

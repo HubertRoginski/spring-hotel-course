@@ -9,4 +9,8 @@ public interface UserService {
     User createNewUser(User user);
 
     List<User> getAllUsers();
+
+    User getUserById(Long id);
+
+    User updateUserById(Long id, User user);
 }

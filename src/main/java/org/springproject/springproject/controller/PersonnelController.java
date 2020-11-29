@@ -64,6 +64,6 @@ public class PersonnelController {
             throw new RuntimeException("Blad!");
         }
         personnelService.createNewPersonnel(personnel);
-        return "redirect:/";
+        return "redirect:/personnel";
     }
 }
