@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @RestController
 @Validated
-@RequestMapping(path = "/hotel/personnel")
+@RequestMapping(path = "/api/hotel/personnel")
 @Slf4j
 public class PersonnelRestController {
 

@@ -2,10 +2,11 @@ package org.springproject.springproject.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import javax.sql.DataSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springproject.springproject.service.UserDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -27,18 +28,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    JDBC AUTHENTICATION
 
-    private final DataSource dataSource;
+//    private final DataSource dataSource;
+//
+//
+//    public SecurityConfig(DataSource dataSource) {
+//        this.dataSource = dataSource;
+//    }
+    //    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                .usersByUsernameQuery("select username, password, enabled from users where username = ?")
+//                .authoritiesByUsernameQuery("select username, authority from authorities where username = ?")
+//                .passwordEncoder(new StandardPasswordEncoder("secret"));
+//    }
+    // OWN AUTHENTICATION
 
+    private final UserDetailServiceImpl userDetailService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public SecurityConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public SecurityConfig(UserDetailServiceImpl userDetailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userDetailService = userDetailService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from users where username = ?")
-        .authoritiesByUsernameQuery("select username, authority from authorities where username = ?");
+        auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder);
     }
 
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/hotel/**")
+                .hasRole("ADMIN")
+                .antMatchers("/", "/**").permitAll().anyRequest().authenticated();
+        http.formLogin();
+        http.httpBasic();
+    }
 }
