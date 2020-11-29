@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Goscie</title>
+</head>
+<body style="margin: 0 0 30px 20px">
+<h1 th:text="#{customer.list}"></h1>
+<div class="card my-5">
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Start of booking</th>
+                <th scope="col">End of booking</th>
+                <th scope="col">Room number</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customerList}">
+                <td><a th:href="@{/customer/__${customer.customerId}__}" th:text="${customer.customerId}"></a></td>
+                <td th:text="${customer.firstName}"></td>
+                <td th:text="${customer.lastName}"></td>
+                <td th:text="${customer.startOfBooking}"></td>
+                <td th:text="${customer.endOfBooking}"></td>
+                <td th:text="${customer.roomNumber}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+<a href="/customer/add" class="btn btn-large btn-dark">Dodaj goscia</a>
+<hr>
+<a href="/personnel" class="btn btn-large btn-success">Lista pracownikow</a>
+<hr>
+<a href="/" class="btn btn-large btn-light">Strona glowna</a>
+<!--<div>-->
+<!--    <h1 th:text="#{customer.list}"></h1>-->
+<!--    <div th:each="customer : ${customerList}">-->
+<!--        <a th:href="@{/customer/__${customer.customerId}__}" th:text="${customer.customerId}"></a>-->
+<!--        <p th:text="${customer.firstName}"></p>-->
+<!--        <p th:text="${customer.lastName}"></p>-->
+<!--        <p th:text="${customer.startOfBooking}"></p>-->
+<!--        <p th:text="${customer.endOfBooking}"></p>-->
+<!--        <p th:text="${customer.roomNumber}"></p>-->
+<!--    </div>-->
+<!--</div>-->
+</body>
+</html>

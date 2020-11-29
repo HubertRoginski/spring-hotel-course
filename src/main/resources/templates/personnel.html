@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Pracownicy</title>
+</head>
+<body style="margin: 0 0 30px 20px">
+<h1 th:text="#{personnel.list}"></h1>
+<div class="card my-5">
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Position</th>
+                <th scope="col">Hire date</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Sick leave</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="personnel : ${personnelList}">
+                <td><a th:href="@{/personnel/__${personnel.id}__}" th:text="${personnel.id}"></a></td>
+                <td th:text="${personnel.firstName}"></td>
+                <td th:text="${personnel.lastName}"></td>
+                <td th:text="${personnel.position}"></td>
+                <td th:text="${personnel.hireDate}"></td>
+                <td th:text="${personnel.salary}"></td>
+                <td th:text="${personnel.sickLeave}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+<a href="/personnel/add" class="btn btn-large btn-dark">Dodaj pracownika</a>
+<hr>
+<a href="/customer" class="btn btn-large btn-success">Lista gosci</a>
+<hr>
+<a href="/" class="btn btn-large btn-light">Strona glowna</a>
+<!--<div>-->
+<!--    <h1 th:text="#{personnel.list}"></h1>-->
+<!--    <div th:each="personnel : ${personnelList}">-->
+<!--        <a th:href="@{/personnel/__${personnel.id}__}" th:text="${personnel.id}"></a>-->
+<!--        <p th:text="${personnel.firstName}"></p>-->
+<!--        <p th:text="${personnel.lastName}"></p>-->
+<!--        <p th:text="${personnel.position}"></p>-->
+<!--        <p th:text="${personnel.hireDate}"></p>-->
+<!--        <p th:text="${personnel.salary}"></p>-->
+<!--        <p th:text="${personnel.sickLeave}"></p>-->
+<!--    </div>-->
+<!--</div>-->
+</body>
+</html>

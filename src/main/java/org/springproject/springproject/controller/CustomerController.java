@@ -1,65 +1,62 @@
 package org.springproject.springproject.controller;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.service.CustomerService;
 
-import java.util.List;
-import java.util.Objects;
+import javax.validation.Valid;
 
-@RestController
-@RequestMapping(path = "/hotel/customer")
-@Slf4j
+@Controller
 public class CustomerController {
 
     private final CustomerService customerService;
-
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> createNewCustomer(@RequestBody Customer customer){
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(customer));
+    @GetMapping("/customer")
+    public String customer(ModelMap modelMap){
+        modelMap.addAttribute("customerList", customerService.getAllCustomers());
+        return "customer";
+    }
+    @GetMapping("/customer/{id}")
+    public String customerWithId(ModelMap modelMap, @PathVariable Long id){
+        modelMap.addAttribute("customer", customerService.getCustomerById(id));
+        return "one-customer";
     }
 
-    @PostMapping("/batch")
-    public ResponseEntity<?> createNewBatchOfPersonnel(@RequestBody List<Customer> customers) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createBatchOfPersonnel(customers));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getCustomerById(@PathVariable Long id){
-        Customer customer = customerService.getCustomerById(id);
-        if (Objects.nonNull(customer)){
-            return ResponseEntity.ok(customer);
+    @PostMapping("/customer/{id}")
+    public String updateCustomer(@Valid @ModelAttribute("customer") Customer customer, @PathVariable Long id, final Errors errors){
+        if (errors.hasErrors()){
+            return "one-customer";
         }
-        return ResponseEntity.notFound().build();
-    }
-    @GetMapping()
-    public ResponseEntity<?> getCustomers(){
-        return ResponseEntity.ok(customerService.getAllCustomers());
+        customerService.updateCustomerById(id,customer);
+        return "redirect:/customer/"+id;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCustomerById(@PathVariable Long id, @RequestBody Customer customer){
-        Customer updatedCustomer = customerService.updateCustomerById(id, customer);
-        if (Objects.nonNull(updatedCustomer)){
-            return ResponseEntity.ok(customer);
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/customer/add")
+    public String showCustomerAdd(ModelMap modelMap){
+        modelMap.addAttribute("customer", new Customer());
+        return "customer-add";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> removePersonnelById(@PathVariable Long id){
-        if (customerService.removeCustomerById(id)){
-            return ResponseEntity.accepted().build();
+    @PostMapping("/customer/add")
+    public String addCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors){
+        if (errors.hasErrors()){
+            return "customer-add";
         }
-        return ResponseEntity.badRequest().build();
+        if (customer.getFirstName().equals("Antonio")){
+            throw new RuntimeException("Blad!");
+        }
+        customerService.createNewCustomer(customer);
+        return "redirect:/";
     }
 }

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/stylesheet/one-personnel.css">
+    <meta charset="UTF-8">
+    <title>Pracownik</title>
+</head>
+<body style="margin: 0 0 30px 20px">
+<div class="personnel-data">
+    <h1>Dane pracownika</h1>
+    <div th:object="${personnel}">
+        <p th:text="*{id}"></p>
+        <p th:text="*{firstName}"></p>
+        <p th:text="*{lastName}"></p>
+        <p th:text="*{position}"></p>
+        <p th:text="*{hireDate}"></p>
+        <p th:text="*{salary}"></p>
+        <p th:text="*{sickLeave}"></p>
+    </div>
+</div>
+
+<h1>Aktualizacja pracownika</h1>
+<form method="post" th:action="@{/personnel/{id}(id=${personnel.id})}" th:object="${personnel}">
+    <div class="form-group">
+        <label>
+            Imie:
+            <input type="text" th:field="*{firstName}">
+            <ul th:if="${#fields.hasErrors('firstName')}">
+                <li class="text-danger" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></li>
+            </ul>
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            Nazwisko:
+            <input type="text" th:field="*{lastName}">
+            <ul th:if="${#fields.hasErrors('lastName')}">
+                <li class="text-danger" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></li>
+            </ul>
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            Stanowisko:
+            <input type="text" th:field="*{position}">
+            <ul th:if="${#fields.hasErrors('position')}">
+                <li class="text-danger" th:each="err : ${#fields.errors('position')}" th:text="${err}"></li>
+            </ul>
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            Data zatrudnienia
+            <input type="date" th:field="*{hireDate}">
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            Wynagrodzenie:
+            <input type="number" th:field="*{salary}">
+            <ul th:if="${#fields.hasErrors('salary')}">
+                <li class="text-danger" th:each="err : ${#fields.errors('salary')}" th:text="${err}">Salary is
+                    incorrect
+                </li>
+            </ul>
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            Chorobowe:
+<!--            <input type="text" th:field="*{sickLeave}">-->
+<!--            <ul th:if="${#fields.hasErrors('sickLeave')}">-->
+<!--                <li class="text-danger" th:each="err : ${#fields.errors('sickLeave')}" th:text="${err}">-->
+<!--                </li>-->
+<!--            </ul>-->
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="option1" name="option1" class="custom-control-input" value="true" th:field="*{sickLeave}">
+                <label class="custom-control-label" for="option1">false</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="option2" name="option2" class="custom-control-input" value="true" th:field="*{sickLeave}">
+                <label class="custom-control-label" for="option2">true</label>
+            </div>
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">AKTUALIZUJ PRACOWNIKA</button>
+
+    <hr>
+    <a href="/personnel" class="btn btn-large btn-success">Lista pracownikow</a>
+
+</form>
+
+</body>
+</html>
