@@ -42,6 +42,9 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
             if (Objects.isNull(user.getEnabled())){
                 user.setEnabled(true);
             }
+            if (Objects.isNull(user.getRole())){
+                user.setRole("ROLE_USER");
+            }
             return userRepository.save(user);
         }
         return null;
@@ -68,5 +71,14 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
             return userRepository.save(user);
         }
         return null;
+    }
+
+    @Override
+    public Boolean deleteUserById(Long id) {
+        if (userRepository.existsById(id)){
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

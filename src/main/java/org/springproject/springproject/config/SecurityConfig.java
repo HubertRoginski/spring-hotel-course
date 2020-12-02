@@ -62,10 +62,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/hotel/**")
+                .antMatchers("/users/{id}/delete")
                 .hasRole("ADMIN")
-                .antMatchers("/", "/**").permitAll().anyRequest().authenticated();
-        http.formLogin();
+                .antMatchers("/users/**")
+                .hasAnyRole("ADMIN","MANAGER")
+                .antMatchers("/", "/**","/login").permitAll().anyRequest().authenticated();
+        http.formLogin()
+                .loginPage("/login")
+        .permitAll();
+
+//                http.logout()
+//                .logoutUrl("/perform_logout")
+//                .deleteCookies("JSESSIONID");
+
         http.httpBasic();
     }
 }

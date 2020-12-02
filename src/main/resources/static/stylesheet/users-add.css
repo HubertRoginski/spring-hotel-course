@@ -1,0 +1,28 @@
+body{
+    background-image: url("http://getwallpapers.com/wallpaper/full/a/7/b/90116.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+.centered-form{
+    margin-top: 60px;
+}
+.container-form{
+    margin-top: 20px;
+    width: 300px;
+}
+.centered-form .panel{
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+.form-size{
+    width: 400px;
+    padding: 25px 30px 25px 30px;
+}
+.all-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}

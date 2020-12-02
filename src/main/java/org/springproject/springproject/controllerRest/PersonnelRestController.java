@@ -1,4 +1,4 @@
-package org.springproject.springproject.controller;
+package org.springproject.springproject.controllerRest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;

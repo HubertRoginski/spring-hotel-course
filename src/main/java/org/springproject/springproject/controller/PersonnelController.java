@@ -23,12 +23,6 @@ public class PersonnelController {
     }
 
 
-    @GetMapping
-    public String welcomePage(ModelMap modelMap){
-        modelMap.addAttribute("hotelName", "Hotel Parabola");
-        return "welcome";
-    }
-
     @GetMapping("/personnel")
     public String personnel(ModelMap modelMap){
         modelMap.addAttribute("personnelList", personnelService.getAllPersonnel(1,100));

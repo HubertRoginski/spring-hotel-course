@@ -19,12 +19,13 @@ import javax.validation.constraints.Size;
 public class User {
     @Id
     @GeneratedValue
+
     @Column(nullable = false,updatable = false)
     private Long id;
 
 
     @Size(min = 4,max = 20,message = "username length must be between 4 and 20")
-    @Pattern(regexp = "[\\p{IsAlphabetic}-_]+", message = "Username can only consist of letters, dashes amd underscores")
+    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-_]+", message = "Username can only consist of letters, numbers, dashes amd underscores")
     @Column(nullable = false,unique = true)
     private String username;
 

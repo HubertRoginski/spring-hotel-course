@@ -17,10 +17,15 @@
         <p th:text="*{enabled}"></p>
     </div>
 </div>
+    <div th:if="${isAuthorizedUserAdmin}">
+        <hr>
+            <form method="post" th:action="@{/users/{id}/delete(id=${user.id})}">
+                <button type="submit" class="btn btn-danger">DELETE USER</button>
+            </form>
+        <hr>
+    </div>
 
-
-<!--<div th:if="${user.role == 'ROLE_ADMIN'}">-->
-    <div>
+    <div th:if="${isAuthorizedUserAdmin}">
         <h1>Aktualizacja uzytkownika</h1>
         <form method="post" th:action="@{/users/{id}(id=${user.id})}" th:object="${updateUser}">
             <div class="form-group">
