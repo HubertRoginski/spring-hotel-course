@@ -3,8 +3,12 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/users.css}">
     <meta charset="UTF-8">
     <title>Users</title>
@@ -50,20 +54,33 @@
         <p class="lead text-light">Shown is a list of users who have an account at the Zoza Hotel.</p>
     </div>
 </section>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <div class="flex-row justify-content-center">
 <div class="container">
     <div class="row">
         <a th:href="@{/users/add}">
         <button type="button" class="btn bg-success fs-it-btn">
-            <i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
             <span class="fs-it-btn-vertical-line"></span>
             Add user</button>
         </a>
     </div>
 </div>
     </div>
-<div class="card my-5 w-100 rounded">
+
+
+
+<div class="card my-3 w-75 rounded">
+    <div class="card-header justify-content-center">
+        <div class="dropdown">
+            <button class="btn btn-primary btn-sm dropdown-toggle" th:text="'Size: ' +${userPage.size}" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" th:href="@{/users(size=5, page=1)}">5</a>
+                <a class="dropdown-item" th:href="@{/users(size=10, page=1)}">10</a>
+                <a class="dropdown-item" th:href="@{/users(size=20, page=1)}">20</a>
+            </div>
+        </div>
+    </div>
     <div class="card-body">
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
@@ -83,8 +100,8 @@
                 <td th:text="${user.enabled}" class="text-center align-middle"></td>
                 <td th:if="${isAuthorizedUserAdmin}" class="text-center align-middle" >
                     <form method="post" th:action="@{/users/{id}/delete(id=${user.id})}">
-                        <a th:href="@{/users/__${user.id}__}" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span>Edit</a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a th:href="@{/users/__${user.id}__}" class='btn btn-info btn-xs'><span class="fas fa-user-edit"></span>Edit</a>
+                        <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span>Delete</button>
                     </form>
 
                 </td>
@@ -92,8 +109,29 @@
             </tbody>
         </table>
     </div>
+
+        <ul class="pagination justify-content-center">
+            <li class="page-item " th:classappend="${userPage.first} ? disabled">
+                <a class="page-link" th:href="@{/users(size=${userPage.size}, page=${userPage.number})}" tabindex="-1">Previous</a>
+            </li>
+            <ul th:if="${userPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="pagination">
+            <li class="page-item" >
+                <a class="page-link" th:href="@{/users(size=${userPage.size}, page=${pageNumber})}" th:classappend="${pageNumber == userPage.number + 1} ? active"  th:text="${pageNumber}"></a></li>
+            </ul>
+                <li class="page-item" th:classappend="${userPage.last} ? disabled">
+                <a class="page-link" th:href="@{/users(size=${userPage.size}, page=${userPage.number+2})}">Next</a>
+            </li>
+        </ul>
+
+
 </div>
 </div>
 
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="/webjars/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

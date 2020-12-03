@@ -1,6 +1,7 @@
 package org.springproject.springproject.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,7 +11,10 @@ import org.springproject.springproject.model.User;
 import org.springproject.springproject.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @Slf4j
@@ -22,64 +26,84 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String getUsers(ModelMap modelMap,@AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
-        modelMap.addAttribute("usersList", userService.getAllUsers());
+    public String getUsers(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser,
+                           @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "2") Integer size) {
+
+        Page<User> userPage = userService.getAllUsers(page-1, size);
+        modelMap.addAttribute("usersList", userService.getAllUsers(page-1, size).getContent());
+        modelMap.addAttribute("userPage", userPage);
+
+        int totalPages = userPage.getTotalPages();
+        if (totalPages > 0){
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            modelMap.addAttribute("pageNumbers", pageNumbers);
+        }
+
         boolean isAuthorizedUserAdmin = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-        modelMap.addAttribute("isAuthorizedUserAdmin",isAuthorizedUserAdmin);
-        modelMap.addAttribute("isUserLogged",true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager",true);
+        modelMap.addAttribute("isAuthorizedUserAdmin", isAuthorizedUserAdmin);
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         return "users";
     }
 
     @GetMapping("/users/{id}")
-    public String getOneUserById(ModelMap modelMap, @PathVariable Long id, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
-        modelMap.addAttribute("user",userService.getUserById(id));
-        modelMap.addAttribute("updateUser",new User());
-        modelMap.addAttribute("isUserLogged",true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager",true);
+    public String getOneUserById(ModelMap modelMap, @PathVariable Long id, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
+        modelMap.addAttribute("user", userService.getUserById(id));
+        modelMap.addAttribute("updateUser", new User());
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         boolean isAuthorizedUserAdmin = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-        modelMap.addAttribute("isAuthorizedUserAdmin",isAuthorizedUserAdmin);
+        modelMap.addAttribute("isAuthorizedUserAdmin", isAuthorizedUserAdmin);
         return "one-user";
     }
 
     @PostMapping("/users/{id}")
-    public String updateUserById(@Valid @ModelAttribute("user") User user, @PathVariable Long id, final Errors errors){
-        if (errors.hasErrors()){
+    public String updateUserById(@Valid @ModelAttribute("user") User user, @PathVariable Long id, final Errors errors, ModelMap modelMap) {
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        if (errors.hasErrors()) {
             return "one-user";
         }
-        userService.updateUserById(id,user);
-        return "redirect:/users/"+id;
+        userService.updateUserById(id, user);
+        return "redirect:/users/" + id;
     }
 
     @GetMapping("/users/{id}/delete")
-    public String getUserToDelete(ModelMap modelMap, @PathVariable(name = "id") Long id){
-        modelMap.addAttribute("user",userService.getUserById(id));
-        modelMap.addAttribute("updateUser",new User());
-        modelMap.addAttribute("isUserLogged",true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager",true);
+    public String getUserToDelete(ModelMap modelMap, @PathVariable(name = "id") Long id) {
+        modelMap.addAttribute("user", userService.getUserById(id));
+        modelMap.addAttribute("updateUser", new User());
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         return "one-user";
     }
 
     @PostMapping("/users/{id}/delete")
-    public String deleteUserById(@PathVariable(name = "id") Long id){
+    public String deleteUserById(@PathVariable(name = "id") Long id) {
         userService.deleteUserById(id);
         return "redirect:/users";
     }
 
     @GetMapping("/users/add")
-    public String showAddUser(ModelMap modelMap){
-        modelMap.addAttribute("isUserLogged",true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager",true);
+    public String showAddUser(ModelMap modelMap) {
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         modelMap.addAttribute("user", new User());
         return "user-add";
     }
 
     @PostMapping("/users/add")
-    public String addUser(@Valid @ModelAttribute("user") User user, final Errors errors){
-        if (errors.hasErrors()){
+    public String addUser(@Valid @ModelAttribute("user") User user, final Errors errors, ModelMap modelMap) {
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        if (errors.hasErrors()) {
             return "user-add";
         }
-        userService.createNewUser(user);
+        User newUser = userService.createNewUser(user);
+        if (Objects.isNull(newUser)) {
+            return "user-add";
+        }
         return "redirect:/users";
 
     }

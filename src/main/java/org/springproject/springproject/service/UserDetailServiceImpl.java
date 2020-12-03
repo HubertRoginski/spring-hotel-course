@@ -1,11 +1,15 @@
 package org.springproject.springproject.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.UserRepository;
 
@@ -25,35 +29,50 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (Objects.isNull(user)){
-            throw new UsernameNotFoundException("Nie znaleziono uzytkownika o loginie "+username);
+    public UserDetails loadUserByUsername(String loginUsername) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(loginUsername);
+        if (Objects.isNull(user)) {
+            user = userRepository.findByEmail(loginUsername);
+            if (Objects.isNull(user)) {
+                throw new UsernameNotFoundException("Nie znaleziono uzytkownika o loginie " + loginUsername);
+            }
         }
-        return new org.springframework.security.core.userdetails.User(username,user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(loginUsername, user.getPassword(),
                 user.getEnabled(), true, true, true,
                 AuthorityUtils.createAuthorityList(user.getRole()));
     }
 
     @Override
     public User createNewUser(User user) {
-        if (Objects.isNull(userRepository.findByUsername(user.getUsername()))){
+        if (Objects.isNull(userRepository.findByUsername(user.getUsername())) && Objects.isNull(userRepository.findByEmail(user.getEmail()))) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            if (Objects.isNull(user.getEnabled())){
+            if (Objects.isNull(user.getEnabled())) {
                 user.setEnabled(true);
             }
-            if (Objects.isNull(user.getRole())){
+            if (Objects.isNull(user.getRole())) {
                 user.setRole("ROLE_USER");
             }
             return userRepository.save(user);
         }
+
+//        throw new RuntimeException("Can't create new user, because that username or email already exist.");
         return null;
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        users.forEach(user -> user.setPassword(null));
+    public Page<User> getAllUsers(Integer page, Integer size) {
+        if (Objects.isNull(page)) {
+            page = 2;
+        }
+        if (Objects.isNull(size)) {
+            size = 2;
+        }
+        if (page < 0) {
+            throw new WrongPageException("Page number can't be less than 1");
+        }
+        Pageable pageable = PageRequest.of(page , size);
+        Page<User> users = userRepository.findAll(pageable);
+//        users.forEach(user -> user.setPassword(null));
         return users;
     }
 
@@ -65,7 +84,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User updateUserById(Long id, User user) {
-        if (userRepository.existsById(id)){
+        if (userRepository.existsById(id)) {
             user.setId(id);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
@@ -75,7 +94,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public Boolean deleteUserById(Long id) {
-        if (userRepository.existsById(id)){
+        if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             return true;
         }

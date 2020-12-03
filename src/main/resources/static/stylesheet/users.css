@@ -33,3 +33,9 @@ body{
     align-items: center;
     justify-content: center;
 }
+.fas{
+    margin-right: 3px;
+}
+.card-body{
+    padding: 0.30rem;
+}

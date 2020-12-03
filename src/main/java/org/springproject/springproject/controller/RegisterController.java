@@ -25,7 +25,6 @@ public class RegisterController {
     @GetMapping("/register")
     public String showAddUser(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
         boolean isUserLogged = Objects.nonNull(authenticationUser);
-        modelMap.addAttribute("confirmPassword", "");
         modelMap.addAttribute("isUserLogged", isUserLogged);
         if (isUserLogged) {
             boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
@@ -36,7 +35,9 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String addUser(@Valid @ModelAttribute("user") User user, final Errors errors){
+    public String addUser(@Valid @ModelAttribute("user") User user, final Errors errors,ModelMap modelMap){
+        modelMap.addAttribute("isUserLogged", false);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", false);
         if (errors.hasErrors()){
             return "register";
         }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -25,9 +26,13 @@ public class User {
 
 
     @Size(min = 4,max = 20,message = "username length must be between 4 and 20")
-    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-_]+", message = "Username can only consist of letters, numbers, dashes amd underscores")
+    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-_]+", message = "username can only consist of letters, numbers, dashes and underscores")
     @Column(nullable = false,unique = true)
     private String username;
+
+    @Email(message = "an example e-mail address is example@gmail.com")
+    @Column(nullable = false,unique = true)
+    private String email;
 
     @Size(min = 4,message = "password length must be min 4")
     @Column(nullable = false)

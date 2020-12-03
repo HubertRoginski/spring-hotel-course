@@ -23,8 +23,8 @@ public class UserRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size){
+        return ResponseEntity.ok(userService.getAllUsers(page, size).getContent());
     }
 
     @PostMapping

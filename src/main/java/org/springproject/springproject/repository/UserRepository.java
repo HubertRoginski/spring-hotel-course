@@ -9,4 +9,6 @@ import org.springproject.springproject.model.User;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
+
+    User findByEmail(String username);
 }
