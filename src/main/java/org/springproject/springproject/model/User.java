@@ -30,7 +30,8 @@ public class User {
     @Column(nullable = false,unique = true)
     private String username;
 
-    @Email(message = "an example e-mail address is example@gmail.com")
+    @Email(message = "an example email address is example@gmail.com")
+    @Size(min = 1,message = "email field cannot be empty")
     @Column(nullable = false,unique = true)
     private String email;
 

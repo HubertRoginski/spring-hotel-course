@@ -5,7 +5,8 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <meta charset="UTF-8">
-    <title>one-user</title>
+    <title>User</title>
+    <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
 <div class="personnel-data">
@@ -24,6 +25,8 @@
             </form>
         <hr>
     </div>
+
+
 
     <div th:if="${isAuthorizedUserAdmin}">
         <h1>Aktualizacja uzytkownika</h1>

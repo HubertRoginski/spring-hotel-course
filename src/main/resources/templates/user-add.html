@@ -6,7 +6,7 @@
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/users-add.css}">
     <meta charset="UTF-8">
-    <title>user add</title>
+    <title>Add user</title>
 </head>
 <body>
 
@@ -75,8 +75,8 @@
                         <div class="form-group">
                             <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{role}">
                                 <option selected="selected" th:value="ROLE_USER" th:text="User"></option>
-                                <option th:value="ROLE_MENAGER" th:text="Menager"></option>
-                                <option th:value="ROLE_Admin" th:text="Admin"></option>
+                                <option th:value="ROLE_MANAGER" th:text="Manager"></option>
+                                <option th:value="ROLE_ADMIN" th:text="Admin"></option>
                             </select>
                         </div>
                         <label>Enabled:</label>

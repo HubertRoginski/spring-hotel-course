@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String getUsers(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser,
-                           @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "2") Integer size) {
+                           @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "5") Integer size) {
 
         Page<User> userPage = userService.getAllUsers(page-1, size);
         modelMap.addAttribute("usersList", userService.getAllUsers(page-1, size).getContent());
@@ -107,5 +107,8 @@ public class UserController {
         return "redirect:/users";
 
     }
+
+
+
 
 }

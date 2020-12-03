@@ -62,10 +62,10 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
     @Override
     public Page<User> getAllUsers(Integer page, Integer size) {
         if (Objects.isNull(page)) {
-            page = 2;
+            page = 1;
         }
         if (Objects.isNull(size)) {
-            size = 2;
+            size = 5;
         }
         if (page < 0) {
             throw new WrongPageException("Page number can't be less than 1");
