@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body{
-    background-image: url('http://getwallpapers.com/wallpaper/full/1/9/b/90128.jpg');
+    background-image: url(../images/backgrounds/register-background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
