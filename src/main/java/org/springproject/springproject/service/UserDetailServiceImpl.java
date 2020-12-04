@@ -1,5 +1,6 @@
 package org.springproject.springproject.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +14,11 @@ import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.UserRepository;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     private final UserRepository userRepository;
@@ -44,6 +45,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User createNewUser(User user) {
+        log.info("CREATE USER: "+user.toString());
         if (Objects.isNull(userRepository.findByUsername(user.getUsername())) && Objects.isNull(userRepository.findByEmail(user.getEmail()))) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             if (Objects.isNull(user.getEnabled())) {
@@ -84,11 +86,13 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User updateUserById(Long id, User user) {
+        log.info("Update user by id service: "+user.toString());
         if (userRepository.existsById(id)) {
             user.setId(id);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
+        log.info("USER NOT UPDATED");
         return null;
     }
 
@@ -115,5 +119,10 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         Pageable pageable = PageRequest.of(page , size);
 
         return userRepository.findByKeyword(keyword,pageable);
+    }
+
+    @Override
+    public User getByUsernameOrEmail(String usernameOrEmail) {
+        return userRepository.findByUsernameAndEmail(usernameOrEmail);
     }
 }

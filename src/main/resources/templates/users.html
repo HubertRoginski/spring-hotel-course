@@ -25,16 +25,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" th:href="@{/}">Home</a>
+                    <a class="nav-link" th:href="@{/}"><span class="fas fa-home" style="color: rgba(255,255,255,.75);"></span> Home</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/login}">Login</a>
+                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt" style="color: rgba(255,255,255,.75);"></span> Login</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/register}">Register</a>
+                    <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"
@@ -55,6 +58,7 @@
         </div>
     </div>
 </nav>
+
 <div class="content-container">
     <section class="py-5">
         <div class="container text-center">

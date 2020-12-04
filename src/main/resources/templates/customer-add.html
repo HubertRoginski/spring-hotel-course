@@ -9,7 +9,7 @@
     <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body style="margin: 0 0 30px 20px">
-<form method="post" th:action="@{/customer/add}" th:object="${customer}">
+<form method="post" th:action="@{/customers/add}" th:object="${customer}">
     <div class="form-group">
         <label>
             Imie:
@@ -52,6 +52,6 @@
     <button type="submit" class="btn btn-primary mb-2" >DODAJ GOSCIA</button>
 </form>
 <hr>
-<a href="/customer" class="btn btn-large btn-success">Lista gosci</a>
+<a href="/customers" class="btn btn-large btn-success">Lista gosci</a>
 </body>
 </html>

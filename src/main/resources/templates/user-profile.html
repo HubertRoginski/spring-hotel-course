@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/user-profile.css}">
+
+    <meta charset="UTF-8">
+    <title>User profile</title>
+    <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Zoza Hotel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/}"><span class="fas fa-home" style="color: rgba(255,255,255,.75);"></span> Home</a>
+                </li>
+                <li th:if="${!isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt" style="color: rgba(255,255,255,.75);"></span> Login</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link active" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile<span class="sr-only">(current)</span></a>
+                </li>
+                <li th:if="${!isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"
+                                                                      style="color: rgba(255,255,255,.75);"></span>
+                        Personnel</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/customer}"><span class="fa fa-user-tag"
+                                                                     style="color: rgba(255,255,255,.75);"></span>
+                        Customers</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/users}"><span class="fa fa-users"
+                                                                         style="color: rgba(255,255,255,.75);"></span>
+                        Users</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="content-container">
+    <section class="py-5">
+        <div class="container text-center">
+            <h1 class="font-weight-light text-light">User profile</h1>
+            <p class="lead text-light">Shown is a user profile which can be edited.</p>
+        </div>
+    </section>
+
+
+    <div class="card my-3 w-75 rounded">
+
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Id</th>
+                    <th scope="col" class="text-center">Username</th>
+                    <th scope="col" class="text-center">Email</th>
+                    <th scope="col" class="text-center">Delete account</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:object="${user}">
+                    <td th:text="${user.id}" class="text-center align-middle"></td>
+                    <td th:text="${user.username}" class="text-center align-middle"></td>
+                    <td th:text="${user.email}" class="text-center align-middle"></td>
+                    <td class="text-center align-middle">
+                        <form method="post" th:action="@{/user/{id}/delete(id=${user.id})}">
+                            <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<div class="all-form-container">
+    <div class="container-form">
+        <div class="row centered-form">
+
+            <div class="panel panel-default form-size">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">Edit profile</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post" th:action="@{/user/{id}(id=${user.id})}" th:object="${updateUser}" role="form">
+                        <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input disabled type="text" th:field="*{username}" class="form-control input-sm" placeholder="Username">
+                        </div>
+                        <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input disabled type="text" th:field="*{email}" class="form-control input-sm" placeholder="Email">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${user.password}" class="form-control input-sm" placeholder="password">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${user.role}" class="form-control input-sm" placeholder="role">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${user.enabled}" class="form-control input-sm" placeholder="enabled">
+                        </div>
+
+                        <input disabled type="submit" value="Update profile" class="btn btn-info btn-block">
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default form-size">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">Change password</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post" th:action="@{/user/{id}(id=${user.id})}" th:object="${updateUserPassword}" role="form">
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${user.username}" class="form-control input-sm" placeholder="Username">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${user.email}" class="form-control input-sm" placeholder="Email">
+                        </div>
+                        <div th:if="${#fields.hasErrors('password')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" th:field="*{password}" id="password-update" class="form-control input-sm" placeholder="password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password-update-confirm" class="form-control input-sm" placeholder="confirm password">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${user.role}" class="form-control input-sm" placeholder="role">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${user.enabled}" class="form-control input-sm" placeholder="enabled">
+                        </div>
+
+                        <input type="submit" value="Change password" class="btn btn-info btn-block">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script th:src="@{/scripts/user-profile.js}"></script>
+</body>
+</html>

@@ -4,11 +4,23 @@
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/error.css}">
     <meta charset="UTF-8">
     <title>ERROR</title>
     <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
-<h1 class="text-danger">ERROR</h1>
+<div class="page-wrap d-flex flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <span class="display-1 d-block"><span class="fas fa-exclamation-circle"></span></span>
+                <div class="mb-4 lead">The page you are looking for was not found or error occurs.</div>
+                <a th:href="@{/}"><button class="btn btn-outline-secondary" type="button"><span class="fas fa-home"></span> Back to home</button></a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

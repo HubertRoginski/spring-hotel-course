@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springproject.springproject.model.Customer;
-import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.service.CustomerService;
 
 import javax.validation.Valid;
@@ -22,33 +21,33 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customer")
+    @GetMapping("/customers")
     public String customer(ModelMap modelMap){
         modelMap.addAttribute("customerList", customerService.getAllCustomers());
-        return "customer";
+        return "customers";
     }
-    @GetMapping("/customer/{id}")
+    @GetMapping("/customers/{id}")
     public String customerWithId(ModelMap modelMap, @PathVariable Long id){
         modelMap.addAttribute("customer", customerService.getCustomerById(id));
         return "one-customer";
     }
 
-    @PostMapping("/customer/{id}")
+    @PostMapping("/customers/{id}")
     public String updateCustomer(@Valid @ModelAttribute("customer") Customer customer, @PathVariable Long id, final Errors errors){
         if (errors.hasErrors()){
             return "one-customer";
         }
         customerService.updateCustomerById(id,customer);
-        return "redirect:/customer/"+id;
+        return "redirect:/customers/"+id;
     }
 
-    @GetMapping("/customer/add")
+    @GetMapping("/customers/add")
     public String showCustomerAdd(ModelMap modelMap){
         modelMap.addAttribute("customer", new Customer());
         return "customer-add";
     }
 
-    @PostMapping("/customer/add")
+    @PostMapping("/customers/add")
     public String addCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors){
         if (errors.hasErrors()){
             return "customer-add";

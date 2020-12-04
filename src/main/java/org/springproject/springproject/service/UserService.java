@@ -18,4 +18,6 @@ public interface UserService {
     Boolean deleteUserById(Long id);
 
     Page<User> getByKeyword(String keyword,Integer page, Integer size);
+
+    User getByUsernameOrEmail(String usernameOrEmail);
 }

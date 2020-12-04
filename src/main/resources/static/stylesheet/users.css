@@ -34,3 +34,6 @@ body{
     width: 135px;
     height: 48px;
 }
+.card{
+    min-width: 800px;
+}

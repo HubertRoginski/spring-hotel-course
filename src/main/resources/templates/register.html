@@ -23,27 +23,35 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}">Home</a>
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/}"><span class="fas fa-home" style="color: rgba(255,255,255,.75);"></span> Home</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/login}">Login</a>
+                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt" style="color: rgba(255,255,255,.75);"></span> Login</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
                 </li>
-                <li th:if="${!isUserLogged}" class="nav-item active">
-                    <a class="nav-link" th:href="@{/register}">Register
-                        <span class="sr-only">(current)</span></a>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
                 </li>
-                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/personnel}">Personnel</a>
-                </li>
-                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/customer}">Customers</a>
+                <li th:if="${!isUserLogged}" class="nav-item">
+                    <a class="nav-link active" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/users}">Users</a>
+                    <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"
+                                                                      style="color: rgba(255,255,255,.75);"></span>
+                        Personnel</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/customer}"><span class="fa fa-user-tag"
+                                                                     style="color: rgba(255,255,255,.75);"></span>
+                        Customers</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/users}"><span class="fa fa-users"
+                                                                  style="color: rgba(255,255,255,.75);"></span>
+                        Users</a>
                 </li>
             </ul>
         </div>
@@ -90,7 +98,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i>*</span>
                         </div>
-                        <input type="password" class="form-control" id="confirm-password-register" name="password" placeholder="confirm password">
+                        <input type="password" class="form-control" id="confirm-password-register" placeholder="confirm password">
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create account" class="btn float-right register_btn">

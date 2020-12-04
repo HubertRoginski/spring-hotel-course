@@ -61,7 +61,6 @@ public class UserController {
     @GetMapping("/users/{id}")
     public String getOneUserById(ModelMap modelMap, @PathVariable Long id, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
         modelMap.addAttribute("user", userService.getUserById(id));
-        modelMap.addAttribute("updateUser", new User());
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         boolean isAuthorizedUserAdmin = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
@@ -83,7 +82,6 @@ public class UserController {
     @GetMapping("/users/{id}/delete")
     public String getUserToDelete(ModelMap modelMap, @PathVariable(name = "id") Long id) {
         modelMap.addAttribute("user", userService.getUserById(id));
-        modelMap.addAttribute("updateUser", new User());
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         return "one-user";

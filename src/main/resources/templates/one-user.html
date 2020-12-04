@@ -16,24 +16,26 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">Zoza Hotel</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/}">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/}"><span class="fas fa-home" style="color: rgba(255,255,255,.75);"></span> Home</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/login}">Login</a>
+                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt" style="color: rgba(255,255,255,.75);"></span> Login</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/register}">Register</a>
+                    <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"
@@ -149,76 +151,6 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="/webjars/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-
-
-
-
-
-<!--    <div th:if="${isAuthorizedUserAdmin}">-->
-<!--        <hr>-->
-<!--            <form method="post" th:action="@{/users/{id}/delete(id=${user.id})}">-->
-<!--                <button type="submit" class="btn btn-danger">DELETE USER</button>-->
-<!--            </form>-->
-<!--        <hr>-->
-<!--    </div>-->
-
-
-
-<!--    <div th:if="${isAuthorizedUserAdmin}">-->
-<!--        <h1>Aktualizacja uzytkownika</h1>-->
-<!--        <form method="post" th:action="@{/users/{id}(id=${user.id})}" th:object="${updateUser}">-->
-<!--            <div class="form-group">-->
-<!--                <label>-->
-<!--                    Username:-->
-<!--                    <input type="text" th:field="*{username}">-->
-<!--                    <ul th:if="${#fields.hasErrors('username')}">-->
-<!--                        <li class="text-danger" th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>-->
-<!--                    </ul>-->
-<!--                </label>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label>-->
-<!--                    Password:-->
-<!--                    <input type="text" th:field="*{password}" th:value="null">-->
-<!--                    <ul th:if="${#fields.hasErrors('password')}">-->
-<!--                        <li class="text-danger" th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>-->
-<!--                    </ul>-->
-<!--                </label>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label>-->
-<!--                    Role:-->
-<!--                    <input type="text" th:field="*{role}">-->
-<!--                    <ul th:if="${#fields.hasErrors('role')}">-->
-<!--                        <li class="text-danger" th:each="err : ${#fields.errors('role')}" th:text="${err}"></li>-->
-<!--                    </ul>-->
-<!--                </label>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label>-->
-<!--                    Enable:-->
-<!--                    <div class="custom-control custom-radio custom-control-inline">-->
-<!--                        <input type="radio" id="option1" name="option1" class="custom-control-input" value="false"-->
-<!--                               th:field="*{enabled}">-->
-<!--                        <label class="custom-control-label" for="option1">false</label>-->
-<!--                    </div>-->
-<!--                    <div class="custom-control custom-radio custom-control-inline">-->
-<!--                        <input type="radio" id="option2" name="option2" class="custom-control-input" value="true"-->
-<!--                               th:field="*{enabled}">-->
-<!--                        <label class="custom-control-label" for="option2">true</label>-->
-<!--                    </div>-->
-<!--                </label>-->
-<!--            </div>-->
-<!--            <button type="submit" class="btn btn-primary mb-2">AKTUALIZUJ USERA</button>-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <hr>-->
-<!--    <a th:href="@{/users}" class="btn btn-large btn-success">Lista uzytkownikow</a>-->
 </body>
 </html>
