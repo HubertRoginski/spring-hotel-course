@@ -100,4 +100,20 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         }
         return false;
     }
+
+    @Override
+    public Page<User> getByKeyword(String keyword, Integer page, Integer size) {
+        if (Objects.isNull(page)) {
+            page = 1;
+        }
+        if (Objects.isNull(size)) {
+            size = 5;
+        }
+        if (page < 0) {
+            throw new WrongPageException("Page number can't be less than 1");
+        }
+        Pageable pageable = PageRequest.of(page , size);
+
+        return userRepository.findByKeyword(keyword,pageable);
+    }
 }

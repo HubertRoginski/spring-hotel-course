@@ -3,12 +3,10 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!--    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>-->
-    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>-->
     <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/users.css}">
 
     <meta charset="UTF-8">
@@ -20,7 +18,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">Zoza Hotel</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -38,105 +37,120 @@
                     <a class="nav-link" th:href="@{/register}">Register</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/personnel}">Personnel</a>
+                    <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"
+                                                                      style="color: rgba(255,255,255,.75);"></span>
+                        Personnel</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/customer}">Customers</a>
+                    <a class="nav-link" th:href="@{/customer}"><span class="fa fa-user-tag"
+                                                                     style="color: rgba(255,255,255,.75);"></span>
+                        Customers</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link active" th:href="@{/users}">Users<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" th:href="@{/users}"><span class="fa fa-users"
+                                                                         style="color: rgba(255,255,255,.75);"></span>
+                        Users<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 <div class="content-container">
-<section class="py-5">
-    <div class="container text-center">
-        <h1 class="font-weight-light text-light">Users List</h1>
-        <p class="lead text-light">Shown is a list of users who have an account at the Zoza Hotel.</p>
-    </div>
-</section>
-    <div class="flex-row justify-content-center">
-<div class="container">
-    <div class="row">
-        <a th:href="@{/users/add}">
-        <button type="button" class="btn bg-success fs-it-btn">
-            <i class="fa fa-user-plus" aria-hidden="true"></i>
-            <span class="fs-it-btn-vertical-line"></span>
-            Add user</button>
-        </a>
-    </div>
-</div>
-    </div>
+    <section class="py-5">
+        <div class="container text-center">
+            <h1 class="font-weight-light text-light">Users List</h1>
+            <p class="lead text-light">Shown is a list of users who have an account at the Zoza Hotel.</p>
+        </div>
+    </section>
 
 
-
-<div class="card my-3 w-75 rounded">
-    <div class="card-header justify-content-center">
-        <div class="dropdown">
-            <button class="btn btn-primary btn-sm dropdown-toggle" th:text="'Size: ' +${userPage.size}" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" th:href="@{/users(size=5, page=1)}">5</a>
-                <a class="dropdown-item" th:href="@{/users(size=10, page=1)}">10</a>
-                <a class="dropdown-item" th:href="@{/users(size=20, page=1)}">20</a>
+    <div class="card my-3 w-75 rounded">
+        <div class="card-header">
+            <div class="dropdown">
+                <button class="btn btn-primary btn-sm dropdown-toggle header-buttons"
+                        th:text="'Size: ' +${userPage.size}" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" th:href="@{/users(size=5, page=1,keyword=${addedKeyword})}">5</a>
+                    <a class="dropdown-item" th:href="@{/users(size=10, page=1,keyword=${addedKeyword})}">10</a>
+                    <a class="dropdown-item" th:href="@{/users(size=20, page=1,keyword=${addedKeyword})}">20</a>
+                </div>
+            </div>
+            <div th:if="${isAuthorizedUserAdmin}">
+            <a th:href="@{/users/add}">
+                <button class="btn btn-success header-buttons-add" type="button"><span class="fas fa-user-plus"></span>
+                    Add user
+                </button>
+            </a>
+            </div>
+            <div class="justify-content-end">
+                <form th:action="@{/users}" method="get">
+                    <div class="input-group">
+                    <span class="input-group-btn">
+                    <button class="btn btn-primary header-buttons" type="submit"><span class="fas fa-search"></span> Search</button>
+                        </span>
+                        <input type="text" class="form-control" name="keyword" placeholder="search users" aria-label=""
+                               aria-describedby="basic-addon1">
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
-    <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="text-center">Id</th>
-                <th scope="col" class="text-center">Username</th>
-                <th scope="col" class="text-center">Email</th>
-                <th scope="col" class="text-center">Role</th>
-                <th scope="col" class="text-center">Enabled</th>
-                <th th:if="${isAuthorizedUserAdmin}" scope="col" class="text-center">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${usersList}">
-                <td th:text="${user.id}" class="text-center align-middle"></td>
-                <td th:text="${user.username}" class="text-center align-middle"></td>
-                <td th:text="${user.email}" class="text-center align-middle"></td>
-                <td th:text="${user.role}" class="text-center align-middle"></td>
-                <td th:text="${user.enabled}" class="text-center align-middle"></td>
-                <td th:if="${isAuthorizedUserAdmin}" class="text-center align-middle" >
-                    <form method="post" th:action="@{/users/{id}/delete(id=${user.id})}">
-                        <a th:href="@{/users/__${user.id}__}" class='btn btn-info btn-xs'><span class="fas fa-user-edit"></span>Edit</a>
-                        <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span>Delete</button>
-                    </form>
-
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Id</th>
+                    <th scope="col" class="text-center">Username</th>
+                    <th scope="col" class="text-center">Email</th>
+                    <th scope="col" class="text-center">Role</th>
+                    <th scope="col" class="text-center">Enabled</th>
+                    <th th:if="${isAuthorizedUserAdmin}" scope="col" class="text-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${usersList}">
+                    <td th:text="${user.id}" class="text-center align-middle"></td>
+                    <td th:text="${user.username}" class="text-center align-middle"></td>
+                    <td th:text="${user.email}" class="text-center align-middle"></td>
+                    <td th:text="${user.role}" class="text-center align-middle"></td>
+                    <td th:text="${user.enabled}" class="text-center align-middle"></td>
+                    <td th:if="${isAuthorizedUserAdmin}" class="text-center align-middle">
+                        <form method="post" th:action="@{/users/{id}/delete(id=${user.id})}">
+                            <a th:href="@{/users/__${user.id}__}" class='btn btn-info btn-xs'><span
+                                    class="fas fa-user-edit"></span> Edit</a>
+                            <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <ul class="pagination justify-content-center">
             <li class="page-item " th:classappend="${userPage.first} ? disabled">
-                <a class="page-link" th:href="@{/users(size=${userPage.size}, page=${userPage.number})}" tabindex="-1">Previous</a>
+                <a class="page-link"
+                   th:href="@{/users(size=${userPage.size}, page=${userPage.number},keyword=${addedKeyword})}"
+                   tabindex="-1">Previous</a>
             </li>
             <ul th:if="${userPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="pagination">
-            <li class="page-item" >
-                <a class="page-link" th:href="@{/users(size=${userPage.size}, page=${pageNumber})}" th:classappend="${pageNumber == userPage.number + 1} ? active"  th:text="${pageNumber}"></a></li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/users(size=${userPage.size}, page=${pageNumber},keyword=${addedKeyword})}"
+                       th:classappend="${pageNumber == userPage.number + 1} ? active" th:text="${pageNumber}"></a></li>
             </ul>
-                <li class="page-item" th:classappend="${userPage.last} ? disabled">
-                <a class="page-link" th:href="@{/users(size=${userPage.size}, page=${userPage.number+2})}">Next</a>
+            <li class="page-item" th:classappend="${userPage.last} ? disabled">
+                <a class="page-link"
+                   th:href="@{/users(size=${userPage.size}, page=${userPage.number+2},keyword=${addedKeyword})}">Next</a>
             </li>
         </ul>
 
-
+    </div>
 </div>
-</div>
-
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="/webjars/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>-->
 <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

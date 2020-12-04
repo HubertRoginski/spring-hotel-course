@@ -13,7 +13,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">Zoza Hotel</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -44,9 +45,8 @@
     </div>
 </nav>
 <div class="all-form-container">
-<div class="container-form">
-    <div class="row centered-form">
-        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+    <div class="container-form">
+        <div class="row centered-form">
             <div class="panel panel-default form-size">
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">Add new user</h3>
@@ -57,19 +57,22 @@
                             <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" th:field="*{username}" name="username" class="form-control input-sm" placeholder="Username">
+                            <input type="text" th:field="*{username}" name="username" class="form-control input-sm"
+                                   placeholder="Username">
                         </div>
                         <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" th:field="*{email}" name="email" class="form-control input-sm" placeholder="Email">
+                            <input type="text" th:field="*{email}" name="email" class="form-control input-sm"
+                                   placeholder="Email">
                         </div>
                         <div th:if="${#fields.hasErrors('password')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="password" th:field="*{password}" name="password"  class="form-control input-sm" placeholder="Password">
+                            <input type="password" th:field="*{password}" name="password" class="form-control input-sm"
+                                   placeholder="Password">
                         </div>
                         <label>Role:</label>
                         <div class="form-group">
@@ -93,7 +96,6 @@
         </div>
     </div>
 </div>
-</div>
 
 <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
 
@@ -107,6 +109,7 @@
     #locale {
         width: 100%;
     }
+
     .like {
         margin-right: 10px;
     }
@@ -327,7 +330,7 @@
         })
     }
 
-    $(function() {
+    $(function () {
         initTable()
 
         $('#locale').change(initTable)

@@ -5,24 +5,6 @@ body{
     background-position: center;
     background-attachment: fixed;
 }
-.fs-it-btn {
-    border: 1px solid darkslategrey;
-    border-radius: 0;
-    color: #fff;
-    font-weight: bold;
-}
-.fs-it-btn-vertical-line {
-    text-align:center;
-    padding: 4px 0 5px 10px;
-    margin-left: 10px;
-    border-left: 1px solid darkslategrey;
-}
-.bg-blue {
-    background-color: #2c9deb;
-}
-.text-uppercase {
-    text-transform: uppercase;
-}
 .btn{
     padding: .675rem .95rem;
 }
@@ -33,9 +15,22 @@ body{
     align-items: center;
     justify-content: center;
 }
-.fas{
-    margin-right: 3px;
-}
 .card-body{
     padding: 0.30rem;
+}
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.form-control {
+    height: auto !important;
+}
+.header-buttons{
+    width: 105px;
+    height: 48px;
+}
+.header-buttons-add{
+    width: 135px;
+    height: 48px;
 }

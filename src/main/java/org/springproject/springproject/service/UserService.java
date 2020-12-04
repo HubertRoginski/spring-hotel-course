@@ -16,4 +16,6 @@ public interface UserService {
     User updateUserById(Long id, User user);
 
     Boolean deleteUserById(Long id);
+
+    Page<User> getByKeyword(String keyword,Integer page, Integer size);
 }

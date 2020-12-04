@@ -27,16 +27,26 @@ public class UserController {
 
     @GetMapping("/users")
     public String getUsers(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser,
-                           @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "5") Integer size) {
-
-        Page<User> userPage = userService.getAllUsers(page-1, size);
-        modelMap.addAttribute("usersList", userService.getAllUsers(page-1, size).getContent());
-        modelMap.addAttribute("userPage", userPage);
-
+                           @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "5") Integer size,
+                           String keyword) {
+        Page<User> userPage;
+        if (Objects.nonNull(keyword)) {
+            modelMap.addAttribute("usersList", userService.getByKeyword(keyword, page - 1, size).getContent());
+            userPage = userService.getByKeyword(keyword, page - 1, size);
+            modelMap.addAttribute("userPage", userPage);
+            modelMap.addAttribute("addedKeyword", keyword);
+        } else {
+            modelMap.addAttribute("usersList", userService.getAllUsers(page - 1, size).getContent());
+            userPage = userService.getAllUsers(page - 1, size);
+            modelMap.addAttribute("userPage", userPage);
+            modelMap.addAttribute("addedKeyword", null);
+        }
         int totalPages = userPage.getTotalPages();
-        if (totalPages > 0){
+        if (totalPages > 0) {
+            int pageOffset = 2;
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
+                    .filter(integer -> (integer == 1) || ((integer >= page - pageOffset) && (integer <= page + pageOffset)) || (integer == totalPages))
                     .collect(Collectors.toList());
             modelMap.addAttribute("pageNumbers", pageNumbers);
         }
@@ -107,8 +117,6 @@ public class UserController {
         return "redirect:/users";
 
     }
-
-
 
 
 }
