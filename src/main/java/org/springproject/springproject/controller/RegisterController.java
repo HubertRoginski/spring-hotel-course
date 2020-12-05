@@ -1,5 +1,6 @@
 package org.springproject.springproject.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,6 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springproject.springproject.model.Error;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.service.UserService;
 
@@ -14,6 +16,7 @@ import javax.validation.Valid;
 import java.util.Objects;
 
 @Controller
+@Slf4j
 public class RegisterController {
 
     private final UserService userService;
@@ -31,6 +34,7 @@ public class RegisterController {
             modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
         }
         modelMap.addAttribute("user", new User());
+
         return "register";
     }
 
@@ -41,7 +45,16 @@ public class RegisterController {
         if (errors.hasErrors()){
             return "register";
         }
-        userService.createNewUser(user);
+        User createdUser = userService.createNewUser(user);
+
+        if (Objects.isNull(createdUser)){
+            modelMap.addAttribute("userExistsError","Can't create new user, because that username or email already exist.");
+            return "register";
+        }
+//        else {
+//            modelMap.addAttribute("userExistsError", null);
+//        }
+
         return "redirect:/login";
 
     }
