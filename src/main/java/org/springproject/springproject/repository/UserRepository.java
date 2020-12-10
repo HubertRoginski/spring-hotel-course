@@ -12,7 +12,6 @@ import org.springproject.springproject.model.User;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 
