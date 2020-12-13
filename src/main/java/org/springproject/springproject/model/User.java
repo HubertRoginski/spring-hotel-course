@@ -44,4 +44,9 @@ public class User {
 
     @Column(columnDefinition = "boolean not null default false")
     private Boolean enabled;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Customer customer;
+
+
 }

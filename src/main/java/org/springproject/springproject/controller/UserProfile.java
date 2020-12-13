@@ -63,9 +63,6 @@ public class UserProfile {
 
     @GetMapping("/user/{id}")
     public String getOneUserById(ModelMap modelMap, @PathVariable Long id, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
-//        modelMap.addAttribute("user", userService.getUserById(id));
-//        modelMap.addAttribute("updateUser", new User());
-//        modelMap.addAttribute("updateUserPassword", new User());
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", false);
         return "user-profile";

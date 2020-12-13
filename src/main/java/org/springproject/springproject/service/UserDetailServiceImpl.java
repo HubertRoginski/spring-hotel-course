@@ -89,7 +89,9 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         log.info("Update user by id service: "+user.toString());
         if (userRepository.existsById(id)) {
             user.setId(id);
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            if (!getUserById(id).getPassword().equals(user.getPassword())) {
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            }
             return userRepository.save(user);
         }
         log.info("USER NOT UPDATED");

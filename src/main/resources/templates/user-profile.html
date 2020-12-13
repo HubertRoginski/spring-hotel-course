@@ -96,6 +96,43 @@
 
     </div>
 </div>
+
+<div th:if="${user.customer}" class="content-container">
+    <section class="py-5">
+        <div class="container text-center">
+            <h1 class="font-weight-light text-light">Customer profile</h1>
+        </div>
+    </section>
+
+
+    <div class="card my-3 w-75 rounded">
+
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Id</th>
+                    <th scope="col" class="text-center">First name</th>
+                    <th scope="col" class="text-center">Last name</th>
+                    <th scope="col" class="text-center">Address</th>
+                    <th scope="col" class="text-center">Phone number</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:object="${user}">
+                    <td th:text="${user.customer.customerId}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.firstName}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.lastName}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.address}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.phoneNumber}" class="text-center align-middle"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
 <div class="all-form-container">
     <div class="container-form">
         <div class="row centered-form">

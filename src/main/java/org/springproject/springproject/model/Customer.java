@@ -1,18 +1,10 @@
 package org.springproject.springproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import lombok.*;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDate;
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -23,14 +15,30 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long customerId;
-    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "Imie moze zawierac wylacznie litery, spacje, kropki i myslniki")
+    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "First name can only consist of letters,spaces, dashes and dots")
     private String firstName;
-    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "Nazwisko moze zawierac wylacznie litery, spacje, kropki i myslniki")
+    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "Last name can only consist of letters,spaces, dashes and dots")
     private String lastName;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startOfBooking;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endOfBooking;
-    @Min(value = 1, message = "Minimalna wartosc numeru pokoju to 1") @Max(value = 50,message = "Maksymalna wartosc numeru pokoju to 50")
-    private Long roomNumber;
+    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-. ]+", message = "Address can only consist of letters, numbers ,spaces, dashes and dots")
+    private String address;
+    @Pattern(regexp = "[[0-9]]+", message = "Phone number can only consist of numbers")
+    private String phoneNumber;
+//    private List<Reservation> reservations;
+
+
+
+    @OneToOne(mappedBy = "customer")
+    @Getter(value=AccessLevel.NONE)
+    private User user;
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                '}';
+    }
 }
