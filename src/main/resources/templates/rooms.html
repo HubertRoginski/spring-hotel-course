@@ -3,13 +3,16 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/users-add.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/rooms.css}">
+
     <meta charset="UTF-8">
-    <title>Add user</title>
+    <title>Rooms</title>
+    <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">Zoza Hotel</a>
@@ -49,7 +52,7 @@
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/rooms}"><span class="fa fa-bed"
-                                                                  style="color: rgba(255,255,255,.75);"></span>
+                                                                      style="color: rgba(255,255,255,.75);"></span>
                         Rooms</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
@@ -61,56 +64,50 @@
         </div>
     </div>
 </nav>
-<div class="all-form-container">
-    <div class="container-form">
-        <div class="row centered-form">
-            <div class="panel panel-default form-size">
-                <div class="panel-heading">
-                    <h3 class="panel-title text-center">Add new user</h3>
-                </div>
-                <div class="panel-body">
-                    <form method="post" th:action="@{/users/add}" th:object="${user}" role="form">
-                        <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" th:field="*{username}" name="username" class="form-control input-sm"
-                                   placeholder="Username">
-                        </div>
-                        <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" th:field="*{email}" name="email" class="form-control input-sm"
-                                   placeholder="Email">
-                        </div>
-                        <div th:if="${#fields.hasErrors('password')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" th:field="*{password}" name="password" class="form-control input-sm"
-                                   placeholder="Password">
-                        </div>
-                        <label>Role:</label>
-                        <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{role}">
-                                <option selected="selected" th:value="ROLE_USER" th:text="User"></option>
-                                <option th:value="ROLE_MANAGER" th:text="Manager"></option>
-                                <option th:value="ROLE_ADMIN" th:text="Admin"></option>
-                            </select>
-                        </div>
-                        <label>Enabled:</label>
-                        <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{enabled}">
-                                <option selected="selected" th:value="true" th:text="true"></option>
-                                <option th:value="false" th:text="false"></option>
-                            </select>
-                        </div>
-                        <input type="submit" value="Add user" class="btn btn-info btn-block">
-                    </form>
-                </div>
-            </div>
+
+
+
+<div class="content-container">
+    <section class="py-5">
+        <div class="container text-center">
+            <h1 class="font-weight-light text-light">Rooms</h1>
         </div>
+    </section>
+
+
+    <div class="card my-3 w-75 rounded">
+        <div class="card-header">
+            <a th:href="@{/rooms/add}">
+                <button class="btn btn-success header-buttons-add" type="button"><span class="fas fa-bed"></span>
+                    Add room
+                </button>
+            </a>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Id</th>
+                    <th scope="col" class="text-center">Room number</th>
+                    <th scope="col" class="text-center">Room class</th>
+                    <th scope="col" class="text-center">Max people capacity</th>
+                    <th scope="col" class="text-center">One day cost</th>
+                    <th scope="col" class="text-center">Occupied</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.id}" class="text-center align-middle"></td>
+                    <td th:text="${room.roomNumber}" class="text-center align-middle"></td>
+                    <td th:text="${room.roomClass}" class="text-center align-middle"></td>
+                    <td th:text="${room.maxPeopleCapacity}" class="text-center align-middle"></td>
+                    <td th:text="${room.oneDayCost}" class="text-center align-middle"></td>
+                    <td th:text="${room.isOccupied}" class="text-center align-middle"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 

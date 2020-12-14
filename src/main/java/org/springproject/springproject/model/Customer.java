@@ -3,6 +3,7 @@ package org.springproject.springproject.model;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,13 +24,19 @@ public class Customer {
     private String address;
     @Pattern(regexp = "[[0-9]]+", message = "Phone number can only consist of numbers")
     private String phoneNumber;
-//    private List<Reservation> reservations;
-
-
 
     @OneToOne(mappedBy = "customer")
     @Getter(value=AccessLevel.NONE)
     private User user;
+
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @Setter(value=AccessLevel.NONE)
+    private List<Reservation> reservations = new ArrayList<>();
+
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
 
     @Override
     public String toString() {

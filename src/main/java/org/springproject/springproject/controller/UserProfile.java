@@ -58,7 +58,7 @@ public class UserProfile {
     @PostMapping("/user/{id}/delete")
     public String deleteUserById(@PathVariable(name = "id") Long id) {
         userService.deleteUserById(id);
-        return "redirect:/";
+        return "redirect:/logout";
     }
 
     @GetMapping("/user/{id}")

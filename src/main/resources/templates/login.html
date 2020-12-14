@@ -31,6 +31,9 @@
                     <a class="nav-link active" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list" style="color: rgba(255,255,255,.75);"></span> Reservations</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
                     <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
@@ -45,6 +48,11 @@
                     <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"
                                                                      style="color: rgba(255,255,255,.75);"></span>
                         Customers</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/rooms}"><span class="fa fa-bed"
+                                                                  style="color: rgba(255,255,255,.75);"></span>
+                        Rooms</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/users}"><span class="fa fa-users"

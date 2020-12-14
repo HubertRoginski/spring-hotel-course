@@ -4,9 +4,9 @@
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/users-add.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/room-add.css}">
     <meta charset="UTF-8">
-    <title>Add user</title>
+    <title>Add room</title>
 </head>
 <body>
 
@@ -66,47 +66,46 @@
         <div class="row centered-form">
             <div class="panel panel-default form-size">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">Add new user</h3>
+                    <h3 class="panel-title text-center">Add new room</h3>
                 </div>
                 <div class="panel-body">
-                    <form method="post" th:action="@{/users/add}" th:object="${user}" role="form">
-                        <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
+                    <form method="post" th:action="@{/rooms/add}" th:object="${room}" role="form">
+                        <div th:if="${#fields.hasErrors('roomNumber')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('roomNumber')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" th:field="*{username}" name="username" class="form-control input-sm"
-                                   placeholder="Username">
+                            <input type="text" th:field="*{roomNumber}" name="roomNumber" class="form-control input-sm"
+                                   placeholder="roomNumber">
                         </div>
-                        <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" th:field="*{email}" name="email" class="form-control input-sm"
-                                   placeholder="Email">
-                        </div>
-                        <div th:if="${#fields.hasErrors('password')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+                        <div th:if="${#fields.hasErrors('roomClass')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('roomClass')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="password" th:field="*{password}" name="password" class="form-control input-sm"
-                                   placeholder="Password">
+                            <input type="text" th:field="*{roomClass}" name="roomClass" class="form-control input-sm"
+                                   placeholder="roomClass">
                         </div>
-                        <label>Role:</label>
-                        <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{role}">
-                                <option selected="selected" th:value="ROLE_USER" th:text="User"></option>
-                                <option th:value="ROLE_MANAGER" th:text="Manager"></option>
-                                <option th:value="ROLE_ADMIN" th:text="Admin"></option>
-                            </select>
+                        <div th:if="${#fields.hasErrors('maxPeopleCapacity')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('maxPeopleCapacity')}" th:text="${err}"></div>
                         </div>
-                        <label>Enabled:</label>
                         <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{enabled}">
+                            <input type="text" th:field="*{maxPeopleCapacity}" name="maxPeopleCapacity" class="form-control input-sm"
+                                   placeholder="maxPeopleCapacity">
+                        </div>
+                        <div th:if="${#fields.hasErrors('oneDayCost')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('oneDayCost')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{oneDayCost}" name="oneDayCost" class="form-control input-sm"
+                                   placeholder="oneDayCost">
+                        </div>
+                        <label>IsOccupied:</label>
+                        <div class="form-group">
+                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{isOccupied}">
                                 <option selected="selected" th:value="true" th:text="true"></option>
                                 <option th:value="false" th:text="false"></option>
                             </select>
                         </div>
-                        <input type="submit" value="Add user" class="btn btn-info btn-block">
+                        <input type="submit" value="Add room" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>

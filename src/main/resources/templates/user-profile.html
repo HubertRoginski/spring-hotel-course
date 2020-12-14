@@ -32,6 +32,9 @@
                     <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list" style="color: rgba(255,255,255,.75);"></span> Reservations</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
                     <a class="nav-link active" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
@@ -46,6 +49,11 @@
                     <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"
                                                                      style="color: rgba(255,255,255,.75);"></span>
                         Customers</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/rooms}"><span class="fa fa-bed"
+                                                                  style="color: rgba(255,255,255,.75);"></span>
+                        Rooms</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/users}"><span class="fa fa-users"
@@ -97,41 +105,6 @@
     </div>
 </div>
 
-<div th:if="${user.customer}" class="content-container">
-    <section class="py-5">
-        <div class="container text-center">
-            <h1 class="font-weight-light text-light">Customer profile</h1>
-        </div>
-    </section>
-
-
-    <div class="card my-3 w-75 rounded">
-
-        <div class="card-body">
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col" class="text-center">Id</th>
-                    <th scope="col" class="text-center">First name</th>
-                    <th scope="col" class="text-center">Last name</th>
-                    <th scope="col" class="text-center">Address</th>
-                    <th scope="col" class="text-center">Phone number</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:object="${user}">
-                    <td th:text="${user.customer.customerId}" class="text-center align-middle"></td>
-                    <td th:text="${user.customer.firstName}" class="text-center align-middle"></td>
-                    <td th:text="${user.customer.lastName}" class="text-center align-middle"></td>
-                    <td th:text="${user.customer.address}" class="text-center align-middle"></td>
-                    <td th:text="${user.customer.phoneNumber}" class="text-center align-middle"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-</div>
 
 <div class="all-form-container">
     <div class="container-form">
@@ -206,6 +179,82 @@
         </div>
     </div>
 </div>
+
+
+<div th:if="${user.customer}" class="content-container">
+    <section class="py-5">
+        <div class="container text-center">
+            <h1 class="font-weight-light text-light">Customer profile</h1>
+        </div>
+    </section>
+
+
+    <div class="card my-3 w-75 rounded">
+
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Id</th>
+                    <th scope="col" class="text-center">First name</th>
+                    <th scope="col" class="text-center">Last name</th>
+                    <th scope="col" class="text-center">Address</th>
+                    <th scope="col" class="text-center">Phone number</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:object="${user}">
+                    <td th:text="${user.customer.customerId}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.firstName}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.lastName}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.address}" class="text-center align-middle"></td>
+                    <td th:text="${user.customer.phoneNumber}" class="text-center align-middle"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<div th:if="${user.customer}" class="content-container">
+    <section class="py-5">
+        <div class="container text-center">
+            <h1 class="font-weight-light text-light">Customer reservations</h1>
+        </div>
+    </section>
+
+
+    <div class="card my-3 w-75 rounded">
+
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Id</th>
+                    <th scope="col" class="text-center">Start of booking</th>
+                    <th scope="col" class="text-center">End of booking</th>
+                    <th scope="col" class="text-center">Room number</th>
+                    <th scope="col" class="text-center">Cost</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reservation : ${user.getCustomer().getReservations()}">
+                    <td th:text="${reservation.id}" class="text-center align-middle"></td>
+                    <td th:text="${reservation.startOfBooking}" class="text-center align-middle"></td>
+                    <td th:text="${reservation.endOfBooking}" class="text-center align-middle"></td>
+                    <td th:text="${reservation.roomNumber}" class="text-center align-middle"></td>
+                    <td th:text="${reservation.cost}" class="text-center align-middle"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script th:src="@{/scripts/user-profile.js}"></script>

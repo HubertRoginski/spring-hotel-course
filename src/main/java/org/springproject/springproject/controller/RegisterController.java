@@ -51,9 +51,6 @@ public class RegisterController {
             modelMap.addAttribute("userExistsError","Can't create new user, because that username or email already exist.");
             return "register";
         }
-//        else {
-//            modelMap.addAttribute("userExistsError", null);
-//        }
 
         return "redirect:/login";
 

@@ -1,17 +1,14 @@
 package org.springproject.springproject.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,8 +24,23 @@ public class Reservation {
     private LocalDate startOfBooking;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endOfBooking;
-    @Min(value = 1, message = "Minimalna wartosc numeru pokoju to 1") @Max(value = 50,message = "Maksymalna wartosc numeru pokoju to 50")
-    private Long roomNumber;
 
+    private Long cost;
 
+    @ManyToMany
+    @JoinTable(
+            name="RESERVATION_ROOM",
+            joinColumns = @JoinColumn(name = "RESERVATION_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROOM_ID")
+    )
+    @Setter(value=AccessLevel.NONE)
+    private List<Room> rooms = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Getter(value=AccessLevel.NONE)
+    private Customer customer;
+
+    public void addRoom(Room room){
+        rooms.add(room);
+    }
 }

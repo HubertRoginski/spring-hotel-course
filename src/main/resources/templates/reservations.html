@@ -8,9 +8,9 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/register.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/reservations.css}">
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Reservation</title>
     <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
@@ -48,7 +48,7 @@
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"
-                                                                     style="color: rgba(255,255,255,.75);"></span>
+                                                                      style="color: rgba(255,255,255,.75);"></span>
                         Customers</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
@@ -65,67 +65,61 @@
         </div>
     </div>
 </nav>
-<div class="container">
-    <div class="d-flex justify-content-center h-100">
-        <div class="card">
-            <div class="card-header">
-                <h3>Sign Up</h3>
-            </div>
-            <div class="card-body">
-                <form name="f" method="post" th:action="@{/register}" th:object="${user}">
-                    <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
-                        <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
-                    </div>
-                    <div th:if="${userExistsError}" class="input-group alert alert-danger">
-                        <div th:text="${userExistsError}"></div>
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-user"></i>*</span>
+
+
+<div th:if="${isCustomerExists}" class="all-form-container">
+    <div class="container-form">
+        <div class="row centered-form">
+            <div class="panel panel-default form-size">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">Add new reservation</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post" th:action="@{/reservations/customer}" th:object="${reservation}" role="form">
+                        <div th:if="${#fields.hasErrors('startOfBooking')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('startOfBooking')}" th:text="${err}"></div>
                         </div>
-                        <input type="text" class="form-control" name="username" placeholder="username"
-                               th:field="*{username}">
-                    </div>
-                    <div th:if="${#fields.hasErrors('email')}" class="input-group alert alert-danger">
-                        <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-at"></i>*</span>
+                        <div class="form-group">
+                            <input type="date" th:field="*{startOfBooking}" name="startOfBooking" class="form-control input-sm"
+                                   placeholder="startOfBooking">
                         </div>
-                        <input type="text" class="form-control" name="email" placeholder="email"
-                               th:field="*{email}">
-                    </div>
-                    <div th:if="${#fields.hasErrors('password')}" class="input-group alert alert-danger">
-                        <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-key"></i>*</span>
+                        <div th:if="${#fields.hasErrors('endOfBooking')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('endOfBooking')}" th:text="${err}"></div>
                         </div>
-                        <input type="password" class="form-control" id="password-register" name="password" placeholder="password"
-                               th:field="*{password}">
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-key"></i>*</span>
+                        <div class="form-group">
+                            <input type="date" th:field="*{endOfBooking}" name="endOfBooking" class="form-control input-sm"
+                                   placeholder="endOfBooking">
                         </div>
-                        <input type="password" class="form-control" id="confirm-password-register" placeholder="confirm password">
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create account" class="btn float-right register_btn">
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer">
-                <div class="d-flex justify-content-center links">
-                    Do have an account?<a th:href="@{/login}">Sign In</a>
+<!--                        <div th:if="${#fields.hasErrors('roomNumber')}" class="input-group alert alert-danger">-->
+<!--                            <div th:each="err : ${#fields.errors('roomNumber')}" th:text="${err}"></div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <input type="text" th:field="*{rooms}" name="roomNumber" class="form-control input-sm"-->
+<!--                                   placeholder="roomNumber">-->
+<!--                        </div>-->
+
+<!--                        <label>Role:</label>-->
+<!--                        <div class="form-group">-->
+<!--                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{role}">-->
+<!--                                <option selected="selected" th:value="ROLE_USER" th:text="User"></option>-->
+<!--                                <option th:value="ROLE_MANAGER" th:text="Manager"></option>-->
+<!--                                <option th:value="ROLE_ADMIN" th:text="Admin"></option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <label>Enabled:</label>-->
+<!--                        <div class="form-group">-->
+<!--                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{enabled}">-->
+<!--                                <option selected="selected" th:value="true" th:text="true"></option>-->
+<!--                                <option th:value="false" th:text="false"></option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+                        <input type="submit" value="Add reservation" class="btn btn-info btn-block">
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script th:src="@{/scripts/register.js}"></script>
+
 </body>
 </html>
