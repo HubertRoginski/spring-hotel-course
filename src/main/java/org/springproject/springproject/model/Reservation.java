@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,10 @@ public class Reservation {
     @GeneratedValue
     private Long id;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate startOfBooking;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate endOfBooking;
 
     private Long cost;
@@ -33,7 +36,6 @@ public class Reservation {
             joinColumns = @JoinColumn(name = "RESERVATION_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROOM_ID")
     )
-    @Setter(value=AccessLevel.NONE)
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

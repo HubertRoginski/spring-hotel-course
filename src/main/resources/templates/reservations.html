@@ -24,22 +24,32 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" th:href="@{/}"><span class="fas fa-home" style="color: rgba(255,255,255,.75);"></span> Home</a>
+                    <a class="nav-link" th:href="@{/}"><span class="fas fa-home"
+                                                             style="color: rgba(255,255,255,.75);"></span> Home</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt" style="color: rgba(255,255,255,.75);"></span> Login</a>
+                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt"
+                                                                  style="color: rgba(255,255,255,.75);"></span>
+                        Login</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
+                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt"
+                                                                   style="color: rgba(255,255,255,.75);"></span> Logout</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list" style="color: rgba(255,255,255,.75);"></span> Reservations</a>
+                    <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list"
+                                                                         style="color: rgba(255,255,255,.75);"></span>
+                        Reservations</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
+                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user"
+                                                                         style="color: rgba(255,255,255,.75);"></span>
+                        Profile</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link active" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" th:href="@{/register}"><span class="fas fa-user-plus"
+                                                                            style="color: rgba(255,255,255,.75);"></span>
+                        Register<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"
@@ -75,45 +85,44 @@
                     <h3 class="panel-title text-center">Add new reservation</h3>
                 </div>
                 <div class="panel-body">
-                    <form method="post" th:action="@{/reservations/customer}" th:object="${reservation}" role="form">
+                    <form method="post" th:action="@{/reservations}" th:object="${reservation}" role="form">
                         <div th:if="${#fields.hasErrors('startOfBooking')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('startOfBooking')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="date" th:field="*{startOfBooking}" name="startOfBooking" class="form-control input-sm"
+                            <input type="date" th:field="*{startOfBooking}" name="startOfBooking"
+                                   class="form-control input-sm"
                                    placeholder="startOfBooking">
                         </div>
                         <div th:if="${#fields.hasErrors('endOfBooking')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('endOfBooking')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="date" th:field="*{endOfBooking}" name="endOfBooking" class="form-control input-sm"
+                            <input type="date" th:field="*{endOfBooking}" name="endOfBooking"
+                                   class="form-control input-sm"
                                    placeholder="endOfBooking">
                         </div>
-<!--                        <div th:if="${#fields.hasErrors('roomNumber')}" class="input-group alert alert-danger">-->
-<!--                            <div th:each="err : ${#fields.errors('roomNumber')}" th:text="${err}"></div>-->
-<!--                        </div>-->
-<!--                        <div class="form-group">-->
-<!--                            <input type="text" th:field="*{rooms}" name="roomNumber" class="form-control input-sm"-->
-<!--                                   placeholder="roomNumber">-->
-<!--                        </div>-->
 
-<!--                        <label>Role:</label>-->
-<!--                        <div class="form-group">-->
-<!--                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{role}">-->
-<!--                                <option selected="selected" th:value="ROLE_USER" th:text="User"></option>-->
-<!--                                <option th:value="ROLE_MANAGER" th:text="Manager"></option>-->
-<!--                                <option th:value="ROLE_ADMIN" th:text="Admin"></option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                        <label>Enabled:</label>-->
-<!--                        <div class="form-group">-->
-<!--                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{enabled}">-->
-<!--                                <option selected="selected" th:value="true" th:text="true"></option>-->
-<!--                                <option th:value="false" th:text="false"></option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-                        <input type="submit" value="Add reservation" class="btn btn-info btn-block">
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group multiple-form-group" >
+                                        <label>Select rooms:</label>
+                                        <div class="form-group input-group">
+                                            <select th:field="*{rooms[0].roomNumber}" class="form-control">
+                                                <option th:each="roomFromList: ${roomList}"
+                                                        th:value="${roomFromList.roomNumber}"
+                                                        th:text=" ${roomFromList.oneDayCost} "></option>
+                                            </select>
+                                            <span class="input-group-btn" title="test"><button type="button"
+                                                                                  class="btn btn-default btn-add">+</button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input id="multiple-rooms-input" type="submit" value="Add reservation" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>
@@ -121,5 +130,60 @@
     </div>
 </div>
 
+
+<div th:if="${!isCustomerExists}" class="all-form-container">
+    <div class="container-form">
+        <div class="row centered-form">
+            <div class="panel panel-default form-size">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">Firstly you need to create customer account.</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post" th:action="@{/reservations/create-customer}" th:object="${customer}" role="form">
+                        <div th:if="${#fields.hasErrors('firstName')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{firstName}" name="firstName"
+                                   class="form-control input-sm"
+                                   placeholder="firstName">
+                        </div>
+                        <div th:if="${#fields.hasErrors('lastName')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{lastName}" name="lastName"
+                                   class="form-control input-sm"
+                                   placeholder="lastName">
+                        </div>
+                        <div th:if="${#fields.hasErrors('address')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{address}" name="address"
+                                   class="form-control input-sm"
+                                   placeholder="address">
+                        </div>
+                        <div th:if="${#fields.hasErrors('phoneNumber')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{phoneNumber}" name="phoneNumber"
+                                   class="form-control input-sm"
+                                   placeholder="phoneNumber">
+                        </div>
+
+                        <input type="submit" value="Add customer" class="btn btn-info btn-block">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script th:src="@{/scripts/reservations.js}"></script>
 </body>
 </html>

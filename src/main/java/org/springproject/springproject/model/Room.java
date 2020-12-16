@@ -39,4 +39,16 @@ public class Room {
     public void addReservation(Reservation reservation){
         reservations.add(reservation);
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", roomNumber=" + roomNumber +
+                ", roomClass=" + roomClass +
+                ", maxPeopleCapacity=" + maxPeopleCapacity +
+                ", oneDayCost=" + oneDayCost +
+                ", isOccupied=" + isOccupied +
+                '}';
+    }
 }
