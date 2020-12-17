@@ -5,6 +5,7 @@ import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.RoomRepository;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -18,7 +19,9 @@ public class RoomDbImpl implements RoomService{
 
     @Override
     public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+        List<Room> allRooms = roomRepository.findAll();
+        allRooms.sort(Comparator.comparing(Room::getRoomNumber));
+        return allRooms;
     }
 
     @Override

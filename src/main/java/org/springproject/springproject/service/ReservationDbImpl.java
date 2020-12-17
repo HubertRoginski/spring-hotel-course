@@ -9,10 +9,12 @@ import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.ReservationRepository;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Scope("prototype")
@@ -36,14 +38,40 @@ public class ReservationDbImpl implements ReservationService {
 
         reservation.getRooms().stream()
                 .filter(room -> Objects.nonNull(room.getRoomNumber()))
-                .forEach(room ->    {
-                                        Room roomFromDatabase = roomService.getByRoomNumber(room.getRoomNumber());
-                                        roomListToSet.add(roomFromDatabase);
-                                        roomFromDatabase.addReservation(reservation);
-                                    });
+                .forEach(room -> {
+                    Room roomFromDatabase = roomService.getByRoomNumber(room.getRoomNumber());
+                    roomListToSet.add(roomFromDatabase);
+                    roomFromDatabase.addReservation(reservation);
+                });
         reservation.setRooms(roomListToSet);
         reservation.setCost(calculateReservationCost(reservation));
         return reservationRepository.save(reservation);
+    }
+
+    @Override
+    public List<Reservation> showCurrentReservations(User user) {
+        LocalDate currentDate = LocalDate.now();
+        return user.getCustomer().getReservations().stream().filter(reservation ->
+                (reservation.getStartOfBooking().isBefore(currentDate) && reservation.getEndOfBooking().isAfter(currentDate))
+                        || reservation.getStartOfBooking().isEqual(currentDate)
+                        || reservation.getEndOfBooking().isEqual(currentDate))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Reservation> showOldReservations(User user) {
+        LocalDate currentDate = LocalDate.now();
+        return user.getCustomer().getReservations().stream().filter(reservation ->
+                reservation.getEndOfBooking().isBefore(currentDate))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Reservation> showFutureReservations(User user) {
+        LocalDate currentDate = LocalDate.now();
+        return user.getCustomer().getReservations().stream().filter(reservation ->
+                reservation.getStartOfBooking().isAfter(currentDate))
+                .collect(Collectors.toList());
     }
 
     private Long calculateReservationCost(Reservation reservation) {

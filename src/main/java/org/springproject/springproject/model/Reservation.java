@@ -22,10 +22,10 @@ public class Reservation {
     @GeneratedValue
     private Long id;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull
+    @NotNull(message = "Start date o booking cannot be empty")
     private LocalDate startOfBooking;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull
+    @NotNull(message = "End date o booking cannot be empty")
     private LocalDate endOfBooking;
 
     private Long cost;

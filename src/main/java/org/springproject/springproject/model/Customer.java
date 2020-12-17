@@ -2,6 +2,7 @@ package org.springproject.springproject.model;
 
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,16 @@ public class Customer {
     @GeneratedValue
     private Long customerId;
     @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "First name can only consist of letters,spaces, dashes and dots")
+    @NotNull(message = "First name cannot be empty")
     private String firstName;
     @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "Last name can only consist of letters,spaces, dashes and dots")
+    @NotNull(message = "Last name cannot be empty")
     private String lastName;
     @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-. ]+", message = "Address can only consist of letters, numbers ,spaces, dashes and dots")
+    @NotNull(message = "Address cannot be empty")
     private String address;
     @Pattern(regexp = "[[0-9]]+", message = "Phone number can only consist of numbers")
+    @NotNull(message = "Phone number cannot be empty")
     private String phoneNumber;
 
     @OneToOne(mappedBy = "customer")

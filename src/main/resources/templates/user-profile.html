@@ -233,10 +233,10 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col" class="text-center">Id</th>
-                    <th scope="col" class="text-center">Start of booking</th>
-                    <th scope="col" class="text-center">End of booking</th>
-                    <th scope="col" class="text-center">Room number</th>
-                    <th scope="col" class="text-center">Cost</th>
+                    <th scope="col" class="text-center">Start of booking [yyyy-mm-dd]</th>
+                    <th scope="col" class="text-center">End of booking [yyyy-mm-dd]</th>
+                    <th scope="col" class="text-center">Rooms details</th>
+                    <th scope="col" class="text-center">Cost [$]</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -244,7 +244,10 @@
                     <td th:text="${reservation.id}" class="text-center align-middle"></td>
                     <td th:text="${reservation.startOfBooking}" class="text-center align-middle"></td>
                     <td th:text="${reservation.endOfBooking}" class="text-center align-middle"></td>
-                    <td th:text="${reservation.rooms}" class="text-center align-middle"></td>
+                    <td class="text-center align-middle">
+                        <p th:each="room : ${reservation.rooms}"
+                              th:text="'No.: '+ ${room.roomNumber} + ', class: ' +${room.roomClass}+', one day cost: '+${room.oneDayCost}+', max people: '+${room.maxPeopleCapacity}+'; '"></p>
+                    </td>
                     <td th:text="${reservation.cost}" class="text-center align-middle"></td>
                 </tr>
                 </tbody>

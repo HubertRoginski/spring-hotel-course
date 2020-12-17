@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Reservation;
+import org.springproject.springproject.model.User;
 import org.springproject.springproject.service.CustomerService;
 import org.springproject.springproject.service.ReservationService;
 import org.springproject.springproject.service.RoomService;
@@ -44,9 +45,14 @@ public class ReservationController {
 
         modelMap.addAttribute("roomList",roomService.getAllRooms());
 
-        boolean isCustomerExists = Objects.nonNull(userService.getByUsernameOrEmail(authenticationUser.getUsername()).getCustomer());
+        User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
+
+        boolean isCustomerExists = Objects.nonNull(user.getCustomer());
         modelMap.addAttribute("isCustomerExists", isCustomerExists);
 
+        modelMap.addAttribute("currentReservations",reservationService.showCurrentReservations(user));
+        modelMap.addAttribute("oldReservations",reservationService.showOldReservations(user));
+        modelMap.addAttribute("futureReservations",reservationService.showFutureReservations(user));
 
         return "/reservations";
     }
@@ -54,17 +60,24 @@ public class ReservationController {
     @PostMapping("/reservations")
     public String addReservation(@Valid @ModelAttribute("reservation") Reservation reservation, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
         modelMap.addAttribute("isUserLogged", true);
+        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+
+//        modelMap.addAttribute("reservation", new Reservation());
+
+        modelMap.addAttribute("roomList",roomService.getAllRooms());
+        modelMap.addAttribute("isCustomerExists", true);
         if (errors.hasErrors()){
             return "reservations";
         }
         reservationService.createReservation(reservation,userService.getByUsernameOrEmail(authenticationUser.getUsername()));
-
-        return "redirect:/user/profile";
+        return "redirect:/reservations";
 
     }
     @PostMapping("/reservations/create-customer")
     public String addCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
         modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isCustomerExists", false);
         if (errors.hasErrors()){
             return "reservations";
         }
