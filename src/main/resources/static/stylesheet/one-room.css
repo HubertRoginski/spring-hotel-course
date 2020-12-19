@@ -1,16 +1,12 @@
-body {
-    background-image: url(../images/backgrounds/rooms-background.jpg);
+body{
+    background-image: url(../images/backgrounds/one-room-background.jpg);
     background-repeat: no-repeat;
-    background-position: center;
     background-size: cover;
+    background-position: center;
     background-attachment: fixed;
 }
 .btn{
     padding: .675rem .95rem;
-}
-
-.centered-form{
-    margin-top: 60px;
 }
 .content-container{
     margin-top: 20px;
@@ -19,6 +15,13 @@ body {
     align-items: center;
     justify-content: center;
 }
+.card-body{
+    padding: 0.30rem;
+}
+.centered-form{
+    margin-top: 60px;
+}
+
 .centered-form .panel{
     background: rgba(255, 255, 255, 0.8);
     box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
@@ -35,24 +38,4 @@ body {
 }
 .card{
     min-width: 800px;
-}
-
-.card-body{
-    padding: 0.30rem;
-}
-.card-header{
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-}
-.form-control {
-    height: auto !important;
-}
-.header-buttons{
-    width: 105px;
-    height: 48px;
-}
-.header-buttons-add{
-    width: 135px;
-    height: 48px;
 }

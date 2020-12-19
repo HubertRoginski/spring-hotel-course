@@ -17,11 +17,11 @@ import java.util.Objects;
 
 @Controller
 @Slf4j
-public class UserProfile {
+public class UserProfileController {
 
     private final UserService userService;
 
-    public UserProfile(UserService userService) {
+    public UserProfileController(UserService userService) {
         this.userService = userService;
     }
 

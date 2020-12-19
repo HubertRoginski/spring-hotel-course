@@ -4,9 +4,12 @@
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/users-add.css}">
     <meta charset="UTF-8">
     <title>Add user</title>
+    <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
 
@@ -70,6 +73,9 @@
                 </div>
                 <div class="panel-body">
                     <form method="post" th:action="@{/users/add}" th:object="${user}" role="form">
+                        <div th:if="${userExistsError}" class="input-group alert alert-danger">
+                            <div th:text="${userExistsError}"></div>
+                        </div>
                         <div th:if="${#fields.hasErrors('username')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
                         </div>

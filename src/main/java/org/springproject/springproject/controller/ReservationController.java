@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Reservation;
+import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.service.CustomerService;
 import org.springproject.springproject.service.ReservationService;
@@ -17,6 +18,7 @@ import org.springproject.springproject.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 public class ReservationController {
@@ -43,7 +45,7 @@ public class ReservationController {
         modelMap.addAttribute("reservation", new Reservation());
         modelMap.addAttribute("customer", new Customer());
 
-        modelMap.addAttribute("roomList",roomService.getAllRooms());
+        modelMap.addAttribute("roomList",roomService.getAllNotOccupiedRooms());
 
         User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
 
@@ -63,9 +65,7 @@ public class ReservationController {
         boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
 
-//        modelMap.addAttribute("reservation", new Reservation());
-
-        modelMap.addAttribute("roomList",roomService.getAllRooms());
+        modelMap.addAttribute("roomList",roomService.getAllNotOccupiedRooms());
         modelMap.addAttribute("isCustomerExists", true);
         if (errors.hasErrors()){
             return "reservations";

@@ -38,9 +38,9 @@
                                                                    style="color: rgba(255,255,255,.75);"></span> Logout</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list"
+                    <a class="nav-link active" th:href="@{/reservations}"><span class="fas fa-clipboard-list"
                                                                          style="color: rgba(255,255,255,.75);"></span>
-                        Reservations</a>
+                        Reservations<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
                     <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user"
@@ -48,9 +48,9 @@
                         Profile</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link active" th:href="@{/register}"><span class="fas fa-user-plus"
+                    <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus"
                                                                             style="color: rgba(255,255,255,.75);"></span>
-                        Register<span class="sr-only">(current)</span></a>
+                        Register</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"

@@ -75,7 +75,11 @@ public class UserController {
         if (errors.hasErrors()) {
             return "one-user";
         }
-        userService.updateUserById(id, user);
+        User updatedUser = userService.updateUserById(id, user);
+        if (Objects.isNull(updatedUser)) {
+            modelMap.addAttribute("userExistsError","Can't create new user, because that username or email already exist.");
+            return "one-user";
+        }
         return "redirect:/users/" + id;
     }
 
@@ -110,6 +114,7 @@ public class UserController {
         }
         User newUser = userService.createNewUser(user);
         if (Objects.isNull(newUser)) {
+            modelMap.addAttribute("userExistsError","Can't create new user, because that username or email already exist.");
             return "user-add";
         }
         return "redirect:/users";

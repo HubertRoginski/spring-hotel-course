@@ -1,11 +1,9 @@
 package org.springproject.springproject.model;
 
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
@@ -20,23 +18,30 @@ public class Room {
     @Id
     @GeneratedValue
     private Long id;
-    @Min(value = 1, message = "Minimum value of room number is 1") @Max(value = 10,message = "Maximum value of room number is 10")
+
+    @Column(nullable = false, unique = true)
     private Integer roomNumber;
 
-    @Min(value = 1, message = "Minimum value of room class is 1") @Max(value = 10,message = "Maximum value of room class is 3")
+    @Min(value = 1, message = "Minimum value of room class is 1")
+    @Max(value = 10, message = "Maximum value of room class is 3")
+    @Column(nullable = false)
     private Integer roomClass;
 
+    @Column(nullable = false)
     private Integer maxPeopleCapacity;
 
+    @Column(nullable = false)
     private Integer oneDayCost;
 
+    @Column(nullable = false)
     private Boolean isOccupied;
 
     @ManyToMany(mappedBy = "rooms")
-    @Setter(value=AccessLevel.NONE)
+    @Setter(value = AccessLevel.NONE)
+    @Getter(value = AccessLevel.NONE)
     private List<Reservation> reservations = new ArrayList<>();
 
-    public void addReservation(Reservation reservation){
+    public void addReservation(Reservation reservation) {
         reservations.add(reservation);
     }
 

@@ -4,9 +4,12 @@
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/room-add.css}">
     <meta charset="UTF-8">
     <title>Add room</title>
+    <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
 
@@ -32,7 +35,7 @@
                     <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list" style="color: rgba(255,255,255,.75);"></span> Reservations</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link active" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
                     <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
@@ -48,9 +51,9 @@
                         Customers</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/rooms}"><span class="fa fa-bed"
+                    <a class="nav-link active" th:href="@{/rooms}"><span class="fa fa-bed"
                                                                   style="color: rgba(255,255,255,.75);"></span>
-                        Rooms</a>
+                        Rooms<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/users}"><span class="fa fa-users"
@@ -70,6 +73,10 @@
                 </div>
                 <div class="panel-body">
                     <form method="post" th:action="@{/rooms/add}" th:object="${room}" role="form">
+                        <div th:if="${roomExistsError}" class="input-group alert alert-danger">
+                            <div th:text="${roomExistsError}"></div>
+                        </div>
+                        <label>Room number:</label>
                         <div th:if="${#fields.hasErrors('roomNumber')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('roomNumber')}" th:text="${err}"></div>
                         </div>
@@ -77,6 +84,7 @@
                             <input type="text" th:field="*{roomNumber}" name="roomNumber" class="form-control input-sm"
                                    placeholder="roomNumber">
                         </div>
+                        <label>Room class:</label>
                         <div th:if="${#fields.hasErrors('roomClass')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('roomClass')}" th:text="${err}"></div>
                         </div>
@@ -84,6 +92,7 @@
                             <input type="text" th:field="*{roomClass}" name="roomClass" class="form-control input-sm"
                                    placeholder="roomClass">
                         </div>
+                        <label>Max people capacity:</label>
                         <div th:if="${#fields.hasErrors('maxPeopleCapacity')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('maxPeopleCapacity')}" th:text="${err}"></div>
                         </div>
@@ -91,6 +100,7 @@
                             <input type="text" th:field="*{maxPeopleCapacity}" name="maxPeopleCapacity" class="form-control input-sm"
                                    placeholder="maxPeopleCapacity">
                         </div>
+                        <label>One day cost:</label>
                         <div th:if="${#fields.hasErrors('oneDayCost')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('oneDayCost')}" th:text="${err}"></div>
                         </div>
@@ -98,7 +108,7 @@
                             <input type="text" th:field="*{oneDayCost}" name="oneDayCost" class="form-control input-sm"
                                    placeholder="oneDayCost">
                         </div>
-                        <label>IsOccupied:</label>
+                        <label>Is occupied:</label>
                         <div class="form-group">
                             <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{isOccupied}">
                                 <option selected="selected" th:value="true" th:text="true"></option>
