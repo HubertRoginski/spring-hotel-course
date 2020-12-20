@@ -72,14 +72,6 @@ public class RoomController {
         return "redirect:/rooms/" + id;
     }
 
-    @GetMapping("/rooms/{id}/delete")
-    public String getRoomToDelete(ModelMap modelMap, @PathVariable(name = "id") Long id) {
-        modelMap.addAttribute("room", roomService.getRoomById(id));
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
-        return "one-room";
-    }
-
     @PostMapping("/rooms/{id}/delete")
     public String deleteRoomById(@PathVariable(name = "id") Long id) {
         roomService.deleteRoomById(id);

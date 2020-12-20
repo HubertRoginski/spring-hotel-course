@@ -6,10 +6,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springproject.springproject.exception.InvalidArgumentsToCreateReservationException;
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Reservation;
-import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.service.CustomerService;
 import org.springproject.springproject.service.ReservationService;
@@ -18,7 +19,6 @@ import org.springproject.springproject.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Controller
 public class ReservationController {
@@ -40,7 +40,6 @@ public class ReservationController {
         modelMap.addAttribute("isUserLogged", true);
         boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
-
 
         modelMap.addAttribute("reservation", new Reservation());
         modelMap.addAttribute("customer", new Customer());
@@ -67,10 +66,23 @@ public class ReservationController {
 
         modelMap.addAttribute("roomList",roomService.getAllNotOccupiedRooms());
         modelMap.addAttribute("isCustomerExists", true);
+        User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
+        modelMap.addAttribute("currentReservations",reservationService.showCurrentReservations(user));
+        modelMap.addAttribute("oldReservations",reservationService.showOldReservations(user));
+        modelMap.addAttribute("futureReservations",reservationService.showFutureReservations(user));
         if (errors.hasErrors()){
             return "reservations";
         }
-        reservationService.createReservation(reservation,userService.getByUsernameOrEmail(authenticationUser.getUsername()));
+        try {
+            reservationService.createReservation(reservation, userService.getByUsernameOrEmail(authenticationUser.getUsername()));
+        }catch (InvalidArgumentsToCreateReservationException e){
+            modelMap.addAttribute("errorMessage",e.getMessage());
+            return "reservations";
+        }
+//        if (Objects.isNull(createdReservation)) {
+//            modelMap.addAttribute("duplicatedRoomsError","Can't create new reservation, because the selected rooms are duplicating.");
+//            return "reservations";
+//        }
         return "redirect:/reservations";
 
     }
@@ -84,6 +96,11 @@ public class ReservationController {
         customerService.createNewCustomer(customer,userService.getByUsernameOrEmail(authenticationUser.getUsername()));
 
         return "redirect:/reservations";
+    }
 
+    @PostMapping("/reservations/{id}/delete")
+    public String deleteUserById(@PathVariable(name = "id") Long id) {
+        reservationService.deleteReservationById(id);
+        return "redirect:/reservations";
     }
 }

@@ -10,6 +10,8 @@ public interface ReservationService {
 
     Reservation createReservation(Reservation reservation, User user);
 
+    Boolean deleteReservationById(Long id);
+
     List<Reservation> showCurrentReservations(User user);
 
     List<Reservation> showOldReservations(User user);

@@ -83,13 +83,6 @@ public class UserController {
         return "redirect:/users/" + id;
     }
 
-    @GetMapping("/users/{id}/delete")
-    public String getUserToDelete(ModelMap modelMap, @PathVariable(name = "id") Long id) {
-        modelMap.addAttribute("user", userService.getUserById(id));
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
-        return "one-user";
-    }
 
     @PostMapping("/users/{id}/delete")
     public String deleteUserById(@PathVariable(name = "id") Long id) {

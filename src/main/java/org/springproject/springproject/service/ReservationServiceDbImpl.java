@@ -3,7 +3,7 @@ package org.springproject.springproject.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springproject.springproject.model.Customer;
+import org.springproject.springproject.exception.InvalidArgumentsToCreateReservationException;
 import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
@@ -14,6 +14,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +31,15 @@ public class ReservationServiceDbImpl implements ReservationService {
     }
 
     @Override
-    public Reservation createReservation(Reservation reservation, User user) {
+    public Reservation createReservation(Reservation reservation, User user) throws InvalidArgumentsToCreateReservationException {
+        if (isRoomsDuplicated(reservation.getRooms())){
+            log.info("CREATE RESERVATION FAIL");
+            throw new InvalidArgumentsToCreateReservationException("Can't create new reservation, because the selected rooms are duplicating.");
+        }else if (reservation.getStartOfBooking().isAfter(reservation.getEndOfBooking())){
+            log.info("CREATE RESERVATION FAIL");
+            throw new InvalidArgumentsToCreateReservationException("Can't create new reservation, because start date of booking can't be after end date.");
+        }
+
         user.getCustomer().addReservation(reservation);
         reservation.setCustomer(user.getCustomer());
 
@@ -46,6 +55,15 @@ public class ReservationServiceDbImpl implements ReservationService {
         reservation.setRooms(roomListToSet);
         reservation.setCost(calculateReservationCost(reservation));
         return reservationRepository.save(reservation);
+    }
+
+    @Override
+    public Boolean deleteReservationById(Long id) {
+        if (reservationRepository.existsById(id)) {
+            reservationRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -89,5 +107,10 @@ public class ReservationServiceDbImpl implements ReservationService {
         log.info("DAYS: " + daysOfBooking);
         long sumOneDayCost = reservation.getRooms().stream().mapToLong(Room::getOneDayCost).sum();
         return daysOfBooking * sumOneDayCost;
+    }
+
+    private boolean isRoomsDuplicated(List<Room> rooms){
+        Set<Room> roomSet = rooms.stream().filter(Objects::nonNull).collect(Collectors.toSet());
+        return rooms.size() != roomSet.size();
     }
 }
