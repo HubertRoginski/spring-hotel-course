@@ -13,10 +13,7 @@ import org.springproject.springproject.exception.InvalidArgumentsToCreateReserva
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.User;
-import org.springproject.springproject.service.CustomerService;
-import org.springproject.springproject.service.ReservationService;
-import org.springproject.springproject.service.RoomService;
-import org.springproject.springproject.service.UserService;
+import org.springproject.springproject.service.*;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -28,13 +25,13 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final CustomerService customerService;
     private final UserService userService;
-    private final RoomService roomService;
+    private final ReservationRoomsService reservationRoomsService;
 
-    public ReservationController(ReservationService reservationService, CustomerService customerService, UserService userService, RoomService roomService) {
+    public ReservationController(ReservationService reservationService, CustomerService customerService, UserService userService, ReservationRoomsService reservationRoomsService) {
         this.reservationService = reservationService;
         this.customerService = customerService;
         this.userService = userService;
-        this.roomService = roomService;
+        this.reservationRoomsService = reservationRoomsService;
     }
 
     @GetMapping("/reservations")
@@ -46,16 +43,14 @@ public class ReservationController {
         modelMap.addAttribute("reservation", new Reservation());
         modelMap.addAttribute("customer", new Customer());
 
-        modelMap.addAttribute("roomList", roomService.getAllNotOccupiedRooms());
-
         User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
 
         boolean isCustomerExists = Objects.nonNull(user.getCustomer());
         modelMap.addAttribute("isCustomerExists", isCustomerExists);
 
-        modelMap.addAttribute("currentReservations", reservationService.showCurrentReservations(user));
-        modelMap.addAttribute("oldReservations", reservationService.showOldReservations(user));
-        modelMap.addAttribute("futureReservations", reservationService.showFutureReservations(user));
+        modelMap.addAttribute("currentReservations", reservationService.getCurrentReservations(user));
+        modelMap.addAttribute("oldReservations", reservationService.getOldReservations(user));
+        modelMap.addAttribute("futureReservations", reservationService.getFutureReservations(user));
 
         modelMap.addAttribute("isItFirstStep", true);
 
@@ -68,12 +63,13 @@ public class ReservationController {
         boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
 
-        modelMap.addAttribute("roomList", roomService.getAllNotOccupiedRooms());
         modelMap.addAttribute("isCustomerExists", true);
         User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
-        modelMap.addAttribute("currentReservations", reservationService.showCurrentReservations(user));
-        modelMap.addAttribute("oldReservations", reservationService.showOldReservations(user));
-        modelMap.addAttribute("futureReservations", reservationService.showFutureReservations(user));
+        modelMap.addAttribute("currentReservations", reservationService.getCurrentReservations(user));
+        modelMap.addAttribute("oldReservations", reservationService.getOldReservations(user));
+        modelMap.addAttribute("futureReservations", reservationService.getFutureReservations(user));
+
+        modelMap.addAttribute("roomList", reservationRoomsService.getAllAvailableRooms(reservation.getStartOfBooking(),reservation.getEndOfBooking()));
         if (errors.hasErrors()) {
             return "reservations";
         }
@@ -82,6 +78,7 @@ public class ReservationController {
             if (reservationService.isDataValid(reservation)) {
                 modelMap.addAttribute("isItFirstStep", false);
                 log.info("First step end with: " + reservation.toString());
+
             } else {
                 modelMap.addAttribute("errorMessage", "Can't create new reservation, because start date of booking can't be after end date.");
             }

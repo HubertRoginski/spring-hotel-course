@@ -7,25 +7,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springproject.springproject.exception.WrongPageException;
+import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.Room;
-import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.RoomRepository;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class RoomServiceDbImpl implements RoomService{
+public class RoomServiceDbImpl implements RoomService {
 
     private final RoomRepository roomRepository;
 
     public RoomServiceDbImpl(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
-
 
 
     @Override
@@ -40,13 +38,13 @@ public class RoomServiceDbImpl implements RoomService{
             throw new WrongPageException("Page number can't be less than 1");
         }
         Sort sort = Sort.by("roomNumber").ascending();
-        Pageable pageable = PageRequest.of(page , size, sort);
+        Pageable pageable = PageRequest.of(page, size, sort);
         return roomRepository.findAll(pageable);
     }
 
     @Override
-    public List<Room> getAllNotOccupiedRooms() {
-        return roomRepository.findAllWhereIsNotOccupied();
+    public List<Room> getAllRooms() {
+        return roomRepository.findAll();
     }
 
     @Override
@@ -57,7 +55,7 @@ public class RoomServiceDbImpl implements RoomService{
 
     @Override
     public Room addRoom(Room room) {
-        if (Objects.isNull(roomRepository.findByRoomNumber(room.getRoomNumber()))){
+        if (Objects.isNull(roomRepository.findByRoomNumber(room.getRoomNumber()))) {
             return roomRepository.save(room);
         }
         log.info("ADD ROOM FAIL");
@@ -71,7 +69,7 @@ public class RoomServiceDbImpl implements RoomService{
 
     @Override
     public Room updateRoomById(Long id, Room room) {
-        if (roomRepository.existsById(id) && Objects.isNull(roomRepository.findByRoomNumber(room.getRoomNumber()))){
+        if (roomRepository.existsById(id) && Objects.isNull(roomRepository.findByRoomNumber(room.getRoomNumber()))) {
             room.setId(id);
             return roomRepository.save(room);
         }

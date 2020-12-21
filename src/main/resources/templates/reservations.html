@@ -118,13 +118,17 @@
                         <div th:if="${errorMessage}" class="input-group alert alert-danger">
                             <div th:text="${errorMessage}"></div>
                         </div>
-                        <div hidden class="form-group">
-                            <input type="date" th:field="${reservation.startOfBooking}" name="startOfBooking"
+                        <label>Start date of booking: </label>
+                        <span th:text="${reservation.startOfBooking}"></span>
+                        <div class="form-group">
+                            <input hidden type="date" th:field="${reservation.startOfBooking}" name="startOfBooking"
                                    class="form-control input-sm"
                                    placeholder="startOfBooking">
                         </div>
-                        <div hidden class="form-group">
-                            <input type="date" th:field="${reservation.endOfBooking}" name="endOfBooking"
+                        <label>End date of booking: </label>
+                        <span th:text="${reservation.endOfBooking}"></span>
+                        <div class="form-group">
+                            <input hidden type="date" th:field="${reservation.endOfBooking}" name="endOfBooking"
                                    class="form-control input-sm"
                                    placeholder="endOfBooking">
                         </div>

@@ -11,10 +11,7 @@ import org.springproject.springproject.repository.ReservationRepository;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +29,10 @@ public class ReservationServiceDbImpl implements ReservationService {
 
     @Override
     public Reservation createReservation(Reservation reservation, User user) throws InvalidArgumentsToCreateReservationException {
-        if (isRoomsDuplicated(reservation.getRooms())){
+        if (isRoomsDuplicated(reservation.getRooms())) {
             log.info("CREATE RESERVATION FAIL");
             throw new InvalidArgumentsToCreateReservationException("Can't create new reservation, because the selected rooms are duplicating.");
-        }else if (!isDataValid(reservation)){
+        } else if (!isDataValid(reservation)) {
             log.info("CREATE RESERVATION FAIL");
             throw new InvalidArgumentsToCreateReservationException("Can't create new reservation, because start date of booking can't be after end date.");
         }
@@ -67,7 +64,7 @@ public class ReservationServiceDbImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> showCurrentReservations(User user) {
+    public List<Reservation> getCurrentReservations(User user) {
         LocalDate currentDate = LocalDate.now();
         if (Objects.nonNull(user.getCustomer())) {
             return user.getCustomer().getReservations().stream().filter(reservation ->
@@ -80,7 +77,7 @@ public class ReservationServiceDbImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> showOldReservations(User user) {
+    public List<Reservation> getOldReservations(User user) {
         LocalDate currentDate = LocalDate.now();
         if (Objects.nonNull(user.getCustomer())) {
             return user.getCustomer().getReservations().stream().filter(reservation ->
@@ -91,7 +88,7 @@ public class ReservationServiceDbImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> showFutureReservations(User user) {
+    public List<Reservation> getFutureReservations(User user) {
         LocalDate currentDate = LocalDate.now();
         if (Objects.nonNull(user.getCustomer())) {
             return user.getCustomer().getReservations().stream().filter(reservation ->
@@ -99,6 +96,15 @@ public class ReservationServiceDbImpl implements ReservationService {
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    @Override
+    public List<Reservation> getAllCurrentAndFutureReservations() {
+        LocalDate currentDate = LocalDate.now();
+        return reservationRepository.findAll().stream().filter(reservation ->
+                reservation.getStartOfBooking().isAfter(currentDate)
+                        || reservation.getStartOfBooking().isEqual(currentDate))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -114,7 +120,7 @@ public class ReservationServiceDbImpl implements ReservationService {
         return daysOfBooking * sumOneDayCost;
     }
 
-    private boolean isRoomsDuplicated(List<Room> rooms){
+    private boolean isRoomsDuplicated(List<Room> rooms) {
         Set<Room> roomSet = rooms.stream().filter(Objects::nonNull).collect(Collectors.toSet());
         return rooms.size() != roomSet.size();
     }

@@ -12,11 +12,13 @@ public interface ReservationService {
 
     Boolean deleteReservationById(Long id);
 
-    List<Reservation> showCurrentReservations(User user);
+    List<Reservation> getCurrentReservations(User user);
 
-    List<Reservation> showOldReservations(User user);
+    List<Reservation> getOldReservations(User user);
 
-    List<Reservation> showFutureReservations(User user);
+    List<Reservation> getFutureReservations(User user);
+
+    List<Reservation> getAllCurrentAndFutureReservations();
 
     boolean isDataValid(Reservation reservation);
 

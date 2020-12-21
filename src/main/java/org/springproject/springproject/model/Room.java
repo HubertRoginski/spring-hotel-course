@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.UniqueElements;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +35,6 @@ public class Room {
     @Column(nullable = false)
     private Integer oneDayCost;
 
-    @Column(nullable = false)
-    private Boolean isOccupied;
-
     @ManyToMany(mappedBy = "rooms")
     @Setter(value = AccessLevel.NONE)
     @Getter(value = AccessLevel.NONE)
@@ -53,7 +52,6 @@ public class Room {
                 ", roomClass=" + roomClass +
                 ", maxPeopleCapacity=" + maxPeopleCapacity +
                 ", oneDayCost=" + oneDayCost +
-                ", isOccupied=" + isOccupied +
                 '}';
     }
 }

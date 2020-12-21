@@ -87,7 +87,8 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
     @Override
     public User updateUserById(Long id, User user) {
         log.info("Update user by id service: "+user.toString());
-        if (userRepository.existsById(id) && Objects.isNull(userRepository.findByUsername(user.getUsername())) && Objects.isNull(userRepository.findByEmail(user.getEmail()))) {
+//        if (userRepository.existsById(id) && Objects.isNull(userRepository.findByUsername(user.getUsername())) && Objects.isNull(userRepository.findByEmail(user.getEmail()))) {
+        if (userRepository.existsById(id)) {
             user.setId(id);
             if (!getUserById(id).getPassword().equals(user.getPassword())) {
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
