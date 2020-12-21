@@ -35,7 +35,7 @@ public class ReservationServiceDbImpl implements ReservationService {
         if (isRoomsDuplicated(reservation.getRooms())){
             log.info("CREATE RESERVATION FAIL");
             throw new InvalidArgumentsToCreateReservationException("Can't create new reservation, because the selected rooms are duplicating.");
-        }else if (reservation.getStartOfBooking().isAfter(reservation.getEndOfBooking())){
+        }else if (!isDataValid(reservation)){
             log.info("CREATE RESERVATION FAIL");
             throw new InvalidArgumentsToCreateReservationException("Can't create new reservation, because start date of booking can't be after end date.");
         }
@@ -99,6 +99,11 @@ public class ReservationServiceDbImpl implements ReservationService {
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    @Override
+    public boolean isDataValid(Reservation reservation) {
+        return !reservation.getStartOfBooking().isAfter(reservation.getEndOfBooking());
     }
 
     private Long calculateReservationCost(Reservation reservation) {

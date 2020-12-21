@@ -1,5 +1,6 @@
 package org.springproject.springproject.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 import java.util.Objects;
 
 @Controller
+@Slf4j
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -36,7 +38,7 @@ public class ReservationController {
     }
 
     @GetMapping("/reservations")
-    public String showAddReservations(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
+    public String showAddReservations(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
         modelMap.addAttribute("isUserLogged", true);
         boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
@@ -44,56 +46,69 @@ public class ReservationController {
         modelMap.addAttribute("reservation", new Reservation());
         modelMap.addAttribute("customer", new Customer());
 
-        modelMap.addAttribute("roomList",roomService.getAllNotOccupiedRooms());
+        modelMap.addAttribute("roomList", roomService.getAllNotOccupiedRooms());
 
         User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
 
         boolean isCustomerExists = Objects.nonNull(user.getCustomer());
         modelMap.addAttribute("isCustomerExists", isCustomerExists);
 
-        modelMap.addAttribute("currentReservations",reservationService.showCurrentReservations(user));
-        modelMap.addAttribute("oldReservations",reservationService.showOldReservations(user));
-        modelMap.addAttribute("futureReservations",reservationService.showFutureReservations(user));
+        modelMap.addAttribute("currentReservations", reservationService.showCurrentReservations(user));
+        modelMap.addAttribute("oldReservations", reservationService.showOldReservations(user));
+        modelMap.addAttribute("futureReservations", reservationService.showFutureReservations(user));
+
+        modelMap.addAttribute("isItFirstStep", true);
 
         return "/reservations";
     }
 
     @PostMapping("/reservations")
-    public String addReservation(@Valid @ModelAttribute("reservation") Reservation reservation, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
+    public String addReservation(@Valid @ModelAttribute("reservation") Reservation reservation, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
         modelMap.addAttribute("isUserLogged", true);
         boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
 
-        modelMap.addAttribute("roomList",roomService.getAllNotOccupiedRooms());
+        modelMap.addAttribute("roomList", roomService.getAllNotOccupiedRooms());
         modelMap.addAttribute("isCustomerExists", true);
         User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
-        modelMap.addAttribute("currentReservations",reservationService.showCurrentReservations(user));
-        modelMap.addAttribute("oldReservations",reservationService.showOldReservations(user));
-        modelMap.addAttribute("futureReservations",reservationService.showFutureReservations(user));
-        if (errors.hasErrors()){
+        modelMap.addAttribute("currentReservations", reservationService.showCurrentReservations(user));
+        modelMap.addAttribute("oldReservations", reservationService.showOldReservations(user));
+        modelMap.addAttribute("futureReservations", reservationService.showFutureReservations(user));
+        if (errors.hasErrors()) {
             return "reservations";
         }
-        try {
-            reservationService.createReservation(reservation, userService.getByUsernameOrEmail(authenticationUser.getUsername()));
-        }catch (InvalidArgumentsToCreateReservationException e){
-            modelMap.addAttribute("errorMessage",e.getMessage());
+        modelMap.addAttribute("isItFirstStep", true);
+        if (reservation.getRooms().size() == 0) {
+            if (reservationService.isDataValid(reservation)) {
+                modelMap.addAttribute("isItFirstStep", false);
+                log.info("First step end with: " + reservation.toString());
+            } else {
+                modelMap.addAttribute("errorMessage", "Can't create new reservation, because start date of booking can't be after end date.");
+            }
             return "reservations";
+        } else {
+
+            try {
+                reservationService.createReservation(reservation, userService.getByUsernameOrEmail(authenticationUser.getUsername()));
+            } catch (InvalidArgumentsToCreateReservationException e) {
+                modelMap.addAttribute("errorMessage", e.getMessage());
+                modelMap.addAttribute("isItFirstStep", false);
+                return "reservations";
+            }
+            log.info("Second step end with: " + reservation.toString());
         }
-//        if (Objects.isNull(createdReservation)) {
-//            modelMap.addAttribute("duplicatedRoomsError","Can't create new reservation, because the selected rooms are duplicating.");
-//            return "reservations";
-//        }
         return "redirect:/reservations";
 
     }
+
     @PostMapping("/reservations/create-customer")
-    public String addCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
+    public String addCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isCustomerExists", false);
-        if (errors.hasErrors()){
+        if (errors.hasErrors()) {
             return "reservations";
         }
-        customerService.createNewCustomer(customer,userService.getByUsernameOrEmail(authenticationUser.getUsername()));
+        customerService.createNewCustomer(customer, userService.getByUsernameOrEmail(authenticationUser.getUsername()));
 
         return "redirect:/reservations";
     }

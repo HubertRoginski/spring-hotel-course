@@ -18,4 +18,6 @@ public interface ReservationService {
 
     List<Reservation> showFutureReservations(User user);
 
+    boolean isDataValid(Reservation reservation);
+
 }

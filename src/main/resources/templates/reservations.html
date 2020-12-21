@@ -85,13 +85,12 @@
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">Add new reservation</h3>
                 </div>
-                <div class="panel-body">
-                    <div th:if="${errorMessage}" class="input-group alert alert-danger">
-                        <div th:text="${errorMessage}"></div>
-                    </div>
-
-                    <label>Select start date of booking:</label>
+                <div class="panel-body" th:if="${isItFirstStep}">
                     <form method="post" th:action="@{/reservations}" th:object="${reservation}" role="form">
+                        <div th:if="${errorMessage}" class="input-group alert alert-danger">
+                            <div th:text="${errorMessage}"></div>
+                        </div>
+                        <label>Select start date of booking:</label>
                         <div th:if="${#fields.hasErrors('startOfBooking')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('startOfBooking')}" th:text="${err}"></div>
                         </div>
@@ -106,6 +105,26 @@
                         </div>
                         <div class="form-group">
                             <input type="date" th:field="*{endOfBooking}" name="endOfBooking"
+                                   class="form-control input-sm"
+                                   placeholder="endOfBooking">
+                        </div>
+
+                        <input type="submit" value="Next step, select rooms"
+                               class="btn btn-info btn-block">
+                    </form>
+                </div>
+                <div class="panel-body" th:if="${!isItFirstStep}">
+                    <form method="post" th:action="@{/reservations}" th:object="${reservation}" role="form">
+                        <div th:if="${errorMessage}" class="input-group alert alert-danger">
+                            <div th:text="${errorMessage}"></div>
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="date" th:field="${reservation.startOfBooking}" name="startOfBooking"
+                                   class="form-control input-sm"
+                                   placeholder="startOfBooking">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="date" th:field="${reservation.endOfBooking}" name="endOfBooking"
                                    class="form-control input-sm"
                                    placeholder="endOfBooking">
                         </div>
@@ -129,9 +148,8 @@
                             </div>
                         </div>
 
-
-                        <input id="multiple-rooms-input" type="submit" value="Add reservation"
-                               class="btn btn-info btn-block">
+                        <a th:href="@{/reservations}" class='btn btn-dark btn-block'>Back to select date</a>
+                        <input type="submit" value="Add reservation" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>
@@ -294,7 +312,6 @@
                                    class="form-control input-sm"
                                    placeholder="phoneNumber">
                         </div>
-
                         <input type="submit" value="Add customer" class="btn btn-info btn-block">
                     </form>
                 </div>
