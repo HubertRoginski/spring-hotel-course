@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springproject.springproject.model.User;
+import org.springproject.springproject.service.ReservationService;
 import org.springproject.springproject.service.UserService;
 
 import javax.validation.Valid;
@@ -20,9 +21,11 @@ import java.util.Objects;
 public class UserProfileController {
 
     private final UserService userService;
+    private final ReservationService reservationService;
 
-    public UserProfileController(UserService userService) {
+    public UserProfileController(UserService userService, ReservationService reservationService) {
         this.userService = userService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/user/profile")
@@ -38,9 +41,10 @@ public class UserProfileController {
         if (Objects.nonNull(userService.getByUsernameOrEmail(authenticationUser.getUsername()))){
             user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
         }
-//        User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
         modelMap.addAttribute("user",user);
         log.info("USER: "+user.toString());
+
+        modelMap.addAttribute("currentReservations", reservationService.getCurrentReservations(user));
 
         return "user-profile";
     }

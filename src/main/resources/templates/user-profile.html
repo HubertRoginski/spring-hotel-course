@@ -221,7 +221,7 @@
 <div th:if="${user.customer}" class="content-container">
     <section class="py-5">
         <div class="container text-center">
-            <h1 class="font-weight-light text-light">Customer reservations</h1>
+            <h1 class="font-weight-light text-light">Customer current reservations</h1>
         </div>
     </section>
 
@@ -240,15 +240,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="reservation : ${user.getCustomer().getReservations()}">
-                    <td th:text="${reservation.id}" class="text-center align-middle"></td>
-                    <td th:text="${reservation.startOfBooking}" class="text-center align-middle"></td>
-                    <td th:text="${reservation.endOfBooking}" class="text-center align-middle"></td>
+                <tr th:each="currentReservation : ${currentReservations}">
+                    <td th:text="${currentReservation.id}" class="text-center align-middle"></td>
+                    <td th:text="${currentReservation.startOfBooking}" class="text-center align-middle"></td>
+                    <td th:text="${currentReservation.endOfBooking}" class="text-center align-middle"></td>
                     <td class="text-center align-middle">
-                        <p th:each="room : ${reservation.rooms}"
-                              th:text="'No.: '+ ${room.roomNumber} + ', class: ' +${room.roomClass}+', one day cost: '+${room.oneDayCost}+', max people: '+${room.maxPeopleCapacity}+'; '"></p>
+                        <p th:each="room : ${currentReservation.rooms}"
+                           th:text="'No.: '+ ${room.roomNumber} + ', class: ' +${room.roomClass}+', one day cost: '+${room.oneDayCost}+', max people: '+${room.maxPeopleCapacity}+'; '"></p>
                     </td>
-                    <td th:text="${reservation.cost}" class="text-center align-middle"></td>
+                    <td th:text="${currentReservation.cost}" class="text-center align-middle"></td>
                 </tr>
                 </tbody>
             </table>
