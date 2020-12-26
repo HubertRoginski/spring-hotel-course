@@ -108,13 +108,6 @@
                             <input type="text" th:field="*{oneDayCost}" name="oneDayCost" class="form-control input-sm"
                                    placeholder="oneDayCost">
                         </div>
-                        <label>Is occupied:</label>
-                        <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{isOccupied}">
-                                <option selected="selected" th:value="true" th:text="true"></option>
-                                <option th:value="false" th:text="false"></option>
-                            </select>
-                        </div>
                         <input type="submit" value="Add room" class="btn btn-info btn-block">
                     </form>
                 </div>

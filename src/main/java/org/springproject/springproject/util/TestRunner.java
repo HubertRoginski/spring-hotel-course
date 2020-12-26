@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springproject.springproject.config.HotelCustomerConfig;
+import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.UserRepository;
 import org.springproject.springproject.service.CustomerService;
@@ -72,6 +73,7 @@ public class TestRunner implements CommandLineRunner {
                     .build();
             userRepository.save(user);
         }
+
 
 //        StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder("secret");
 //        System.out.println("HASLO japycz : "+standardPasswordEncoder.encode("japycz"));

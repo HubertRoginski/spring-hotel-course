@@ -61,6 +61,7 @@ public class RoomController {
     public String updateRoomById(@Valid @ModelAttribute("room") Room room, @PathVariable Long id, final Errors errors, ModelMap modelMap) {
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        modelMap.addAttribute("room", roomService.getRoomById(id));
         if (errors.hasErrors()) {
             return "one-room";
         }

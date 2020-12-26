@@ -105,7 +105,6 @@
                     <th scope="col" class="text-center">Room class</th>
                     <th scope="col" class="text-center">Max people capacity</th>
                     <th scope="col" class="text-center">One day cost</th>
-                    <th scope="col" class="text-center">Occupied</th>
                     <th scope="col" class="text-center">Action</th>
                 </tr>
                 </thead>
@@ -116,7 +115,6 @@
                     <td th:text="${room.roomClass}" class="text-center align-middle"></td>
                     <td th:text="${room.maxPeopleCapacity}" class="text-center align-middle"></td>
                     <td th:text="${room.oneDayCost}" class="text-center align-middle"></td>
-                    <td th:text="${room.isOccupied}" class="text-center align-middle"></td>
                     <td class="text-center align-middle">
                         <form method="post" th:action="@{/rooms/{id}/delete(id=${room.id})}">
                             <a th:href="@{/rooms/__${room.id}__}" class='btn btn-info btn-xs'><span

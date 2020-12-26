@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Optionals;
 import org.springframework.stereotype.Service;
 import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.Reservation;
@@ -69,7 +70,9 @@ public class RoomServiceDbImpl implements RoomService {
 
     @Override
     public Room updateRoomById(Long id, Room room) {
-        if (roomRepository.existsById(id) && Objects.isNull(roomRepository.findByRoomNumber(room.getRoomNumber()))) {
+        if (roomRepository.existsById(id) &&
+                (Objects.isNull(roomRepository.findByRoomNumber(room.getRoomNumber()))
+                        || roomRepository.findById(id).orElse(Room.builder().roomNumber(0).build()).getRoomNumber().equals(room.getRoomNumber()))) {
             room.setId(id);
             return roomRepository.save(room);
         }

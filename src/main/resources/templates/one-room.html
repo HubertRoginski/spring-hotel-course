@@ -86,7 +86,6 @@
                     <th scope="col" class="text-center">Room class</th>
                     <th scope="col" class="text-center">Max people capacity</th>
                     <th scope="col" class="text-center">One day cost</th>
-                    <th scope="col" class="text-center">Occupied</th>
                     <th scope="col" class="text-center">Delete</th>
                 </tr>
                 </thead>
@@ -97,7 +96,6 @@
                     <td th:text="${room.roomClass}" class="text-center align-middle"></td>
                     <td th:text="${room.maxPeopleCapacity}" class="text-center align-middle"></td>
                     <td th:text="${room.oneDayCost}" class="text-center align-middle"></td>
-                    <td th:text="${room.isOccupied}" class="text-center align-middle"></td>
                     <td class="text-center align-middle">
                         <form method="post" th:action="@{/rooms/{id}/delete(id=${room.id})}">
                             <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete
@@ -154,13 +152,6 @@
                         <div class="form-group">
                             <input type="text" th:field="*{oneDayCost}" name="oneDayCost" class="form-control input-sm"
                                    placeholder="oneDayCost">
-                        </div>
-                        <label>Is occupied:</label>
-                        <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{isOccupied}">
-                                <option selected="selected" th:value="true" th:text="true"></option>
-                                <option th:value="false" th:text="false"></option>
-                            </select>
                         </div>
                         <input type="submit" value="Update room" class="btn btn-info btn-block">
                     </form>
