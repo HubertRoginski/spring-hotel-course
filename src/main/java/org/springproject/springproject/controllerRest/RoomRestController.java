@@ -3,7 +3,6 @@ package org.springproject.springproject.controllerRest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.model.Room;
 import org.springproject.springproject.service.RoomService;
 

@@ -42,9 +42,9 @@
                     <a class="nav-link active" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/personnel}"><span class="fa fa-user-tie"
+                    <a class="nav-link" th:href="@{/employees}"><span class="fa fa-user-tie"
                                                                       style="color: rgba(255,255,255,.75);"></span>
-                        Personnel</a>
+                        Employees</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"

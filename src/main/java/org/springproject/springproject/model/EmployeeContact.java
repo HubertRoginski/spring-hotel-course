@@ -34,6 +34,6 @@ public class EmployeeContact {
 
     @OneToOne(mappedBy = "employeeContact")
     @Getter(value=AccessLevel.NONE)
-    private Personnel personnel;
+    private Employee employee;
 
 }

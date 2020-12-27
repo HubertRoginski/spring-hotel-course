@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@ConfigurationProperties(prefix = "hotel.personnel.minions")
+@ConfigurationProperties(prefix = "hotel.employee.minions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotelPersonnelConfig {
+public class HotelEmployeesConfig {
 
     private List<String> names;
     private Map<String, String > people;

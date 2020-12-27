@@ -1,8 +1,6 @@
 package org.springproject.springproject.service;
 
-import org.springframework.stereotype.Service;
 import org.springproject.springproject.model.Customer;
-import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.model.User;
 
 import java.util.List;

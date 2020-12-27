@@ -7,7 +7,7 @@
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/personnel.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/employees.css}">
 
     <meta charset="UTF-8">
     <title>Personnel</title>
@@ -43,9 +43,9 @@
                     <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link active" th:href="@{/personnel}"><span class="fa fa-user-tie"
+                    <a class="nav-link active" th:href="@{/employees}"><span class="fa fa-user-tie"
                                                                       style="color: rgba(255,255,255,.75);"></span>
-                        Personnel<span class="sr-only">(current)</span></a>
+                        Employees<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"
@@ -70,8 +70,8 @@
 <div class="content-container">
     <section class="py-5">
         <div class="container text-center">
-            <h1 class="font-weight-light text-light">Personnel list</h1>
-            <p class="lead text-light">Shown is a list of personnel who are working in Zoza Hotel.</p>
+            <h1 class="font-weight-light text-light">Employees list</h1>
+            <p class="lead text-light">Shown is a list of employees who are working in Zoza Hotel.</p>
         </div>
     </section>
 
@@ -80,24 +80,24 @@
         <div class="card-header">
             <div class="dropdown">
                 <button class="btn btn-primary btn-sm dropdown-toggle header-buttons"
-                        th:text="'Size: ' +${personnelPage.size}" type="button" id="dropdownMenuButton"
+                        th:text="'Size: ' +${employeesList.size}" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" th:href="@{/personnel(size=5, page=1,keyword=${addedKeyword})}">5</a>
-                    <a class="dropdown-item" th:href="@{/personnel(size=10, page=1,keyword=${addedKeyword})}">10</a>
-                    <a class="dropdown-item" th:href="@{/personnel(size=20, page=1,keyword=${addedKeyword})}">20</a>
+                    <a class="dropdown-item" th:href="@{/employees(size=5, page=1,keyword=${addedKeyword})}">5</a>
+                    <a class="dropdown-item" th:href="@{/employees(size=10, page=1,keyword=${addedKeyword})}">10</a>
+                    <a class="dropdown-item" th:href="@{/employees(size=20, page=1,keyword=${addedKeyword})}">20</a>
                 </div>
             </div>
             <div>
-                <a th:href="@{/personnel/add}">
+                <a th:href="@{/employees/add}">
                     <button class="btn btn-success header-buttons-add" type="button"><span class="fas fa-user-plus"></span>
                         Add employee
                     </button>
                 </a>
             </div>
             <div class="justify-content-end">
-                <form th:action="@{/personnel}" method="get">
+                <form th:action="@{/employees}" method="get">
                     <div class="input-group">
                     <span class="input-group-btn">
                     <button class="btn btn-primary header-buttons" type="submit"><span class="fas fa-search"></span> Search</button>
@@ -124,18 +124,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="personnel : ${personnelList}">
-                    <td th:text="${personnel.id}" class="text-center align-middle"></td>
-                    <td th:text="${personnel.firstName}" class="text-center align-middle"></td>
-                    <td th:text="${personnel.lastName}" class="text-center align-middle"></td>
-                    <td th:text="${personnel.position}" class="text-center align-middle"></td>
-                    <td th:text="${personnel.hireDate}" class="text-center align-middle"></td>
-                    <td th:text="${personnel.salary}" class="text-center align-middle"></td>
-                    <td th:text="${personnel.gender}" class="text-center align-middle"></td>
-                    <td th:text="${personnel.sickLeave}" class="text-center align-middle"></td>
+                <tr th:each="employee : ${employeesList}">
+                    <td th:text="${employee.id}" class="text-center align-middle"></td>
+                    <td th:text="${employee.firstName}" class="text-center align-middle"></td>
+                    <td th:text="${employee.lastName}" class="text-center align-middle"></td>
+                    <td th:text="${employee.jobTitle}" class="text-center align-middle"></td>
+                    <td th:text="${employee.hireDate}" class="text-center align-middle"></td>
+                    <td th:text="${employee.salary}" class="text-center align-middle"></td>
+                    <td th:text="${employee.gender}" class="text-center align-middle"></td>
+                    <td th:text="${employee.sickLeave}" class="text-center align-middle"></td>
                     <td class="text-center align-middle">
-                        <form method="post" th:action="@{/personnel/{id}/delete(id=${personnel.id})}">
-                            <a th:href="@{/personnel/__${personnel.id}__}" class='btn btn-info btn-xs'><span
+                        <form method="post" th:action="@{/employee/{id}/delete(id=${employee.id})}">
+                            <a th:href="@{/employee/__${employee.id}__}" class='btn btn-info btn-xs'><span
                                     class="fas fa-user-edit"></span> Edit</a>
                             <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete</button>
                         </form>
@@ -146,20 +146,20 @@
         </div>
 
         <ul class="pagination justify-content-center">
-            <li class="page-item " th:classappend="${personnelPage.first} ? disabled">
+            <li class="page-item " th:classappend="${employeesPage.first} ? disabled">
                 <a class="page-link"
-                   th:href="@{/personnel(size=${personnelPage.size}, page=${personnelPage.number},keyword=${addedKeyword})}"
+                   th:href="@{/employees(size=${employeesPage.size}, page=${employeesPage.number},keyword=${addedKeyword})}"
                    tabindex="-1">Previous</a>
             </li>
-            <ul th:if="${personnelPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="pagination">
+            <ul th:if="${employeesPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="pagination">
                 <li class="page-item">
                     <a class="page-link"
-                       th:href="@{/personnel(size=${personnelPage.size}, page=${pageNumber},keyword=${addedKeyword})}"
-                       th:classappend="${pageNumber == personnelPage.number + 1} ? active" th:text="${pageNumber}"></a></li>
+                       th:href="@{/employees(size=${employeesPage.size}, page=${pageNumber},keyword=${addedKeyword})}"
+                       th:classappend="${pageNumber == employeesPage.number + 1} ? active" th:text="${pageNumber}"></a></li>
             </ul>
-            <li class="page-item" th:classappend="${personnelPage.last} ? disabled">
+            <li class="page-item" th:classappend="${employeesPage.last} ? disabled">
                 <a class="page-link"
-                   th:href="@{/personnel(size=${personnelPage.size}, page=${personnelPage.number+2},keyword=${addedKeyword})}">Next</a>
+                   th:href="@{/employees(size=${employeesPage.size}, page=${employeesPage.number+2},keyword=${addedKeyword})}">Next</a>
             </li>
         </ul>
 

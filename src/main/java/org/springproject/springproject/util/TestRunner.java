@@ -81,7 +81,7 @@ public class TestRunner implements CommandLineRunner {
 
 
 
-//        Personnel personnel = Personnel.builder()
+//        Employee employee = Employee.builder()
 //                .firstName("Lukasz")
 //                .lastName("Lukasz")
 //                .hireDate(LocalDate.parse("2000-11-11"))
@@ -89,7 +89,7 @@ public class TestRunner implements CommandLineRunner {
 //                .salary(1000.0)
 //                .sickLeave(true)
 //                .build();
-//        log.info("Nowy pracownik dodany do bazy danej {}", oldPersonnelRepository.create(personnel).toString());
+//        log.info("Nowy pracownik dodany do bazy danej {}", oldPersonnelRepository.create(employee).toString());
 //
 //        Customer customer = Customer.builder()
 //                .firstName(hotelCustomerConfig.getFirstName())

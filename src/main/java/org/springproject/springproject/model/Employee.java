@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "personnel")
-public class Personnel {
+@Entity(name = "employee")
+public class Employee {
     @Id
     @GeneratedValue
     private Long id;

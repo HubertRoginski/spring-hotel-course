@@ -2,13 +2,11 @@ package org.springproject.springproject.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springproject.springproject.exception.NoSuchPersonnelId;
+import org.springproject.springproject.exception.NoSuchEmployeeId;
 import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.Error;
 
@@ -29,9 +27,9 @@ public class GlobalExceptionController {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoSuchPersonnelId.class)
-    public Error personnelIdExceptionHandler(NoSuchPersonnelId noSuchPersonnelId){
-        return new Error(noSuchPersonnelId.getMessage());
+    @ExceptionHandler(NoSuchEmployeeId.class)
+    public Error personnelIdExceptionHandler(NoSuchEmployeeId noSuchEmployeeId){
+        return new Error(noSuchEmployeeId.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
