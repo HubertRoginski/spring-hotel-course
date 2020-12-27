@@ -1,15 +1,12 @@
 package org.springproject.springproject.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springproject.springproject.exception.NoSuchPersonnelId;
 import org.springproject.springproject.exception.WrongPageException;
+import org.springproject.springproject.model.EmployeeContact;
 import org.springproject.springproject.model.Personnel;
 import org.springproject.springproject.repository.PersonnelRepository;
 
@@ -25,10 +22,12 @@ public class PersonnelServiceDbImpl implements PersonnelService {
 
 
     private final PersonnelRepository personnelRepository;
+    private final EmployeeContactService employeeContactService;
 
 
-    public PersonnelServiceDbImpl(PersonnelRepository personnelRepository) {
+    public PersonnelServiceDbImpl(PersonnelRepository personnelRepository, EmployeeContactService employeeContactService) {
         this.personnelRepository = personnelRepository;
+        this.employeeContactService = employeeContactService;
     }
 
     @Override
@@ -41,19 +40,35 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     }
 
     @Override
-    public List<Personnel> getAllPersonnel(Integer page, Integer size) throws WrongPageException {
+    public Page<Personnel> getAllPersonnel(Integer page, Integer size) throws WrongPageException {
         if (!Objects.nonNull(page)) {
             page = 1;
         }
         if (!Objects.nonNull(size)) {
             size = 5;
         }
-        if (page < 1) {
+        if (page < 0) {
             throw new WrongPageException("Page number can't be less than 1");
         }
-        Sort sort = Sort.by("salary").descending();
-        Pageable pageable = PageRequest.of(page - 1, size, sort);
-        return personnelRepository.findAll(pageable).getContent();
+        Sort sort = Sort.by("id").ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return personnelRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Personnel> getByKeyword(String keyword, Integer page, Integer size) {
+        if (!Objects.nonNull(page)) {
+            page = 1;
+        }
+        if (!Objects.nonNull(size)) {
+            size = 5;
+        }
+        if (page < 0) {
+            throw new WrongPageException("Page number can't be less than 1");
+        }
+        Sort sort = Sort.by("id").ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return personnelRepository.findByKeyword(keyword,pageable);
     }
 
 
@@ -68,12 +83,19 @@ public class PersonnelServiceDbImpl implements PersonnelService {
 
     @Override
     public Personnel createNewPersonnel(Personnel personnel) {
+        EmployeeContact employeeContact = employeeContactService.addEmployeeContact(personnel.getEmployeeContact());
+        personnel.setEmployeeContact(employeeContact);
         return personnelRepository.save(personnel);
     }
 
     @Override
     public List<Personnel> createBatchOfPersonnel(List<Personnel> personnels) {
-        return personnelRepository.saveAll(personnels);
+        personnels.forEach((personnel) -> {
+                EmployeeContact employeeContact = employeeContactService.addEmployeeContact(personnel.getEmployeeContact());
+                personnel.setEmployeeContact(employeeContact);
+                personnelRepository.save(personnel);
+        });
+        return personnels;
     }
 
     @Override
@@ -100,12 +122,12 @@ public class PersonnelServiceDbImpl implements PersonnelService {
     @Override
     public List<Personnel> getPersonnelByPosition(String position, Integer page, Integer size) throws WrongPageException {
         Pageable pageable = createPagination(page, size);
-        return personnelRepository.selectAllPersonnelWithPositionEqualTo(position, pageable);
+        return personnelRepository.selectAllPersonnelWithJobTitleEqualTo(position, pageable);
 
     }
 
     @Override
-    public List<Personnel> getPersonnelBySpecifiedParameters(Long id, String firstName, String lastName, String position, String hireDate, Double salary, Boolean sickLeave, Integer page, Integer size) {
+    public List<Personnel> getPersonnelBySpecifiedParameters(Long id, String firstName, String lastName, String position, String hireDate, Double salary, String gender, Boolean sickLeave, Integer page, Integer size) {
         Pageable pageable = createPagination(page, size);
 
         LocalDate localDate = null;
@@ -117,9 +139,10 @@ public class PersonnelServiceDbImpl implements PersonnelService {
                 .id(id)
                 .firstName(firstName)
                 .lastName(lastName)
-                .position(position)
+                .jobTitle(position)
                 .hireDate(localDate)
                 .salary(salary)
+                .gender(gender)
                 .sickLeave(sickLeave)
                 .build();
 

@@ -1,6 +1,7 @@
 package org.springproject.springproject.controllerRest;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class PersonnelRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Personnel>> getPersonnel(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+    public ResponseEntity<Page<Personnel>> getPersonnel(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
         return ResponseEntity.ok(personnelService.getAllPersonnel(page, size));
     }
 
@@ -89,8 +90,9 @@ public class PersonnelRestController {
             @Valid @Pattern(regexp = DATE_REGEX,message = "Wrong date format. Valid format is yyyy-mm-dd")
             @RequestParam(required = false) String hireDate,
             @RequestParam(required = false) Double salary,
+            @RequestParam(required = false) String gender,
             @RequestParam(required = false) Boolean sickLeave, @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
-        return ResponseEntity.ok(personnelService.getPersonnelBySpecifiedParameters(id, firstName, lastName, position, hireDate, salary, sickLeave, page, size));
+        return ResponseEntity.ok(personnelService.getPersonnelBySpecifiedParameters(id, firstName, lastName, position, hireDate, salary, gender, sickLeave, page, size));
     }
 }

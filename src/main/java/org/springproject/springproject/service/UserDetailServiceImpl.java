@@ -57,7 +57,6 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
             return userRepository.save(user);
         }
         log.info("CREATE USER FAIL ");
-//        throw new RuntimeException("Can't create new user, because that username or email already exist.");
         return null;
     }
 

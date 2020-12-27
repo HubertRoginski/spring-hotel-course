@@ -1,6 +1,8 @@
 package org.springproject.springproject.service;
 
+import org.springframework.data.domain.Page;
 import org.springproject.springproject.model.Personnel;
+import org.springproject.springproject.model.User;
 
 import java.util.List;
 
@@ -8,7 +10,9 @@ public interface PersonnelService {
 
     Personnel getPersonnelById(Long id);
 
-    List<Personnel> getAllPersonnel(Integer page, Integer size);
+    Page<Personnel> getAllPersonnel(Integer page, Integer size);
+
+    Page<Personnel> getByKeyword(String keyword, Integer page, Integer size);
 
     boolean removePersonnelById(Long id);
 
@@ -24,7 +28,8 @@ public interface PersonnelService {
 
     List<Personnel> getPersonnelBySpecifiedParameters(Long id, String firstName, String lastName,
                                                       String position, String hireDate, Double salary,
-                                                      Boolean sickLeave , Integer page, Integer size);
+                                                      String gender, Boolean sickLeave, Integer page,
+                                                      Integer size);
 
     void cureAllPersonnel();
 }
