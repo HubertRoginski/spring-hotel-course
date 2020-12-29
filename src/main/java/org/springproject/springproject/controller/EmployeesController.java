@@ -103,10 +103,8 @@ public class EmployeesController {
         if (errors.hasErrors()) {
             return "one-employee-contact";
         }
-        log.info("Employee: "+employee.toString());
         try {
             Employee updatedEmployee = employeesService.updateEmployeeById(id, employee);
-            log.info("Employee updated: "+updatedEmployee.toString());
         } catch (NoSuchEmployeeId e) {
             modelMap.addAttribute("employeesExistsError", "Can't update employee contact.");
             return "one-employee-contact";
@@ -136,12 +134,7 @@ public class EmployeesController {
         if (errors.hasErrors()) {
             return "employee-add";
         }
-        Employee newEmployee = employeesService.createNewEmployee(employee);
-        if (Objects.isNull(newEmployee)) {
-            modelMap.addAttribute("employeesExistsError", "Can't create new employee.");
-            return "employee-add";
-        }
+        employeesService.createNewEmployee(employee);
         return "redirect:/employees";
-
     }
 }
