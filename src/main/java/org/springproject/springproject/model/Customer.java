@@ -16,14 +16,14 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue
-    private Long customerId;
-    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "First name can only consist of letters, spaces, dashes and dots")
+    private Long id;
+    @Pattern(regexp = "[\\p{IsAlphabetic}-.' ]+", message = "First name can only consist of letters, spaces, apostrophes, dashes and dots")
     @NotNull(message = "First name cannot be empty")
     private String firstName;
-    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "Last name can only consist of letters, spaces, dashes and dots")
+    @Pattern(regexp = "[\\p{IsAlphabetic}-'. ]+", message = "Last name can only consist of letters, spaces, apostrophes, dashes and dots")
     @NotNull(message = "Last name cannot be empty")
     private String lastName;
-    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-. ]+", message = "Address can only consist of letters, numbers , spaces, dashes and dots")
+    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-.' ]+", message = "Address can only consist of letters, numbers, apostrophes, spaces, dashes and dots")
     @NotNull(message = "Address cannot be empty")
     private String address;
     @Pattern(regexp = "[[0-9]]+", message = "Phone number can only consist of numbers")
@@ -46,7 +46,7 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "customerId=" + customerId +
+                "customerId=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +

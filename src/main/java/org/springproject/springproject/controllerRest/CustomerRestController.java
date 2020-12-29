@@ -45,8 +45,8 @@ public class CustomerRestController {
         return ResponseEntity.notFound().build();
     }
     @GetMapping()
-    public ResponseEntity<?> getCustomers(){
-        return ResponseEntity.ok(customerService.getAllCustomers());
+    public ResponseEntity<?> getCustomers(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size){
+        return ResponseEntity.ok(customerService.getAllCustomers(page, size));
     }
 
     @PutMapping("/{id}")

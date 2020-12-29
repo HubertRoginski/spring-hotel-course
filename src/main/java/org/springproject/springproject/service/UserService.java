@@ -19,5 +19,7 @@ public interface UserService {
 
     Page<User> getByKeyword(String keyword,Integer page, Integer size);
 
+    List<User> getUsersWithoutCustomerAccount();
+
     User getByUsernameOrEmail(String usernameOrEmail);
 }

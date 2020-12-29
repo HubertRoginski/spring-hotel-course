@@ -34,36 +34,36 @@ public class TestRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-//        if (Objects.isNull(userRepository.findByUsername("stachu"))){
-//            User user = User.builder()
-//                    .username("stachu")
-//                    .password(bCryptPasswordEncoder.encode("japycz"))
-//                    .email("stachu@gmail.com")
-//                    .enabled(true)
-//                    .role("ROLE_ADMIN")
-//                    .build();
-//            userRepository.save(user);
-//        }
-//        if (Objects.isNull(userRepository.findByUsername("piotrek"))){
-//            User user = User.builder()
-//                    .username("piotrek")
-//                    .password(bCryptPasswordEncoder.encode("piotrek"))
-//                    .email("piotrek@gmail.com")
-//                    .enabled(true)
-//                    .role("ROLE_MANAGER")
-//                    .build();
-//            userRepository.save(user);
-//        }
-//        if (Objects.isNull(userRepository.findByUsername("solejuk"))){
-//            User user = User.builder()
-//                    .username("solejuk")
-//                    .password(bCryptPasswordEncoder.encode("solejuk"))
-//                    .email("solejuk@gmail.com")
-//                    .enabled(true)
-//                    .role("ROLE_USER")
-//                    .build();
-//            userRepository.save(user);
-//        }
+        if (Objects.isNull(userRepository.findByUsername("stachu"))){
+            User user = User.builder()
+                    .username("stachu")
+                    .password(bCryptPasswordEncoder.encode("japycz"))
+                    .email("stachu@gmail.com")
+                    .enabled(true)
+                    .role("ROLE_ADMIN")
+                    .build();
+            userRepository.save(user);
+        }
+        if (Objects.isNull(userRepository.findByUsername("piotrek"))){
+            User user = User.builder()
+                    .username("piotrek")
+                    .password(bCryptPasswordEncoder.encode("piotrek"))
+                    .email("piotrek@gmail.com")
+                    .enabled(true)
+                    .role("ROLE_MANAGER")
+                    .build();
+            userRepository.save(user);
+        }
+        if (Objects.isNull(userRepository.findByUsername("solejuk"))){
+            User user = User.builder()
+                    .username("solejuk")
+                    .password(bCryptPasswordEncoder.encode("solejuk"))
+                    .email("solejuk@gmail.com")
+                    .enabled(true)
+                    .role("ROLE_USER")
+                    .build();
+            userRepository.save(user);
+        }
 
 
     }

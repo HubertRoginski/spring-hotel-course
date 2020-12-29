@@ -14,8 +14,10 @@ import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.UserRepository;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -45,7 +47,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User createNewUser(User user) {
-        log.info("CREATE USER: "+user.toString());
+        log.info("CREATE USER: " + user.toString());
         if (Objects.isNull(userRepository.findByUsername(user.getUsername())) && Objects.isNull(userRepository.findByEmail(user.getEmail()))) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             if (Objects.isNull(user.getEnabled())) {
@@ -71,7 +73,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         if (page < 0) {
             throw new WrongPageException("Page number can't be less than 1");
         }
-        Pageable pageable = PageRequest.of(page , size);
+        Pageable pageable = PageRequest.of(page, size);
         Page<User> users = userRepository.findAll(pageable);
 //        users.forEach(user -> user.setPassword(null));
         return users;
@@ -85,7 +87,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User updateUserById(Long id, User user) {
-        log.info("Update user by id service: "+user.toString());
+        log.info("Update user by id service: " + user.toString());
 //        if (userRepository.existsById(id) && Objects.isNull(userRepository.findByUsername(user.getUsername())) && Objects.isNull(userRepository.findByEmail(user.getEmail()))) {
         if (userRepository.existsById(id)) {
             user.setId(id);
@@ -118,10 +120,18 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         if (page < 0) {
             throw new WrongPageException("Page number can't be less than 1");
         }
-        Pageable pageable = PageRequest.of(page , size);
+        Pageable pageable = PageRequest.of(page, size);
 
 
-        return userRepository.findByKeyword(keyword,pageable);
+        return userRepository.findByKeyword(keyword, pageable);
+    }
+
+    @Override
+    public List<User> getUsersWithoutCustomerAccount() {
+        return userRepository.findAll()
+                .stream()
+                .filter(user -> Objects.isNull(user.getCustomer()))
+                .collect(Collectors.toList());
     }
 
     @Override

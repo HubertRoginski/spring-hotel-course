@@ -1,6 +1,8 @@
 package org.springproject.springproject.service;
 
+import org.springframework.data.domain.Page;
 import org.springproject.springproject.model.Customer;
+import org.springproject.springproject.model.Employee;
 import org.springproject.springproject.model.User;
 
 import java.util.List;
@@ -11,11 +13,11 @@ public interface CustomerService {
 
     Customer getCustomerById(Long id);
 
-    List<Customer> getAllCustomers();
+    Page<Customer> getAllCustomers(Integer page, Integer size);
+
+    Page<Customer> getByKeyword(String keyword, Integer page, Integer size);
 
     Customer updateCustomerById(Long id,Customer customer);
-
-//    List<Customer> createBatchOfPersonnel(List<Customer> customers);
 
     boolean removeCustomerById(Long id);
 
