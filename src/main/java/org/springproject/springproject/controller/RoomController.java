@@ -6,9 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.Room;
-import org.springproject.springproject.model.User;
 import org.springproject.springproject.service.RoomService;
 
 import javax.validation.Valid;
@@ -52,16 +50,17 @@ public class RoomController {
     @GetMapping("/rooms/{id}")
     public String getOneRoomById(ModelMap modelMap, @PathVariable Long id) {
         modelMap.addAttribute("room", roomService.getRoomById(id));
+        modelMap.addAttribute("roomTable", roomService.getRoomById(id));
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         return "one-room";
     }
 
     @PostMapping("/rooms/{id}")
-    public String updateRoomById(@Valid @ModelAttribute("room") Room room, @PathVariable Long id, final Errors errors, ModelMap modelMap) {
+    public String updateRoomById(@Valid @ModelAttribute("room") Room room, final Errors errors, @PathVariable Long id, ModelMap modelMap) {
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
-        modelMap.addAttribute("room", roomService.getRoomById(id));
+        modelMap.addAttribute("roomTable", roomService.getRoomById(id));
         if (errors.hasErrors()) {
             return "one-room";
         }
@@ -80,7 +79,7 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/add")
-    public String showAddRooms(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
+    public String showAddRooms(ModelMap modelMap){
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         modelMap.addAttribute("room", new Room());

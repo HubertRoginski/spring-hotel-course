@@ -25,17 +25,17 @@ public class User {
     private Long id;
 
 
-    @Size(min = 4,max = 20,message = "username length must be between 4 and 20")
-    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-_]+", message = "username can only consist of letters, numbers, dashes and underscores")
+    @Size(min = 4,max = 20,message = "Username length must be between 4 and 20")
+    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-_]+", message = "Username can only consist of letters, numbers, dashes and underscores")
     @Column(nullable = false,unique = true)
     private String username;
 
-    @Email(message = "an example email address is example@gmail.com")
-    @Size(min = 1,message = "email field cannot be empty")
+    @Email(message = "An example email address is example@gmail.com")
+    @Size(min = 1,message = "Email field cannot be empty")
     @Column(nullable = false,unique = true)
     private String email;
 
-    @Size(min = 4,message = "password length must be min 4")
+    @Size(min = 4,message = "Password length must be min 4")
     @Column(nullable = false)
     private String password;
 

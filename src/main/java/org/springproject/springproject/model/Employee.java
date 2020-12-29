@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,11 +21,11 @@ public class Employee {
     @GeneratedValue
     private Long id;
 
-    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "First name can only consist of letters, spaces, dashes and dots")
+    @Pattern(regexp = "[\\p{IsAlphabetic}-.' ]+", message = "First name can only consist of letters, spaces, apostrophes, dashes and dots")
     @NotNull(message = "First name cannot be empty")
     private String firstName;
 
-    @Pattern(regexp = "[\\p{IsAlphabetic}-. ]+", message = "Last name can only consist of letters, spaces, dashes and dots")
+    @Pattern(regexp = "[\\p{IsAlphabetic}-'. ]+", message = "Last name can only consist of letters, spaces, apostrophes, dashes and dots")
     @NotNull(message = "Last name cannot be empty")
     private String lastName;
 
@@ -49,6 +50,7 @@ public class Employee {
 
     @OneToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Employee contact cannot be empty")
+    @Valid
     private EmployeeContact employeeContact;
 
 }

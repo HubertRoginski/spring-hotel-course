@@ -33,74 +33,39 @@ public class TestRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+
 //        if (Objects.isNull(userRepository.findByUsername("stachu"))){
 //            User user = User.builder()
 //                    .username("stachu")
 //                    .password(bCryptPasswordEncoder.encode("japycz"))
+//                    .email("stachu@gmail.com")
 //                    .enabled(true)
 //                    .role("ROLE_ADMIN")
 //                    .build();
 //            userRepository.save(user);
 //        }
-
-        if (Objects.isNull(userRepository.findByUsername("stachu"))){
-            User user = User.builder()
-                    .username("stachu")
-                    .password(bCryptPasswordEncoder.encode("japycz"))
-                    .email("stachu@gmail.com")
-                    .enabled(true)
-                    .role("ROLE_ADMIN")
-                    .build();
-            userRepository.save(user);
-        }
-        if (Objects.isNull(userRepository.findByUsername("piotrek"))){
-            User user = User.builder()
-                    .username("piotrek")
-                    .password(bCryptPasswordEncoder.encode("piotrek"))
-                    .email("piotrek@gmail.com")
-                    .enabled(true)
-                    .role("ROLE_MANAGER")
-                    .build();
-            userRepository.save(user);
-        }
-        if (Objects.isNull(userRepository.findByUsername("solejuk"))){
-            User user = User.builder()
-                    .username("solejuk")
-                    .password(bCryptPasswordEncoder.encode("solejuk"))
-                    .email("solejuk@gmail.com")
-                    .enabled(true)
-                    .role("ROLE_USER")
-                    .build();
-            userRepository.save(user);
-        }
+//        if (Objects.isNull(userRepository.findByUsername("piotrek"))){
+//            User user = User.builder()
+//                    .username("piotrek")
+//                    .password(bCryptPasswordEncoder.encode("piotrek"))
+//                    .email("piotrek@gmail.com")
+//                    .enabled(true)
+//                    .role("ROLE_MANAGER")
+//                    .build();
+//            userRepository.save(user);
+//        }
+//        if (Objects.isNull(userRepository.findByUsername("solejuk"))){
+//            User user = User.builder()
+//                    .username("solejuk")
+//                    .password(bCryptPasswordEncoder.encode("solejuk"))
+//                    .email("solejuk@gmail.com")
+//                    .enabled(true)
+//                    .role("ROLE_USER")
+//                    .build();
+//            userRepository.save(user);
+//        }
 
 
-//        StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder("secret");
-//        System.out.println("HASLO japycz : "+standardPasswordEncoder.encode("japycz"));
-//        System.out.println("HASLO pietrek : "+standardPasswordEncoder.encode("pietrek"));
-
-
-
-//        Employee employee = Employee.builder()
-//                .firstName("Lukasz")
-//                .lastName("Lukasz")
-//                .hireDate(LocalDate.parse("2000-11-11"))
-//                .position("Lezaca ustalona")
-//                .salary(1000.0)
-//                .sickLeave(true)
-//                .build();
-//        log.info("Nowy pracownik dodany do bazy danej {}", oldPersonnelRepository.create(employee).toString());
-//
-//        Customer customer = Customer.builder()
-//                .firstName(hotelCustomerConfig.getFirstName())
-//                .lastName(hotelCustomerConfig.getLastName())
-//                .startOfBooking(LocalDate.parse(hotelCustomerConfig.getStartOfBooking()))
-//                .endOfBooking(LocalDate.parse(hotelCustomerConfig.getEndOfBooking()))
-//                .roomNumber(hotelCustomerConfig.getRoomNumber())
-//                .build();
-//
-//        customerService.createNewCustomer(customer);
-//        log.info("Nowy pracownik dodany do bazy danych -> "+customer.toString() );
     }
 
 }

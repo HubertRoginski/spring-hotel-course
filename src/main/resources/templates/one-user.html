@@ -91,14 +91,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:object="${user}">
-                    <td th:text="${user.id}" class="text-center align-middle"></td>
-                    <td th:text="${user.username}" class="text-center align-middle"></td>
-                    <td th:text="${user.email}" class="text-center align-middle"></td>
-                    <td th:text="${user.role}" class="text-center align-middle"></td>
-                    <td th:text="${user.enabled}" class="text-center align-middle"></td>
+                <tr th:object="${userTable}">
+                    <td th:text="*{id}" class="text-center align-middle"></td>
+                    <td th:text="*{username}" class="text-center align-middle"></td>
+                    <td th:text="*{email}" class="text-center align-middle"></td>
+                    <td th:text="*{role}" class="text-center align-middle"></td>
+                    <td th:text="*{enabled}" class="text-center align-middle"></td>
                     <td th:if="${isAuthorizedUserAdmin}" class="text-center align-middle">
-                        <form method="post" th:action="@{/users/{id}/delete(id=${user.id})}">
+                        <form method="post" th:action="@{/users/{id}/delete(id=${userTable.id})}">
                             <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete
                             </button>
                         </form>

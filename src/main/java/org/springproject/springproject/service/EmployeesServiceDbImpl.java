@@ -75,7 +75,9 @@ public class EmployeesServiceDbImpl implements EmployeesService {
     @Override
     public boolean removeEmployeeById(Long id) throws NoSuchEmployeeId {
         if (employeesRepository.existsById(id)) {
+            Long employeeContactId = getEmployeeById(id).getEmployeeContact().getId();
             employeesRepository.deleteById(id);
+            employeeContactService.deleteContactById(employeeContactId);
             return true;
         }
         throw new NoSuchEmployeeId(id.toString());
@@ -102,6 +104,10 @@ public class EmployeesServiceDbImpl implements EmployeesService {
     public Employee updateEmployeeById(Long id, Employee employee) throws NoSuchEmployeeId {
         if (employeesRepository.existsById(id)) {
             employee.setId(id);
+            if (!getEmployeeById(id).getEmployeeContact().equals(employee.getEmployeeContact())) {
+                EmployeeContact updatedEmployeeContact = employeeContactService.updateEmployeeContactById(getEmployeeById(id).getEmployeeContact().getId(), employee.getEmployeeContact());
+                employee.setEmployeeContact(updatedEmployeeContact);
+            }
             return employeesRepository.save(employee);
         }
         throw new NoSuchEmployeeId(id.toString());

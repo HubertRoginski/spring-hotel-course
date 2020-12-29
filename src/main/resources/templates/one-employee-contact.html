@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/one-employee.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/one-employee-contact.css}">
     <meta charset="UTF-8">
-    <title>Employee</title>
+    <title>Employee contact</title>
     <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
@@ -69,8 +69,8 @@
 <div class="content-container">
     <section class="py-5">
         <div class="container text-center">
-            <h1 class="font-weight-light text-light">Employee edit</h1>
-            <p class="lead text-light">Shown is a employee which can be edited.</p>
+            <h1 class="font-weight-light text-light">Employee contact edit</h1>
+            <p class="lead text-light">Shown is a employee contact which can be edited.</p>
         </div>
     </section>
 
@@ -81,35 +81,22 @@
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col" class="text-center">Id</th>
+                    <th scope="col" class="text-center">Contact id</th>
                     <th scope="col" class="text-center">First name</th>
                     <th scope="col" class="text-center">Last name</th>
-                    <th scope="col" class="text-center">Position</th>
-                    <th scope="col" class="text-center">Hire date</th>
-                    <th scope="col" class="text-center">Salary</th>
-                    <th scope="col" class="text-center">Gender</th>
-                    <th scope="col" class="text-center">Is Sick</th>
-                    <th scope="col" class="text-center">Contact</th>
-                    <th scope="col" class="text-center">Delete</th>
+                    <th scope="col" class="text-center">Email</th>
+                    <th scope="col" class="text-center">Phone number</th>
+                    <th scope="col" class="text-center">Address</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:object="${employeeTable}">
-                    <td th:text="*{id}" class="text-center align-middle"></td>
+                    <td th:text="*{employeeContact.id}" class="text-center align-middle"></td>
                     <td th:text="*{firstName}" class="text-center align-middle"></td>
                     <td th:text="*{lastName}" class="text-center align-middle"></td>
-                    <td th:text="*{jobTitle}" class="text-center align-middle"></td>
-                    <td th:text="*{hireDate}" class="text-center align-middle"></td>
-                    <td th:text="*{salary}" class="text-center align-middle"></td>
-                    <td th:text="*{gender}" class="text-center align-middle"></td>
-                    <td th:text="*{sickLeave}" class="text-center align-middle"></td>
-                    <td class="text-center align-middle"><a th:href="@{/employees/__${employee.id}__/contact}" class='btn btn-warning btn-xs'><span
-                            class="fas fa-address-card"></span> Contact</a></td>
-                    <td class="text-center align-middle">
-                        <form method="post" th:action="@{/employees/{id}/delete(id=${employee.id})}">
-                            <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete</button>
-                        </form>
-                    </td>
+                    <td th:text="*{employeeContact.email}" class="text-center align-middle"></td>
+                    <td th:text="*{employeeContact.phoneNumber}" class="text-center align-middle"></td>
+                    <td th:text="*{employeeContact.address}" class="text-center align-middle"></td>
                 </tr>
                 </tbody>
             </table>
@@ -122,77 +109,68 @@
         <div class="row centered-form">
             <div class="panel panel-default form-size">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">Edit employee</h3>
+                    <h3 class="panel-title text-center">Edit employee contact</h3>
                 </div>
                 <div class="panel-body">
-                    <form method="post" th:action="@{/employees/{id}(id=${employee.id})}" th:object="${employee}" role="form">
+                    <form method="post" th:action="@{/employees/{id}/contact(id=${employee.id})}" th:object="${employee}" role="form">
                         <div th:if="${employeesExistsError}" class="input-group alert alert-danger">
                             <div th:text="${employeesExistsError}"></div>
                         </div>
-                        <label>First name:</label>
-                        <div th:if="${#fields.hasErrors('firstName')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" th:field="*{firstName}" name="firstName" class="form-control input-sm"
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${employee.firstName}" name="firstName" class="form-control input-sm"
                                    placeholder="First name">
                         </div>
-                        <label>Last name:</label>
-                        <div th:if="${#fields.hasErrors('lastName')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" th:field="*{lastName}" name="lastName" class="form-control input-sm"
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${employee.lastName}" name="lastName" class="form-control input-sm"
                                    placeholder="Last name">
                         </div>
-                        <label>Job title:</label>
-                        <div th:if="${#fields.hasErrors('jobTitle')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('jobTitle')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" th:field="*{jobTitle}" name="jobTitle" class="form-control input-sm"
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${employee.jobTitle}" name="jobTitle" class="form-control input-sm"
                                    placeholder="Job title">
                         </div>
-                        <label>Hire date:</label>
-                        <div th:if="${#fields.hasErrors('hireDate')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('hireDate')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="date" th:field="*{hireDate}" name="hireDate" class="form-control input-sm"
+                        <div hidden class="form-group">
+                            <input type="date" th:field="${employee.hireDate}" name="hireDate" class="form-control input-sm"
                                    placeholder="hireDate">
                         </div>
-                        <label>Salary:</label>
-                        <div th:if="${#fields.hasErrors('salary')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('salary')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" th:field="*{salary}" name="salary" class="form-control input-sm"
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${employee.salary}" name="salary" class="form-control input-sm"
                                    placeholder="salary">
                         </div>
-                        <label>Gender:</label>
-                        <div th:if="${#fields.hasErrors('gender')}" class="input-group alert alert-danger">
-                            <div th:each="err : ${#fields.errors('gender')}" th:text="${err}"></div>
-                        </div>
-                        <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{gender}">
-                                <option selected="selected" th:value="Male" th:text="Male"></option>
-                                <option th:value="Female" th:text="Female"></option>
-                                <option th:value="Other" th:text="Other"></option>
-                            </select>
-                        </div>
-                        <label>Is sick:</label>
-                        <div class="form-group">
-                            <select class="browser-default custom-select custom-select-lg mb-1" th:field="*{sickLeave}">
-                                <option selected="selected" th:value="false" th:text="No"></option>
-                                <option th:value="true" th:text="Yes"></option>
-                            </select>
-                        </div>
-
                         <div hidden class="form-group">
-                            <input type="text" th:field="${employee.employeeContact}" class="form-control input-sm">
+                            <input type="text" th:field="${employee.gender}" name="gender" class="form-control input-sm"
+                                   placeholder="gender">
+                        </div>
+                        <div hidden class="form-group">
+                            <input type="text" th:field="${employee.sickLeave}" name="sickLeave" class="form-control input-sm"
+                                   placeholder="sickLeave">
                         </div>
 
-                        <input type="submit" value="Update employee" class="btn btn-info btn-block">
+                        <label>Email:</label>
+                        <div th:if="${#fields.hasErrors('employeeContact.email')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('employeeContact.email')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{employeeContact.email}" name="email" class="form-control input-sm"
+                                   placeholder="Email">
+                        </div>
+                        <label>Phone number:</label>
+                        <div th:if="${#fields.hasErrors('employeeContact.phoneNumber')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('employeeContact.phoneNumber')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{employeeContact.phoneNumber}" name="phoneNumber" class="form-control input-sm"
+                                   placeholder="Phone number">
+                        </div>
+                        <label>Address:</label>
+                        <div th:if="${#fields.hasErrors('employeeContact.address')}" class="input-group alert alert-danger">
+                            <div th:each="err : ${#fields.errors('employeeContact.address')}" th:text="${err}"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" th:field="*{employeeContact.address}" name="address" class="form-control input-sm"
+                                   placeholder="address">
+                        </div>
+
+                        <input type="submit" value="Update employee contact" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>

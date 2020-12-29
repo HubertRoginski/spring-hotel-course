@@ -1,5 +1,6 @@
 package org.springproject.springproject.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
+@Slf4j
 public class EmployeesController {
 
     private final EmployeesService employeesService;
@@ -57,17 +59,19 @@ public class EmployeesController {
     }
 
     @GetMapping("/employees/{id}")
-    public String getOneEmployeeById(ModelMap modelMap, @PathVariable Long id, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
+    public String getOneEmployeeById(ModelMap modelMap, @PathVariable Long id) {
         modelMap.addAttribute("employee", employeesService.getEmployeeById(id));
+        modelMap.addAttribute("employeeTable", employeesService.getEmployeeById(id));
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         return "one-employee";
     }
 
     @PostMapping("/employees/{id}")
-    public String updateEmployeeById(@Valid @ModelAttribute("employee") Employee employee, @PathVariable Long id, final Errors errors, ModelMap modelMap) {
+    public String updateEmployeeById(@Valid @ModelAttribute("employee") Employee employee, final Errors errors, @PathVariable Long id, ModelMap modelMap) {
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        modelMap.addAttribute("employeeTable", employeesService.getEmployeeById(id));
         if (errors.hasErrors()) {
             return "one-employee";
         }
@@ -80,6 +84,35 @@ public class EmployeesController {
         }
 
         return "redirect:/employees/" + id;
+    }
+
+    @GetMapping("/employees/{id}/contact")
+    public String getOneEmployeeContact(ModelMap modelMap, @PathVariable Long id) {
+        modelMap.addAttribute("employee", employeesService.getEmployeeById(id));
+        modelMap.addAttribute("employeeTable", employeesService.getEmployeeById(id));
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        return "one-employee-contact";
+    }
+
+    @PostMapping("/employees/{id}/contact")
+    public String updateEmployeeContactById(@Valid @ModelAttribute("employee") Employee employee, final Errors errors, @PathVariable Long id, ModelMap modelMap) {
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        modelMap.addAttribute("employeeTable", employeesService.getEmployeeById(id));
+        if (errors.hasErrors()) {
+            return "one-employee-contact";
+        }
+        log.info("Employee: "+employee.toString());
+        try {
+            Employee updatedEmployee = employeesService.updateEmployeeById(id, employee);
+            log.info("Employee updated: "+updatedEmployee.toString());
+        } catch (NoSuchEmployeeId e) {
+            modelMap.addAttribute("employeesExistsError", "Can't update employee contact.");
+            return "one-employee-contact";
+        }
+
+        return "redirect:/employees/" + id + "/contact";
     }
 
     @PostMapping("/employees/{id}/delete")

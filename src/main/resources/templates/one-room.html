@@ -90,12 +90,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:object="${room}">
-                    <td th:text="${room.id}" class="text-center align-middle"></td>
-                    <td th:text="${room.roomNumber}" class="text-center align-middle"></td>
-                    <td th:text="${room.roomClass}" class="text-center align-middle"></td>
-                    <td th:text="${room.maxPeopleCapacity}" class="text-center align-middle"></td>
-                    <td th:text="${room.oneDayCost}" class="text-center align-middle"></td>
+                <tr th:object="${roomTable}">
+                    <td th:text="*{id}" class="text-center align-middle"></td>
+                    <td th:text="*{roomNumber}" class="text-center align-middle"></td>
+                    <td th:text="*{roomClass}" class="text-center align-middle"></td>
+                    <td th:text="*{maxPeopleCapacity}" class="text-center align-middle"></td>
+                    <td th:text="*{oneDayCost}" class="text-center align-middle"></td>
                     <td class="text-center align-middle">
                         <form method="post" th:action="@{/rooms/{id}/delete(id=${room.id})}">
                             <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete

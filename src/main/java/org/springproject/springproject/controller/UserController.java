@@ -61,6 +61,7 @@ public class UserController {
     @GetMapping("/users/{id}")
     public String getOneUserById(ModelMap modelMap, @PathVariable Long id, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
         modelMap.addAttribute("user", userService.getUserById(id));
+        modelMap.addAttribute("userTable", userService.getUserById(id));
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         boolean isAuthorizedUserAdmin = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
@@ -69,9 +70,10 @@ public class UserController {
     }
 
     @PostMapping("/users/{id}")
-    public String updateUserById(@Valid @ModelAttribute("user") User user, @PathVariable Long id, final Errors errors, ModelMap modelMap) {
+    public String updateUserById(@Valid @ModelAttribute("user") User user, final Errors errors, @PathVariable Long id, ModelMap modelMap) {
         modelMap.addAttribute("isUserLogged", true);
         modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        modelMap.addAttribute("userTable", userService.getUserById(id));
         if (errors.hasErrors()) {
             return "one-user";
         }

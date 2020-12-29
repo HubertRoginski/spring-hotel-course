@@ -19,8 +19,8 @@ public class EmployeeContact {
     @GeneratedValue
     private Long id;
 
-    @Email(message = "an example email address is example@gmail.com")
-    @Size(min = 1,message = "email field cannot be empty")
+    @Email(message = "An example email address is example@gmail.com")
+    @Size(min = 1,message = "Email field cannot be empty")
     @NotNull(message = "Email cannot be empty")
     private String email;
 
@@ -28,7 +28,7 @@ public class EmployeeContact {
     @NotNull(message = "Phone number cannot be empty")
     private String phoneNumber;
 
-    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-. ]+", message = "Address can only consist of letters, numbers ,spaces, dashes and dots")
+    @Pattern(regexp = "[\\p{IsAlphabetic}[0-9]-.' ]+", message = "Address can only consist of letters, numbers, apostrophes, spaces, dashes and dots")
     @NotNull(message = "Address cannot be empty")
     private String address;
 
@@ -36,4 +36,13 @@ public class EmployeeContact {
     @Getter(value=AccessLevel.NONE)
     private Employee employee;
 
+    @Override
+    public String toString() {
+        return "EmployeeContact{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }
