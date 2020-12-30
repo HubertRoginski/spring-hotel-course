@@ -62,6 +62,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         return null;
     }
 
+
     @Override
     public Page<User> getAllUsers(Integer page, Integer size) {
         if (Objects.isNull(page)) {
@@ -74,9 +75,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
             throw new WrongPageException("Page number can't be less than 1");
         }
         Pageable pageable = PageRequest.of(page, size);
-        Page<User> users = userRepository.findAll(pageable);
-//        users.forEach(user -> user.setPassword(null));
-        return users;
+        return userRepository.findAll(pageable);
     }
 
     @Override

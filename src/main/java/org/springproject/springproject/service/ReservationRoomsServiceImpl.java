@@ -42,7 +42,6 @@ public class ReservationRoomsServiceImpl implements ReservationRoomsService {
                 .forEach(allRooms::remove);
 
         allRooms.sort(Comparator.comparing(Room::getRoomNumber));
-        log.info("Wykonanie getAllAvailableRooms");
         return allRooms;
     }
 }

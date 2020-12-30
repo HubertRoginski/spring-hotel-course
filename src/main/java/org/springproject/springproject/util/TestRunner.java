@@ -9,22 +9,22 @@ import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.UserRepository;
 import org.springproject.springproject.service.CustomerService;
+import org.springproject.springproject.service.UserService;
 
 import java.util.Objects;
 
 @Component
 @Slf4j
-//@Profile("dev-test")
 public class TestRunner implements CommandLineRunner {
 
-    private final HotelCustomerConfig hotelCustomerConfig;
-    private final CustomerService customerService;
+
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public TestRunner( HotelCustomerConfig hotelCustomerConfig, CustomerService customerService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.hotelCustomerConfig = hotelCustomerConfig;
-        this.customerService = customerService;
+
+
+    public TestRunner(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
