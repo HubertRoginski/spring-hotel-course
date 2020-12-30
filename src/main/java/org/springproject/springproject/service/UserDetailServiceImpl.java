@@ -62,6 +62,12 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         return null;
     }
 
+    @Override
+    public List<User> createBatchOfUsers(List<User> users) {
+        users.forEach(this::createNewUser);
+        return users;
+    }
+
 
     @Override
     public Page<User> getAllUsers(Integer page, Integer size) {

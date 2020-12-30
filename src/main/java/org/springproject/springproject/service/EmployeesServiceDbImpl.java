@@ -92,10 +92,11 @@ public class EmployeesServiceDbImpl implements EmployeesService {
 
     @Override
     public List<Employee> createBatchOfEmployees(List<Employee> employees) {
-        employees.forEach((personnel) -> {
-                EmployeeContact employeeContact = employeeContactService.addEmployeeContact(personnel.getEmployeeContact());
-                personnel.setEmployeeContact(employeeContact);
-                employeesRepository.save(personnel);
+        employees.forEach((employee) -> {
+            log.info("Created EMPLOYEE: "+employee.toString());
+                EmployeeContact employeeContact = employeeContactService.addEmployeeContact(employee.getEmployeeContact());
+                employee.setEmployeeContact(employeeContact);
+                employeesRepository.save(employee);
         });
         return employees;
     }

@@ -9,6 +9,8 @@ public interface UserService {
 
     User createNewUser(User user);
 
+    List<User> createBatchOfUsers(List<User> users);
+
     Page<User> getAllUsers(Integer page, Integer size);
 
     User getUserById(Long id);
