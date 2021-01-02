@@ -284,39 +284,43 @@
                 <div class="panel-body">
                     <form method="post" th:action="@{/reservations/create-customer}" th:object="${customer}"
                           role="form">
+                        <label>First name:</label>
                         <div th:if="${#fields.hasErrors('firstName')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
                             <input type="text" th:field="*{firstName}" name="firstName"
                                    class="form-control input-sm"
-                                   placeholder="firstName">
+                                   placeholder="First name">
                         </div>
+                        <label>Last name:</label>
                         <div th:if="${#fields.hasErrors('lastName')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
                             <input type="text" th:field="*{lastName}" name="lastName"
                                    class="form-control input-sm"
-                                   placeholder="lastName">
+                                   placeholder="Last name">
                         </div>
+                        <label>Address:</label>
                         <div th:if="${#fields.hasErrors('address')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
                             <input type="text" th:field="*{address}" name="address"
                                    class="form-control input-sm"
-                                   placeholder="address">
+                                   placeholder="Address">
                         </div>
+                        <label>Phone number:</label>
                         <div th:if="${#fields.hasErrors('phoneNumber')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
                             <input type="text" th:field="*{phoneNumber}" name="phoneNumber"
                                    class="form-control input-sm"
-                                   placeholder="phoneNumber">
+                                   placeholder="Phone number">
                         </div>
-                        <input type="submit" value="Add customer" class="btn btn-info btn-block">
+                        <input type="submit" value="Add new customer account" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>

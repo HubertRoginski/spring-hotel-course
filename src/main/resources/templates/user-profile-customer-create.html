@@ -4,10 +4,11 @@
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/user-profile-customer.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/user-profile-customer-create.css}">
     <meta charset="UTF-8">
-    <title>Customer profile</title>
+    <title>Add customer</title>
     <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
@@ -63,63 +64,23 @@
         </div>
     </div>
 </nav>
-
-
-
-<div class="content-container">
-    <section class="py-5">
-        <div class="container text-center">
-            <h1 class="font-weight-light text-light">Customer edit</h1>
-            <p class="lead text-light">Shown is a customer which can be edited.</p>
-        </div>
-    </section>
-
-
-    <div class="card my-3 w-75 rounded">
-
-        <div class="card-body">
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col" class="text-center">Id</th>
-                    <th scope="col" class="text-center">First name</th>
-                    <th scope="col" class="text-center">Last name</th>
-                    <th scope="col" class="text-center">Address</th>
-                    <th scope="col" class="text-center">Phone number</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:object="${customerTable}">
-                    <td th:text="*{id}" class="text-center align-middle"></td>
-                    <td th:text="*{firstName}" class="text-center align-middle"></td>
-                    <td th:text="*{lastName}" class="text-center align-middle"></td>
-                    <td th:text="*{address}" class="text-center align-middle"></td>
-                    <td th:text="*{phoneNumber}" class="text-center align-middle"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-</div>
 <div class="all-form-container">
     <div class="container-form">
         <div class="row centered-form">
             <div class="panel panel-default form-size">
                 <div class="panel-heading">
-                    <h3 class="panel-title text-center">Edit customer</h3>
+                    <h3 class="panel-title text-center">Add new customer account</h3>
                 </div>
                 <div class="panel-body">
-                    <form method="post" th:action="@{/user/profile/customer/{id}(id=${customer.id})}" th:object="${customer}" role="form">
-                        <div th:if="${customerExistsError}" class="input-group alert alert-danger">
-                            <div th:text="${customerExistsError}"></div>
-                        </div>
+                    <form method="post" th:action="@{/user/profile/customer/create}" th:object="${createdCustomer}"
+                          role="form">
                         <label>First name:</label>
                         <div th:if="${#fields.hasErrors('firstName')}" class="input-group alert alert-danger">
                             <div th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" th:field="*{firstName}" name="firstName" class="form-control input-sm"
+                            <input type="text" th:field="*{firstName}" name="firstName"
+                                   class="form-control input-sm"
                                    placeholder="First name">
                         </div>
                         <label>Last name:</label>
@@ -127,7 +88,8 @@
                             <div th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" th:field="*{lastName}" name="lastName" class="form-control input-sm"
+                            <input type="text" th:field="*{lastName}" name="lastName"
+                                   class="form-control input-sm"
                                    placeholder="Last name">
                         </div>
                         <label>Address:</label>
@@ -135,7 +97,8 @@
                             <div th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" th:field="*{address}" name="address" class="form-control input-sm"
+                            <input type="text" th:field="*{address}" name="address"
+                                   class="form-control input-sm"
                                    placeholder="Address">
                         </div>
                         <label>Phone number:</label>
@@ -143,17 +106,17 @@
                             <div th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" th:field="*{phoneNumber}" name="phoneNumber" class="form-control input-sm"
+                            <input type="text" th:field="*{phoneNumber}" name="phoneNumber"
+                                   class="form-control input-sm"
                                    placeholder="Phone number">
                         </div>
-                        <input type="submit" value="Update customer account" class="btn btn-info btn-block">
+                        <input type="submit" value="Add new customer account" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 </body>
 </html>

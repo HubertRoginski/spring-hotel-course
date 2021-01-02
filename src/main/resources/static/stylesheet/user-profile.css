@@ -39,3 +39,8 @@ body {
 .card{
     min-width: 800px;
 }
+.create-new-customer-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

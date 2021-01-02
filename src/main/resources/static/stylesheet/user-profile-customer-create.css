@@ -1,0 +1,25 @@
+body{
+    background-image: url(../images/backgrounds/user-profile-customer-background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+.centered-form{
+    margin-top: 60px;
+}
+.centered-form .panel{
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+.form-size{
+    width: 500px;
+    padding: 25px 30px 25px 30px;
+}
+.all-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
