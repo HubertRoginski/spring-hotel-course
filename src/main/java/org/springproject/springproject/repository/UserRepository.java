@@ -22,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT u FROM users u where u.username = :usernameOrEmail or u.email = :usernameOrEmail",nativeQuery = false)
     User findByUsernameAndEmail(@Param("usernameOrEmail") String usernameOrEmail);
+
+    User findByCustomer_Id(Long customerId);
 }

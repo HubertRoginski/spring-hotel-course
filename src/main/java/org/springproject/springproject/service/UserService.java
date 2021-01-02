@@ -24,4 +24,6 @@ public interface UserService {
     List<User> getUsersWithoutCustomerAccount();
 
     User getByUsernameOrEmail(String usernameOrEmail);
+
+    User getUserByCustomerId(Long customerId);
 }

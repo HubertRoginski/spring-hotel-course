@@ -61,15 +61,25 @@ public class CustomerController {
     @GetMapping("/customers/{id}")
     public String customerWithId(ModelMap modelMap, @PathVariable Long id){
         modelMap.addAttribute("customer", customerService.getCustomerById(id));
+        modelMap.addAttribute("customerTable", customerService.getCustomerById(id));
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
         return "one-customer";
     }
 
     @PostMapping("/customers/{id}")
-    public String updateCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, @PathVariable Long id){
+    public String updateCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, @PathVariable Long id, ModelMap modelMap){
+        modelMap.addAttribute("isUserLogged", true);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        modelMap.addAttribute("customerTable", customerService.getCustomerById(id));
         if (errors.hasErrors()){
             return "one-customer";
         }
-        customerService.updateCustomerById(id,customer);
+        Customer updatedCustomer = customerService.updateCustomerById(id, customer);
+        if (Objects.isNull(updatedCustomer)) {
+            modelMap.addAttribute("customerExistsError","Can't update customer, because that customer don't exist.");
+            return "one-customer";
+        }
         return "redirect:/customers/"+id;
     }
 

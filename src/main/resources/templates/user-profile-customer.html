@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/one-customer.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/user-profile-customer.css}">
     <meta charset="UTF-8">
-    <title>Customer</title>
+    <title>Customer profile</title>
     <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
 </head>
 <body>
@@ -34,7 +34,7 @@
                     <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list" style="color: rgba(255,255,255,.75);"></span> Reservations</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
+                    <a class="nav-link active" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile<span class="sr-only">(current)</span></a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
                     <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
@@ -45,9 +45,9 @@
                         Employees</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link active" th:href="@{/customers}"><span class="fa fa-user-tag"
+                    <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"
                                                                       style="color: rgba(255,255,255,.75);"></span>
-                        Customers<span class="sr-only">(current)</span></a>
+                        Customers</a>
                 </li>
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
                     <a class="nav-link" th:href="@{/rooms}"><span class="fa fa-bed"
@@ -117,7 +117,7 @@
                     <h3 class="panel-title text-center">Edit customer</h3>
                 </div>
                 <div class="panel-body">
-                    <form method="post" th:action="@{/customers/{id}(id=${customer.id})}" th:object="${customer}" role="form">
+                    <form method="post" th:action="@{/user/profile/customer/{id}(id=${customer.id})}" th:object="${customer}" role="form">
                         <div th:if="${customerExistsError}" class="input-group alert alert-danger">
                             <div th:text="${customerExistsError}"></div>
                         </div>
@@ -153,7 +153,7 @@
                             <input type="text" th:field="*{phoneNumber}" name="phoneNumber" class="form-control input-sm"
                                    placeholder="Phone number">
                         </div>
-                        <input type="submit" value="Update customer" class="btn btn-info btn-block">
+                        <input type="submit" value="Update customer account" class="btn btn-info btn-block">
                     </form>
                 </div>
             </div>

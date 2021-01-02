@@ -143,4 +143,9 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
     public User getByUsernameOrEmail(String usernameOrEmail) {
         return userRepository.findByUsernameAndEmail(usernameOrEmail);
     }
+
+    @Override
+    public User getUserByCustomerId(Long customerId) {
+        return userRepository.findByCustomer_Id(customerId);
+    }
 }

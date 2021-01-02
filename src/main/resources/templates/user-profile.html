@@ -200,6 +200,7 @@
                     <th scope="col" class="text-center">Last name</th>
                     <th scope="col" class="text-center">Address</th>
                     <th scope="col" class="text-center">Phone number</th>
+                    <th scope="col" class="text-center">Edit</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -209,6 +210,9 @@
                     <td th:text="${user.customer.lastName}" class="text-center align-middle"></td>
                     <td th:text="${user.customer.address}" class="text-center align-middle"></td>
                     <td th:text="${user.customer.phoneNumber}" class="text-center align-middle"></td>
+                    <td class="text-center align-middle">
+                        <a th:href="@{/user/profile/customer/__${user.customer.id}__}" class='btn btn-info btn-xs'><span class="fas fa-user-edit"></span> Edit</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

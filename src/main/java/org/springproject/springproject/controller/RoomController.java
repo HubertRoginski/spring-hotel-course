@@ -66,7 +66,7 @@ public class RoomController {
         }
         Room updatedRoom = roomService.updateRoomById(id, room);
         if (Objects.isNull(updatedRoom)) {
-            modelMap.addAttribute("roomExistsError","Can't create new room, because that room number already exist.");
+            modelMap.addAttribute("roomExistsError","Can't update room, because that room number already exist.");
             return "one-room";
         }
         return "redirect:/rooms/" + id;

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
 .carousel-item {
     height: 65vh;
     min-height: 350px;
@@ -23,3 +25,22 @@
     background: black;
     padding: 6px;
 }
+.navbar{
+    font-family: 'Numans', sans-serif;
+}
+.navbar-logo{
+    width: 28px;
+}
+
+/*@media (min-width: 992px) {*/
+/*    .navbar-expand-lg {*/
+/*        -webkit-box-orient: horizontal;*/
+/*        -webkit-box-direction: normal;*/
+/*        -ms-flex-flow: row nowrap;*/
+/*        flex-flow: row nowrap;*/
+/*        -webkit-box-pack: start;*/
+/*        -ms-flex-pack: start;*/
+/*        justify-content: flex-start;*/
+/*        height: 60px;*/
+/*    }*/
+/*}*/
