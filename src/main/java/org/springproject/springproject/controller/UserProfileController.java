@@ -50,7 +50,7 @@ public class UserProfileController {
         modelMap.addAttribute("user",user);
         log.info("USER: "+user.toString());
 
-        modelMap.addAttribute("currentReservations", reservationService.getCurrentReservations(user));
+        modelMap.addAttribute("currentReservations", reservationService.getCurrentReservationsOfUser(user));
 
 
         return "user-profile";

@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/users/{id}")
                 .hasRole("ADMIN")
-                .antMatchers("/users/**","/employees/**","/customers/**","/rooms/**")
+                .antMatchers("/users/**","/employees/**","/customers/**","/rooms/**","/reservations/management/**")
                 .hasAnyRole("ADMIN","MANAGER")
                 .antMatchers("/user/**","/reservations/**")
                 .hasAnyRole("ADMIN","MANAGER","USER")

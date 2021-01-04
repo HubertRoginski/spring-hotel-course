@@ -1,0 +1,58 @@
+body {
+    background-image: url(../images/backgrounds/reservations-management-old-background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.btn{
+    padding: .675rem .95rem;
+}
+
+.centered-form{
+    margin-top: 60px;
+}
+.content-container{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.centered-form .panel{
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+.form-size{
+    width: 500px;
+    padding: 25px 30px 25px 30px;
+}
+.all-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.card{
+    min-width: 950px;
+}
+
+.card-body{
+    padding: 0.30rem;
+}
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.form-control {
+    height: auto !important;
+}
+.header-buttons{
+    width: 105px;
+    height: 48px;
+}
+.header-buttons-add{
+    width: 135px;
+    height: 48px;
+}

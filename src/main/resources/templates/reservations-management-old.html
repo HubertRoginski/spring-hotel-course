@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/reservations-management-old.css}">
+
+    <meta charset="UTF-8">
+    <title>Old reservations</title>
+    <link rel="shortcut icon" th:href="@{/images/icons/favicon.ico}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Zoza Hotel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/}"><span class="fas fa-home" style="color: rgba(255,255,255,.75);"></span> Home</a>
+                </li>
+                <li th:if="${!isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt" style="color: rgba(255,255,255,.75);"></span> Login</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link active" th:href="@{/reservations}"><span class="fas fa-clipboard-list" style="color: rgba(255,255,255,.75);"></span> Reservations<span class="sr-only">(current)</span></a>
+                </li>
+                <li th:if="${isUserLogged}" class="nav-item">
+                    <a class="nav-link " th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
+                </li>
+                <li th:if="${!isUserLogged}" class="nav-item">
+                    <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/employees}"><span class="fa fa-user-tie"
+                                                                      style="color: rgba(255,255,255,.75);"></span>
+                        Employees</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"
+                                                                      style="color: rgba(255,255,255,.75);"></span>
+                        Customers</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/rooms}"><span class="fa fa-bed"
+                                                                      style="color: rgba(255,255,255,.75);"></span>
+                        Rooms</a>
+                </li>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
+                    <a class="nav-link" th:href="@{/users}"><span class="fa fa-users"
+                                                                  style="color: rgba(255,255,255,.75);"></span>
+                        Users</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="content-container">
+    <section class="py-5">
+        <div class="container text-center">
+            <h1 class="font-weight-light text-light">Current reservations list</h1>
+            <p class="lead text-light">Shown is a list of current reservations in the Zoza Hotel.</p>
+        </div>
+    </section>
+
+
+    <div class="card my-3 w-75 rounded">
+        <div class="card-header">
+            <div class="dropdown">
+                <button class="btn btn-primary btn-sm dropdown-toggle header-buttons"
+                        th:text="'Size: ' +${oldReservationsPage.size}" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" th:href="@{/reservations/management/old-reservations(size=5, page=1)}">5</a>
+                    <a class="dropdown-item" th:href="@{/reservations/management/old-reservations(size=10, page=1)}">10</a>
+                    <a class="dropdown-item" th:href="@{/reservations/management/old-reservations(size=20, page=1)}">20</a>
+                </div>
+            </div>
+            <a th:href="@{/reservations/management/current-reservations}" class='btn btn-dark btn-xs'><span class="fas fa-hourglass-half"></span> Current reservations</a>
+            <a th:href="@{/reservations/management/future-reservations}" class='btn btn-dark btn-xs'><span class="fas fa-hourglass-start"></span> Future reservations</a>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Reservation id</th>
+                    <th scope="col" class="text-center">Start of booking [yyyy-mm-dd]</th>
+                    <th scope="col" class="text-center">End of booking [yyyy-mm-dd]</th>
+                    <th scope="col" class="text-center">Rooms details</th>
+                    <th scope="col" class="text-center">Cost [$]</th>
+                    <th scope="col" class="text-center">First name</th>
+                    <th scope="col" class="text-center">Last name</th>
+                    <th scope="col" class="text-center">Phone number</th>
+                    <th scope="col" class="text-center">Email</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="oldReservationManagement : ${oldReservationsManagement}">
+                    <td th:text="${oldReservationManagement.reservation.id}" class="text-center align-middle"></td>
+                    <td th:text="${oldReservationManagement.reservation.startOfBooking}" class="text-center align-middle"></td>
+                    <td th:text="${oldReservationManagement.reservation.endOfBooking}" class="text-center align-middle"></td>
+                    <td class="text-center align-middle">
+                        <p th:each="room : ${oldReservationManagement.reservation.rooms}"
+                           th:text="'No.: '+ ${room.roomNumber} + ', class: ' +${room.roomClass}+', one day cost: '+${room.oneDayCost}+', max people: '+${room.maxPeopleCapacity}+'; '"></p>
+                    </td>
+                    <td th:text="${oldReservationManagement.reservation.cost}" class="text-center align-middle"></td>
+                    <td th:text="${oldReservationManagement.customer.firstName}" class="text-center align-middle"></td>
+                    <td th:text="${oldReservationManagement.customer.lastName}" class="text-center align-middle"></td>
+                    <td th:text="${oldReservationManagement.customer.phoneNumber}" class="text-center align-middle"></td>
+                    <td th:text="${oldReservationManagement.user.email}" class="text-center align-middle"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ul class="pagination justify-content-center">
+            <li class="page-item " th:classappend="${oldReservationsPage.first} ? disabled">
+                <a class="page-link"
+                   th:href="@{/reservations/management/old-reservations(size=${oldReservationsPage.size}, page=${oldReservationsPage.number})}"
+                   tabindex="-1">Previous</a>
+            </li>
+            <ul th:if="${oldReservationsPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}" class="pagination">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:href="@{/reservations/management/old-reservations(size=${oldReservationsPage.size}, page=${pageNumber})}"
+                       th:classappend="${pageNumber == oldReservationsPage.number + 1} ? active" th:text="${pageNumber}"></a></li>
+            </ul>
+            <li class="page-item" th:classappend="${oldReservationsPage.last} ? disabled">
+                <a class="page-link"
+                   th:href="@{/reservations/management/old-reservations(size=${oldReservationsPage.size}, page=${oldReservationsPage.number+2})}">Next</a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="/webjars/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -77,8 +77,26 @@
     </div>
 </nav>
 
+<div class="all-form-container">
 
-<div th:if="${isCustomerExists}" class="all-form-container">
+<div th:if="${isAuthorizedUserAdminOrManager}" class="content-container">
+    <div class="container-form">
+        <div class="row centered-form">
+            <div class="panel panel-default form-size">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">Reservations management</h3>
+                </div>
+                <div class="panel-body reservation-management-btn">
+                    <a th:href="@{/reservations/management/current-reservations}" class='btn btn-dark btn-xs'><span class="fas fa-hourglass-half"></span> Current reservations</a>
+                    <a th:href="@{/reservations/management/future-reservations}" class='btn btn-dark btn-xs'><span class="fas fa-hourglass-start"></span> Future reservations</a>
+                    <a th:href="@{/reservations/management/old-reservations}" class='btn btn-dark btn-xs'><span class="fas fa-hourglass-end"></span> Old reservations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${isCustomerExists}" class="content-container">
     <div class="container-form">
         <div class="row centered-form">
             <div class="panel panel-default form-size">
@@ -152,8 +170,8 @@
                             </div>
                         </div>
 
-                        <a th:href="@{/reservations}" class='btn btn-dark btn-block'>Back to select date</a>
-                        <input type="submit" value="Add reservation" class="btn btn-info btn-block">
+                        <a th:href="@{/reservations}" class='btn btn-warning btn-block'>Back to select date</a>
+                        <input type="submit" value="Add reservation" class="btn btn-success btn-block">
                     </form>
                 </div>
             </div>
@@ -167,7 +185,7 @@
             <h1 class="font-weight-light text-light">Current reservations</h1>
         </div>
     </section>
-    <div class="card my-3 w-75 rounded">
+    <div class="card my-3 w-100 rounded">
         <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
@@ -202,7 +220,7 @@
             <h1 class="font-weight-light text-light">Future reservations</h1>
         </div>
     </section>
-    <div class="card my-3 w-75 rounded">
+    <div class="card my-3 w-100 rounded">
         <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
@@ -245,7 +263,7 @@
             <h1 class="font-weight-light text-light">Old reservations</h1>
         </div>
     </section>
-    <div class="card my-3 w-75 rounded">
+    <div class="card my-3 w-100 rounded">
         <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
@@ -274,7 +292,7 @@
     </div>
 </div>
 
-<div th:if="${!isCustomerExists}" class="all-form-container">
+<div th:if="${!isCustomerExists}" class="content-container">
     <div class="container-form">
         <div class="row centered-form">
             <div class="panel panel-default form-size">
@@ -327,7 +345,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

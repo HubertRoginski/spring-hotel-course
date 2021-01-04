@@ -10,13 +10,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springproject.springproject.exception.WrongPageException;
 import org.springproject.springproject.model.Customer;
+import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.repository.CustomerRepository;
 
 import java.util.List;
 import java.util.Objects;
 
-@Profile("!old")
+
 @Service
 @Scope("prototype")
 @Slf4j
@@ -57,6 +58,19 @@ public class CustomerServiceDbImpl implements CustomerService{
         Sort sort = Sort.by("id").ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
         return customerRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Customer> getAllCustomersList() {
+        return customerRepository.findAll();
+    }
+
+    @Override
+    public Customer getCustomerByReservation(Reservation reservation) {
+        if (Objects.nonNull(reservation)) {
+            return customerRepository.findCustomerByReservationsContains(reservation);
+        }
+        return null;
     }
 
     @Override

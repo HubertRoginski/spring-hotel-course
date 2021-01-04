@@ -1,5 +1,6 @@
 package org.springproject.springproject.service;
 
+import org.springframework.data.domain.Page;
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.User;
@@ -12,14 +13,20 @@ public interface ReservationService {
 
     Boolean deleteReservationById(Long id);
 
-    List<Reservation> getCurrentReservations(User user);
+    Page<Reservation> getCurrentReservations(Integer page, Integer size);
 
-    List<Reservation> getOldReservations(User user);
+    Page<Reservation> getFutureReservations(Integer page, Integer size);
 
-    List<Reservation> getFutureReservations(User user);
+    Page<Reservation> getOldReservations(Integer page, Integer size);
+
+    List<Reservation> getCurrentReservationsOfUser(User user);
+
+    List<Reservation> getOldReservationsOfUser(User user);
+
+    List<Reservation> getFutureReservationsOfUser(User user);
 
     List<Reservation> getAllCurrentAndFutureReservations();
 
-    boolean isDataValid(Reservation reservation);
+    boolean isDateValid(Reservation reservation);
 
 }
