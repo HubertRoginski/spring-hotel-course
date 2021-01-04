@@ -5,6 +5,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.ReservationsManagement;
@@ -78,6 +80,24 @@ public class ReservationsManagementController {
         return "reservations-management-old";
     }
 
+    @PostMapping("/reservations/management/current-reservations/{id}/delete")
+    public String deleteCurrentReservationById(@PathVariable(name = "id") Long id) {
+        reservationService.deleteReservationById(id);
+        return "redirect:/reservations/management/current-reservations";
+    }
+
+    @PostMapping("/reservations/management/future-reservations/{id}/delete")
+    public String deleteFutureReservationById(@PathVariable(name = "id") Long id) {
+        reservationService.deleteReservationById(id);
+        return "redirect:/reservations/management/future-reservations";
+    }
+
+    @PostMapping("/reservations/management/old-reservations/{id}/delete")
+    public String deleteOldReservationById(@PathVariable(name = "id") Long id) {
+        reservationService.deleteReservationById(id);
+        return "redirect:/reservations/management/old-reservations";
+    }
+
     private void getPageNumbers(ModelMap modelMap, Integer page, int totalPages) {
         if (totalPages > 0) {
             int pageOffset = 2;
@@ -88,4 +108,6 @@ public class ReservationsManagementController {
             modelMap.addAttribute("pageNumbers", pageNumbers);
         }
     }
+
+
 }

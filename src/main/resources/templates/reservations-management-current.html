@@ -103,6 +103,7 @@
                     <th scope="col" class="text-center">Last name</th>
                     <th scope="col" class="text-center">Phone number</th>
                     <th scope="col" class="text-center">Email</th>
+                    <th scope="col" class="text-center">Delete</th>
 
                 </tr>
                 </thead>
@@ -120,6 +121,13 @@
                     <td th:text="${currentReservationManagement.customer.lastName}" class="text-center align-middle"></td>
                     <td th:text="${currentReservationManagement.customer.phoneNumber}" class="text-center align-middle"></td>
                     <td th:text="${currentReservationManagement.user.email}" class="text-center align-middle"></td>
+                    <td class="text-center align-middle">
+                        <form method="post" th:action="@{/reservations/management/current-reservations/{id}/delete(id=${currentReservationManagement.reservation.id})}">
+                            <button type="submit" class="btn btn-danger"><span class="fas fa-clipboard-list"></span>-
+                                Delete
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>
