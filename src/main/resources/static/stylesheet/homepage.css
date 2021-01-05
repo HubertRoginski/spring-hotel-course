@@ -32,8 +32,19 @@
     padding: 6px;
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 57px calc(100% - 230px) 173px;
+    grid-template-areas: "navbar"
+                        "content"
+                        "footer";
+}
+
 .navbar {
     font-family: 'Numans', sans-serif;
+    grid-area: navbar;
+    font-size: 18px;
 }
 
 .navbar-logo {
@@ -64,8 +75,8 @@
 }
 
 .content-container {
-    margin-top: 50px;
-    height: 100vh;
+    height: 100%;
+    grid-area: content;
 }
 
 .register-now-link {
@@ -88,6 +99,7 @@ footer {
     background-color: rgb(52, 58, 64);
     min-height: 140px;
     padding: 10px 0 10px 0;
+    grid-area: footer;
 }
 
 .footer-text-center {

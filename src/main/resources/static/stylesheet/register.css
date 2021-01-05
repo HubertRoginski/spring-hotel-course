@@ -1,13 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html, body {
-    background-image: url(../images/backgrounds/register-background.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100vh;
+    min-height: 100vh;
     font-family: 'Numans', sans-serif;
 }
-
+.grid-container {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 57px calc(100% - 230px) 173px;
+    grid-template-areas: "navbar"
+                        "content"
+                        "footer";
+}
 .dropdown-menu {
     background-color: #343a40;
 }
@@ -27,6 +31,8 @@ html, body {
 
 .navbar {
     font-family: 'Numans', sans-serif;
+    grid-area: navbar;
+    font-size: 18px;
 }
 
 .navbar-logo {
@@ -45,15 +51,19 @@ html, body {
 }
 
 .content-container {
-    margin-top: 50px;
-    height: 100vh;
+    height: calc(100vh - 230px);
+    min-height: 750px;
+    grid-area: content;
+    background-image: url(../images/backgrounds/register-background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .card {
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
-    background-color: rgba(0, 0, 0, 0.6) !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
 .card-header h3 {
@@ -109,18 +119,23 @@ input:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(66, 128, 210, 0.8);
 }
 
 .card-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(66, 128, 210, 0.8);
 }
+.card-footer .links a:hover{
+    text-decoration: none;
+}
+
 /*footer*/
 footer {
     width: 100%;
     background-color: rgb(52, 58, 64);
     min-height: 140px;
     padding: 10px 0 10px 0;
+    grid-area: footer;
 }
 
 .footer-text-center {
@@ -162,13 +177,18 @@ footer {
     border-radius: 50%;
     margin: 2px 5px 0 5px;
 }
+
 .social_footer_ul a:hover {
     background-color: rgba(255, 255, 255, 0.08);
 }
+
 .social_footer_ul a i {
     font-size: 32px;
     text-align: center;
 }
+
 .social_footer_ul a i:hover {
     color: white;
 }
+
+

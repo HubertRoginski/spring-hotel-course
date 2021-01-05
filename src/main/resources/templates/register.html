@@ -20,6 +20,7 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
+<div class="grid-container">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" th:href="@{/}">Zoza Hotel <img class="navbar-logo" th:src="@{/images/navbar/zozaHotelLogo.png}" alt=""></a>
@@ -124,20 +125,21 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container">
-            <div class="social_footer_ul">
-                <a href="https://github.com/HubertRoginski/zoza-hotel" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/hubert-rogiński-082509184" target="_blank"><i class="fab fa-linkedin"></i></a>
-            </div>
-            <ul class="footer_bottom_ul_amrc">
-                <li><a th:href="@{/}">Home</a></li>
-                <li><a th:href="@{/about}">About</a></li>
-                <li><a th:href="@{/contact}">Contact</a></li>
-            </ul>
-            <p class="footer-text-center">Copyright @2021 | Designed With by <a href="https://github.com/HubertRoginski" target="_blank"><b>Hubert Rogiński</b></a></p>
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="social_footer_ul">
+            <a href="https://github.com/HubertRoginski/zoza-hotel" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/hubert-rogiński-082509184" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
-    </footer>
+        <ul class="footer_bottom_ul_amrc">
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/about}">About</a></li>
+            <li><a th:href="@{/contact}">Contact</a></li>
+        </ul>
+        <p class="footer-text-center">Copyright @2021 | Designed With by <a href="https://github.com/HubertRoginski" target="_blank"><b>Hubert Rogiński</b></a></p>
+    </div>
+</footer>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script th:src="@{/scripts/register.js}"></script>
