@@ -6,7 +6,6 @@
     <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/stylesheet/homepage.css}">
     <meta charset="UTF-8">
     <title>Zoza Hotel</title>
@@ -31,48 +30,42 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item ">
-                    <a class="nav-link active" th:href="@{/}"><span class="fas fa-home" style="color: rgba(255,255,255,.75);"></span> Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" th:href="@{/}"><span class="fas fa-home nav-menu-icons"></span> Home</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt" style="color: rgba(255,255,255,.75);"></span> Login</a>
+                    <a class="nav-link" th:href="@{/login}"><span class="fas fa-sign-in-alt nav-menu-icons"></span> Login</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt" style="color: rgba(255,255,255,.75);"></span> Logout</a>
+                    <a class="nav-link" th:href="@{/logout}"><span class="fas fa-sign-out-alt nav-menu-icons"></span> Logout</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list" style="color: rgba(255,255,255,.75);"></span> Reservations</a>
+                    <a class="nav-link" th:href="@{/reservations}"><span class="fas fa-clipboard-list nav-menu-icons"></span> Reservations</a>
                 </li>
                 <li th:if="${isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user" style="color: rgba(255,255,255,.75);"></span> Profile</a>
+                    <a class="nav-link" th:href="@{/user/profile}"><span class="fas fa-user-cog nav-menu-icons"></span> Profile</a>
                 </li>
                 <li th:if="${!isUserLogged}" class="nav-item">
-                    <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus" style="color: rgba(255,255,255,.75);"></span> Register</a>
+                    <a class="nav-link" th:href="@{/register}"><span class="fas fa-user-plus nav-menu-icons"></span> Register</a>
                 </li>
-                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/employees}"><span class="fa fa-user-tie"
-                                                                      style="color: rgba(255,255,255,.75);"></span>
-                        Employees</a>
-                </li>
-                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/customers}"><span class="fa fa-user-tag"
-                                                                     style="color: rgba(255,255,255,.75);"></span>
-                        Customers</a>
-                </li>
-                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/rooms}"><span class="fa fa-bed"
-                                                                  style="color: rgba(255,255,255,.75);"></span>
-                        Rooms</a>
-                </li>
-                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item">
-                    <a class="nav-link" th:href="@{/users}"><span class="fa fa-users"
-                                                                         style="color: rgba(255,255,255,.75);"></span>
-                        Users</a>
+                <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item dropdown">
+                    <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"><span class="fas fa-users-cog nav-menu-icons"></span> Management</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" th:href="@{/employees}"><span class="fas fa-user-tie nav-menu-icons"></span>
+                            Employees</a>
+                        <a class="dropdown-item" th:href="@{/customers}"><span class="fas fa-user-tag nav-menu-icons"></span>
+                            Customers</a>
+                        <a class="dropdown-item" th:href="@{/users}"><span class="fas fa-users"></span>
+                            Users</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{/rooms}"><span class="fas fa-bed"></span>
+                            Rooms</a>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
+<div class="content-container">
 <header>
     <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -81,23 +74,21 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
-            <!-- Slide One - Set the background image for this slide in the line below -->
             <div class="carousel-item active" style="background-image: url('https://hdwallsource.com/img/2020/9/luxury-house-desktop-wallpaper-70414-72801-hd-wallpapers.jpg')">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption d-md-block">
                     <h3 class="carousel-description display-4">Zoza Hotel</h3>
                     <p class="lead">The perfect place to travel.</p>
+
                 </div>
             </div>
-            <!-- Slide Two - Set the background image for this slide in the line below -->
             <div class="carousel-item" style="background-image: url('http://getwallpapers.com/wallpaper/full/b/1/7/137826.jpg')">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption d-md-block">
                     <h3 class="display-4">Home away from home</h3>
                     <p class="lead">Make yourself at home.</p>
                 </div>
             </div>
-            <!-- Slide Three - Set the background image for this slide in the line below -->
             <div class="carousel-item" style="background-image: url('https://hdwallsource.com/img/2016/7/luxury-house-wallpaper-49817-51497-hd-wallpapers.jpg')">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption d-md-block">
                     <h3 class="display-4">Perfect vacation</h3>
                     <p class="lead">Have a good time with your family or friends.</p>
                 </div>
@@ -116,9 +107,11 @@
 
 
 <section class="py-5">
-    <div class="container text-center">
+    <div class="text-center">
         <h1 class="font-weight-light">Zoza Hotel</h1>
         <p class="lead">Welcome to Zoza Hotel a place for real lux an comfortable Holiday!</p>
+        <p th:if="!${isUserLogged}" class="lead"><a class="register-now-link" th:href="@{/register}"><b>Register and book your dream room now!</b></a></p>
+        <p th:if="${isUserLogged}" class="lead"><a class="register-now-link" th:href="@{/reservations}"><b>Book your dream room now!</b></a></p>
     </div>
 </section>
 
@@ -158,7 +151,7 @@
                     <img class="img-fluid" src="https://source.unsplash.com/M185_qYH8vg/400x300" alt="">
                 </a>
                 <div class="card-img-overlay text-white">
-                    <h2 class="ugali">Plouchmanac’h</h2>
+                    <h2 class="ugali">Cozumel</h2>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-6 p-1">
@@ -185,8 +178,7 @@
 
 <div class="container py-4 mt-4">
 
-
-    <h1 class="my-4 text-info display-4">VIP Destination Packages,<BR/>
+    <h1 class="my-4 text-info display-4">VIP Destination Packages,<BR>
         <small class="text-secondary">Lux with Zoza Hotel</small>
     </h1>
 
@@ -196,7 +188,7 @@
                 <a href="#"><img class="card-img-top" src="https://cdn.dreamtours.pl/img/hotels/giata/5079/cypr-cypr-poludniowy-pernera-beach-119.jpg" alt=""></a>
                 <div class="card-body">
                     <h4 class="card-title">
-                        <a href="#">Hotel Package</a>
+                        <a href="#">Pools</a>
                     </h4>
                     <p class="card-text">Pools with unique features. Even demanding customers will like it.</p>
                 </div>
@@ -207,7 +199,7 @@
                 <a href="#"><img class="card-img-top" src="https://www.tal-com.com/images/djmediatools/28-baltin-blu-atrakcje-1/mielenko-hotel-baltin-fot-piotr-krajewski-1-jpg-lq_038_w_3k2a1018.jpg" alt=""></a>
                 <div class="card-body">
                     <h4 class="card-title">
-                        <a href="#">Hotel Package</a>
+                        <a href="#">Jacuzzi</a>
                     </h4>
                     <p class="card-text">Pools with jacuzzi functions. It allows you to rest after a hard day.</p>
                 </div>
@@ -218,7 +210,7 @@
                 <a href="#"><img class="card-img-top" src="https://www.um24.pl/upload/galleries/1039/Partial_Ocean_View_w_Hotelu_Aston_Waikiki_Circle_na_Hawajach.jpg" alt=""></a>
                 <div class="card-body">
                     <h4 class="card-title">
-                        <a href="#">Hotel Package</a>
+                        <a href="#">Rooms</a>
                     </h4>
                     <p class="card-text">Ocean view rooms. They are fully equipped and comfortable.</p>
                 </div>
@@ -229,7 +221,7 @@
                 <a href="#"><img class="card-img-top" src="https://www.carisma.pl/zdj,max,271527.jpg" alt=""></a>
                 <div class="card-body">
                     <h4 class="card-title">
-                        <a href="#">Hotel Packager</a>
+                        <a href="#">Perfect places</a>
                     </h4>
                     <p class="card-text">Perfect places for sunbathing and relaxing. Nobody will disturb your peace.</p>
                 </div>
@@ -239,10 +231,21 @@
 
     </div>
 </div>
-
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <footer class="footer">
+        <div class="container">
+            <div class="social_footer_ul">
+                <a href="https://github.com/HubertRoginski/zoza-hotel" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/hubert-rogiński-082509184" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <ul class="footer_bottom_ul_amrc">
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/about}">About</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+            <p class="footer-text-center">Copyright @2021 | Designed With by <a href="https://github.com/HubertRoginski" target="_blank"><b>Hubert Rogiński</b></a></p>
+        </div>
+    </footer>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 </body>
 </html>
