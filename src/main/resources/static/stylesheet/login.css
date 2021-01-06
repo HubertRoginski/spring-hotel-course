@@ -6,6 +6,7 @@ html,body{
 }
 .grid-container {
     display: grid;
+    min-width: 500px;
     grid-template-columns: 100%;
     grid-template-rows: 57px calc(100% - 230px) 173px;
     grid-template-areas: "navbar"
