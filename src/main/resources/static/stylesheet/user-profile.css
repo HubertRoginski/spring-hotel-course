@@ -116,9 +116,7 @@ footer {
 }
 
 
-.btn {
-    padding: .675rem .95rem;
-}
+
 
 .content-container {
     margin-top: 20px;
@@ -128,9 +126,13 @@ footer {
     justify-content: center;
 }
 
-.card-body {
-    padding: 0.30rem;
+.action-btn{
+    padding: .675rem .95rem;
 }
+.card-body {
+    padding: 3px;
+}
+
 
 .centered-form {
     margin-top: 60px;

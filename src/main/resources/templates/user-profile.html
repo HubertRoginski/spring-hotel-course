@@ -50,9 +50,9 @@
                 <li th:if="${isAuthorizedUserAdminOrManager}" class="nav-item dropdown">
                     <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"><span class="fas fa-users-cog nav-menu-icons"></span> Management</a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" th:href="@{/employees}"><span class="fas fa-user-tie nav-menu-icons"></span>
+                        <a class="dropdown-item" th:href="@{/employees}"><span class="fas fa-user-tie"></span>
                             Employees</a>
-                        <a class="dropdown-item" th:href="@{/customers}"><span class="fas fa-user-tag nav-menu-icons"></span>
+                        <a class="dropdown-item" th:href="@{/customers}"><span class="fas fa-user-tag"></span>
                             Customers</a>
                         <a class="dropdown-item" th:href="@{/users}"><span class="fas fa-users"></span>
                             Users</a>
@@ -73,10 +73,7 @@
             <p class="lead text-light">Shown is a user profile which can be edited.</p>
         </div>
     </section>
-
-
     <div class="card my-3 w-75 rounded">
-
         <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
@@ -94,7 +91,7 @@
                     <td th:text="${user.email}" class="text-center align-middle"></td>
                     <td class="text-center align-middle">
                         <form method="post" th:action="@{/user/{id}/delete(id=${user.id})}">
-                            <button type="submit" class="btn btn-danger"><span class="fas fa-user-minus"></span> Delete
+                            <button type="submit" class="btn btn-danger action-btn"><span class="fas fa-user-minus"></span> Delete
                             </button>
                         </form>
                     </td>
@@ -160,10 +157,10 @@
                             <div th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
                         </div>
                         <div class="form-group">
-                            <input type="password" th:field="*{password}" id="password-update" class="form-control input-sm" placeholder="password">
+                            <input type="password" th:field="*{password}" id="password-update" class="form-control input-sm" placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <input type="password" id="password-update-confirm" class="form-control input-sm" placeholder="confirm password">
+                            <input type="password" id="password-update-confirm" class="form-control input-sm" placeholder="Confirm password">
                         </div>
                         <div hidden class="form-group">
                             <input type="text" th:field="${user.role}" class="form-control input-sm" placeholder="role">
@@ -172,7 +169,7 @@
                             <input type="text" th:field="${user.enabled}" class="form-control input-sm" placeholder="enabled">
                         </div>
 
-                        <input type="submit" value="Change password" class="btn btn-warning btn-block">
+                        <input type="submit" value="Change password" class="btn btn-warning btn-lg btn-block">
                     </form>
                 </div>
             </div>
@@ -189,7 +186,7 @@
                     <h3 class="panel-title text-center">You need to create customer account.</h3>
                 </div>
                 <div class="panel-body create-new-customer-btn">
-                    <a th:href="@{/user/profile/customer/create}" class='btn btn-primary btn-xs'><span class="fas fa-user-edit"></span> Create new customer account</a>
+                    <a th:href="@{/user/profile/customer/create}" class="btn btn-primary btn-lg"><span class="fas fa-user-edit"></span> Create new customer account</a>
                 </div>
             </div>
         </div>
@@ -227,7 +224,7 @@
                     <td th:text="${user.customer.address}" class="text-center align-middle"></td>
                     <td th:text="${user.customer.phoneNumber}" class="text-center align-middle"></td>
                     <td class="text-center align-middle">
-                        <a th:href="@{/user/profile/customer/__${user.customer.id}__}" class='btn btn-info btn-xs'><span class="fas fa-user-edit"></span> Edit</a>
+                        <a th:href="@{/user/profile/customer/__${user.customer.id}__}" class='btn btn-info action-btn'><span class="fas fa-user-edit"></span> Edit</a>
                     </td>
                 </tr>
                 </tbody>
@@ -244,10 +241,7 @@
             <h1 class="font-weight-light text-light">Customer current reservations</h1>
         </div>
     </section>
-
-
     <div class="card my-3 w-75 rounded">
-
         <div class="card-body">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
@@ -273,7 +267,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 </div>
