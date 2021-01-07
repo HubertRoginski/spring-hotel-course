@@ -45,6 +45,7 @@
 
 .all-content-container {
     height: 100%;
+    min-height: 100vh;
     grid-area: content;
     background-image: url(../images/backgrounds/user-profile-background.jpg);
     background-repeat: no-repeat;
@@ -115,9 +116,6 @@ footer {
     color: white;
 }
 
-
-
-
 .content-container {
     margin-top: 20px;
     display: flex;
@@ -132,7 +130,6 @@ footer {
 .card-body {
     padding: 3px;
 }
-
 
 .centered-form {
     margin-top: 60px;

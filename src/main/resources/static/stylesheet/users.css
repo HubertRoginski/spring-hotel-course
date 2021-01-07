@@ -45,6 +45,7 @@
 
 .all-content-container {
     height: 100%;
+    min-height: 100vh;
     grid-area: content;
     background-image: url(../images/backgrounds/users-background.jpg);
     background-repeat: no-repeat;
