@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="pl"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -71,52 +71,62 @@
         <div class="social-box">
             <div class="container">
                 <div class="row">
-
                     <div class="col-lg-4 col-xs-12 text-center">
                         <div class="box">
-                            <i class="fas fa-linkedin fa-3x" aria-hidden="false"></i>
-                            <div class="box-title">
-                                <h3>Pinterest</h3>
-                            </div>
-                            <div class="box-text">
-                                <span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-                            </div>
-                            <div class="box-btn">
-                                <a href="#">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-xs-12 text-center">
-                        <div class="box">
-                            <i class="fa fa-google-plus fa-3x" aria-hidden="true"></i>
-                            <div class="box-title">
-                                <h3>Google</h3>
-                            </div>
-                            <div class="box-text">
-                                <span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-                            </div>
-                            <div class="box-btn">
-                                <a href="#">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-xs-12 text-center">
-                        <div class="box">
-                            <i class="fa fa-github fa-3x" aria-hidden="true"></i>
+                            <span class="fab fa-github fa-3x"></span>
                             <div class="box-title">
                                 <h3>Github</h3>
                             </div>
                             <div class="box-text">
-                                <span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
+                                <span th:text="#{contact.github.boxText}"></span>
                             </div>
                             <div class="box-btn">
-                                <a href="#">Learn More</a>
+                                <a th:href="#{contact.github.boxBtn.address}" target="_blank" th:text="#{contact.github.boxBtn.text}"></a>
                             </div>
                         </div>
                     </div>
 
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <span class="fas fa-at fa-3x"></span>
+                            <div class="box-title">
+                                <h3>Gmail</h3>
+                            </div>
+                            <div class="box-text">
+                                <span th:text="#{contact.gmail.boxText}"></span>
+                            </div>
+                            <div class="box-btn">
+                                <span th:text="#{contact.gmail.boxBtn}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-xs-12 text-center">
+                        <div class="box">
+                            <span class="fab fa-linkedin fa-3x"></span>
+                            <div class="box-title">
+                                <h3>Linkedin</h3>
+                            </div>
+                            <div class="box-text">
+                                <span th:text="#{contact.linkedin.boxText}"></span>
+                            </div>
+                            <div class="box-btn">
+                                <a th:href="#{contact.linkedin.boxBtn.address}" target="_blank" th:text="#{contact.linkedin.boxBtn.text}"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="all-form-container">
+        <div class="container-form">
+            <div class="row centered-form">
+                <div class="panel panel-default form-size">
+                    <div class="panel-body">
+                        <a th:href="@{/about}" class='btn btn-dark btn-lg btn-block'><span class="fas fa-book-open"></span> Find out more about this website</a>
+                        <a th:href="@{/}" class='btn btn-dark btn-lg btn-block'><span class="fas fa-home"></span> Back to homepage</a>
+                    </div>
                 </div>
             </div>
         </div>
