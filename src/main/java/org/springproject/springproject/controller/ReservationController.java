@@ -56,7 +56,7 @@ public class ReservationController {
 
         modelMap.addAttribute("isItFirstStep", true);
 
-        return "/reservations";
+        return "reservations";
     }
 
     @PostMapping("/reservations")
