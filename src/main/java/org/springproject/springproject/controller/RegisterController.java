@@ -8,8 +8,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springproject.springproject.model.Error;
 import org.springproject.springproject.model.User;
+import org.springproject.springproject.service.AuthenticationUserService;
 import org.springproject.springproject.service.UserService;
 
 import javax.validation.Valid;
@@ -26,13 +26,9 @@ public class RegisterController {
     }
 
     @GetMapping("/register")
-    public String showAddUser(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
-        boolean isUserLogged = Objects.nonNull(authenticationUser);
-        modelMap.addAttribute("isUserLogged", isUserLogged);
-        if (isUserLogged) {
-            boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-            modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
-        }
+    public String showAddUser(ModelMap modelMap){
+        modelMap.addAttribute("isUserLogged", false);
+        modelMap.addAttribute("isAuthorizedUserAdminOrManager", false);
         modelMap.addAttribute("user", new User());
 
         return "register";

@@ -5,7 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springproject.springproject.model.User;
+import org.springproject.springproject.service.AuthenticationUserService;
 
 import java.util.Objects;
 
@@ -13,16 +13,15 @@ import java.util.Objects;
 @Slf4j
 public class HomepageController {
 
+    private final AuthenticationUserService authenticationUserService;
+
+    public HomepageController(AuthenticationUserService authenticationUserService) {
+        this.authenticationUserService = authenticationUserService;
+    }
+
     @GetMapping("/")
     public String homepage(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
-        boolean isUserLogged = Objects.nonNull(authenticationUser);
-        modelMap.addAttribute("isUserLogged", isUserLogged);
-        if (isUserLogged) {
-            boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-            modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
-        }else {
-            modelMap.addAttribute("isAuthorizedUserAdminOrManager", false);
-        }
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
         return "homepage";
     }
 }

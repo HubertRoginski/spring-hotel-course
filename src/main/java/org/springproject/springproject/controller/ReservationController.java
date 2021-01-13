@@ -1,7 +1,6 @@
 package org.springproject.springproject.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,15 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springproject.springproject.exception.InvalidArgumentsToCreateReservationException;
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.Reservation;
-import org.springproject.springproject.model.Room;
 import org.springproject.springproject.model.User;
 import org.springproject.springproject.service.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @Slf4j
@@ -28,19 +23,19 @@ public class ReservationController {
     private final CustomerService customerService;
     private final UserService userService;
     private final ReservationRoomsService reservationRoomsService;
+    private final AuthenticationUserService authenticationUserService;
 
-    public ReservationController(ReservationService reservationService, CustomerService customerService, UserService userService, ReservationRoomsService reservationRoomsService) {
+    public ReservationController(ReservationService reservationService, CustomerService customerService, UserService userService, ReservationRoomsService reservationRoomsService, AuthenticationUserService authenticationUserService) {
         this.reservationService = reservationService;
         this.customerService = customerService;
         this.userService = userService;
         this.reservationRoomsService = reservationRoomsService;
+        this.authenticationUserService = authenticationUserService;
     }
 
     @GetMapping("/reservations")
     public String showAddReservations(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
 
         modelMap.addAttribute("reservation", new Reservation());
         modelMap.addAttribute("customer", new Customer());
@@ -61,9 +56,7 @@ public class ReservationController {
 
     @PostMapping("/reservations")
     public String addReservation(@Valid @ModelAttribute("reservation") Reservation reservation, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
 
         modelMap.addAttribute("isCustomerExists", true);
         User user = userService.getByUsernameOrEmail(authenticationUser.getUsername());
@@ -102,7 +95,7 @@ public class ReservationController {
 
     @PostMapping("/reservations/create-customer")
     public String addCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
-        modelMap.addAttribute("isUserLogged", true);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
         modelMap.addAttribute("isCustomerExists", false);
         if (errors.hasErrors()) {
             return "reservations";

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springproject.springproject.model.Customer;
 import org.springproject.springproject.model.User;
+import org.springproject.springproject.service.AuthenticationUserService;
 import org.springproject.springproject.service.CustomerService;
 import org.springproject.springproject.service.ReservationService;
 import org.springproject.springproject.service.UserService;
@@ -26,18 +27,18 @@ public class UserProfileController {
     private final UserService userService;
     private final ReservationService reservationService;
     private final CustomerService customerService;
+    private final AuthenticationUserService authenticationUserService;
 
-    public UserProfileController(UserService userService, ReservationService reservationService, CustomerService customerService) {
+    public UserProfileController(UserService userService, ReservationService reservationService, CustomerService customerService, AuthenticationUserService authenticationUserService) {
         this.userService = userService;
         this.reservationService = reservationService;
         this.customerService = customerService;
+        this.authenticationUserService = authenticationUserService;
     }
 
     @GetMapping("/user/profile")
     public String getUserProfile(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser){
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
 
         modelMap.addAttribute("updateUser", new User());
         modelMap.addAttribute("updateUserPassword", new User());
@@ -72,9 +73,7 @@ public class UserProfileController {
         Optional<User> userById = Optional.ofNullable(userService.getUserById(id));
         Optional<User> userByUsernameOrEmail = Optional.ofNullable(userService.getByUsernameOrEmail(authenticationUser.getUsername()));
         if (userById.equals(userByUsernameOrEmail) && userById.isPresent() && userByUsernameOrEmail.isPresent()) {
-            modelMap.addAttribute("isUserLogged", true);
-            boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-            modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+            authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
             if (errors.hasErrors()) {
                 return "user-profile";
             }
@@ -88,18 +87,14 @@ public class UserProfileController {
 
     @GetMapping("/user/profile/customer/create")
     public String getCustomerCreate(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
         modelMap.addAttribute("createdCustomer",new Customer());
         return "user-profile-customer-create";
     }
 
     @PostMapping("/user/profile/customer/create")
     public String addCustomer(@Valid @ModelAttribute("createdCustomer") Customer customer, final Errors errors, ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser) {
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
         if (errors.hasErrors()) {
             return "user-profile-customer-create";
         }
@@ -117,9 +112,7 @@ public class UserProfileController {
             if (userById.equals(userByUsernameOrEmail) && userById.isPresent() && userByUsernameOrEmail.isPresent()) {
                 modelMap.addAttribute("customer", customerService.getCustomerById(id));
                 modelMap.addAttribute("customerTable", customerService.getCustomerById(id));
-                modelMap.addAttribute("isUserLogged", true);
-                boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-                modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+                authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
                 return "user-profile-customer";
             }
         }
@@ -133,9 +126,7 @@ public class UserProfileController {
             Optional<User> userById = Optional.ofNullable(userService.getUserById(userByCustomerId.get().getId()));
             Optional<User> userByUsernameOrEmail = Optional.ofNullable(userService.getByUsernameOrEmail(authenticationUser.getUsername()));
             if (userById.equals(userByUsernameOrEmail) && userById.isPresent() && userByUsernameOrEmail.isPresent()) {
-                modelMap.addAttribute("isUserLogged", true);
-                boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-                modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+                authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
                 modelMap.addAttribute("customerTable", customerService.getCustomerById(id));
                 if (errors.hasErrors()) {
                     return "user-profile-customer";

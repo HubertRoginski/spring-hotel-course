@@ -1,14 +1,13 @@
 package org.springproject.springproject.controller;
 
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springproject.springproject.model.Customer;
-import org.springproject.springproject.model.Employee;
 import org.springproject.springproject.model.User;
+import org.springproject.springproject.service.AuthenticationUserService;
 import org.springproject.springproject.service.CustomerService;
 import org.springproject.springproject.service.UserService;
 
@@ -23,10 +22,12 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final UserService userService;
+    private final AuthenticationUserService authenticationUserService;
 
-    public CustomerController(CustomerService customerService, UserService userService) {
+    public CustomerController(CustomerService customerService, UserService userService, AuthenticationUserService authenticationUserService) {
         this.customerService = customerService;
         this.userService = userService;
+        this.authenticationUserService = authenticationUserService;
     }
 
     @GetMapping("/customers")
@@ -54,23 +55,20 @@ public class CustomerController {
             modelMap.addAttribute("pageNumbers", pageNumbers);
         }
 
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         return "customers";
     }
     @GetMapping("/customers/{id}")
     public String customerWithId(ModelMap modelMap, @PathVariable Long id){
         modelMap.addAttribute("customer", customerService.getCustomerById(id));
         modelMap.addAttribute("customerTable", customerService.getCustomerById(id));
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         return "one-customer";
     }
 
     @PostMapping("/customers/{id}")
     public String updateCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, @PathVariable Long id, ModelMap modelMap){
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         modelMap.addAttribute("customerTable", customerService.getCustomerById(id));
         if (errors.hasErrors()){
             return "one-customer";
@@ -85,8 +83,7 @@ public class CustomerController {
 
     @GetMapping("/customers/add")
     public String showCustomerAdd(ModelMap modelMap){
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         modelMap.addAttribute("customer", new Customer());
         List<User> usersWithoutCustomersAccountList = userService.getUsersWithoutCustomerAccount();
         modelMap.addAttribute("usersWithoutCustomersAccountList",usersWithoutCustomersAccountList);
@@ -95,8 +92,7 @@ public class CustomerController {
 
     @PostMapping("/customers/add")
     public String addCustomer(@Valid @ModelAttribute("customer") Customer customer, final Errors errors, @RequestParam Long selectedUserId, ModelMap modelMap){
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         modelMap.addAttribute("usersWithoutCustomersAccountList",userService.getUsersWithoutCustomerAccount());
         if (errors.hasErrors()){
             return "customer-add";

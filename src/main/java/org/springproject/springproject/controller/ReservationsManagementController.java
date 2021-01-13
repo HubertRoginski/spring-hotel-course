@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springproject.springproject.model.Reservation;
 import org.springproject.springproject.model.ReservationsManagement;
+import org.springproject.springproject.service.AuthenticationUserService;
 import org.springproject.springproject.service.ReservationService;
 import org.springproject.springproject.service.ReservationsManagementService;
 
@@ -22,18 +23,19 @@ public class ReservationsManagementController {
 
     private final ReservationsManagementService reservationsManagementService;
     private final ReservationService reservationService;
+    private final AuthenticationUserService authenticationUserService;
 
-    public ReservationsManagementController(ReservationsManagementService reservationsManagementService, ReservationService reservationService) {
+    public ReservationsManagementController(ReservationsManagementService reservationsManagementService, ReservationService reservationService, AuthenticationUserService authenticationUserService) {
         this.reservationsManagementService = reservationsManagementService;
         this.reservationService = reservationService;
+        this.authenticationUserService = authenticationUserService;
     }
 
     @GetMapping("/reservations/management/current-reservations")
     public String getAllCurrentReservations(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser,
                                             @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "5") Integer size){
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
+
         ReservationsManagement currentReservationsManagement = reservationsManagementService.getCurrentReservationsManagement(page - 1, size);
         modelMap.addAttribute("currentReservationsManagement", currentReservationsManagement.getReservationsManagementContentList());
         Page<Reservation> currentReservationsPage = currentReservationsManagement.getReservationPage();
@@ -48,9 +50,8 @@ public class ReservationsManagementController {
     @GetMapping("/reservations/management/future-reservations")
     public String getAllFutureReservations(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser,
                                            @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "5") Integer size){
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
+
         ReservationsManagement futureReservationsManagement = reservationsManagementService.getFutureReservationsManagement(page - 1, size);
         modelMap.addAttribute("futureReservationsManagement", futureReservationsManagement.getReservationsManagementContentList());
         Page<Reservation> futureReservationsPage = futureReservationsManagement.getReservationPage();
@@ -65,9 +66,7 @@ public class ReservationsManagementController {
     @GetMapping("/reservations/management/old-reservations")
     public String getAllOldReservations(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser,
                                         @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "5") Integer size){
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
 
         ReservationsManagement oldReservationsManagement = reservationsManagementService.getOldReservationsManagement(page - 1, size);
         modelMap.addAttribute("oldReservationsManagement", oldReservationsManagement.getReservationsManagementContentList());

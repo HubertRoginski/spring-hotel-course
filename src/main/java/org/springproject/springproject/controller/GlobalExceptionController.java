@@ -41,7 +41,6 @@ public class GlobalExceptionController {
     }
 
     @ExceptionHandler
-//    @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map handle(ConstraintViolationException exception) {
         return error(exception.getConstraintViolations()

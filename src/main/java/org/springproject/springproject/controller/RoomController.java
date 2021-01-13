@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springproject.springproject.model.Room;
+import org.springproject.springproject.service.AuthenticationUserService;
 import org.springproject.springproject.service.RoomService;
 
 import javax.validation.Valid;
@@ -18,17 +19,17 @@ import java.util.stream.IntStream;
 @Controller
 public class RoomController {
     private final RoomService roomService;
+    private final AuthenticationUserService authenticationUserService;
 
-    public RoomController(RoomService roomService) {
+    public RoomController(RoomService roomService, AuthenticationUserService authenticationUserService) {
         this.roomService = roomService;
+        this.authenticationUserService = authenticationUserService;
     }
 
     @GetMapping("/rooms")
     public String showRooms(ModelMap modelMap, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authenticationUser,
                             @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "5") Integer size){
-        modelMap.addAttribute("isUserLogged", true);
-        boolean isAuthorizedUserAdminOrManager = authenticationUser.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN") || grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", isAuthorizedUserAdminOrManager);
+        authenticationUserService.isAuthenticatedUserAuthorizedAsAdminOrManager(modelMap, authenticationUser);
 
         modelMap.addAttribute("roomsList", roomService.getAllRooms(page - 1, size).getContent());
         Page<Room> roomPage = roomService.getAllRooms(page - 1, size);
@@ -51,15 +52,13 @@ public class RoomController {
     public String getOneRoomById(ModelMap modelMap, @PathVariable Long id) {
         modelMap.addAttribute("room", roomService.getRoomById(id));
         modelMap.addAttribute("roomTable", roomService.getRoomById(id));
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         return "one-room";
     }
 
     @PostMapping("/rooms/{id}")
     public String updateRoomById(@Valid @ModelAttribute("room") Room room, final Errors errors, @PathVariable Long id, ModelMap modelMap) {
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         modelMap.addAttribute("roomTable", roomService.getRoomById(id));
         if (errors.hasErrors()) {
             return "one-room";
@@ -80,8 +79,7 @@ public class RoomController {
 
     @GetMapping("/rooms/add")
     public String showAddRooms(ModelMap modelMap){
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         modelMap.addAttribute("room", new Room());
 
         return "room-add";
@@ -89,8 +87,7 @@ public class RoomController {
 
     @PostMapping("/rooms/add")
     public String addRoom(@Valid @ModelAttribute("room") Room room, final Errors errors, ModelMap modelMap){
-        modelMap.addAttribute("isUserLogged", true);
-        modelMap.addAttribute("isAuthorizedUserAdminOrManager", true);
+        authenticationUserService.authenticatedUserAuthorizedAsAdminOrManager(modelMap);
         if (errors.hasErrors()){
             return "room-add";
         }
