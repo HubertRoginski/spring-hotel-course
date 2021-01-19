@@ -6,6 +6,7 @@ Information about users, customers, employees and rooms is available for managem
 Each user can change their data in the "Profile".
 ### Project on heroku
 This project is available on the heroku platform at: https://zoza-hotel.herokuapp.com/.
+<b>The first launch may take a few moments, because the website goes to sleep after 30 minutes of inactivity and has to restart.</b>
 ### Authentication 
 Admin account:
 * username: admin,
