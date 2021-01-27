@@ -66,9 +66,77 @@
             </div>
         </div>
     </nav>
-<div class="all-content-container">
 
+<div class="all-content-container">
+    <div class="container-form">
+        <div class="row centered-form">
+            <div class="panel panel-default form-size">
+                <div class="panel-body">
+                    <h2>Zoza Hotel</h2>
+                    <span>It is a website that allows you to register new users and book hotel rooms.
+                        It also allows the hotel to be managed by the manager and administrator.
+                        Information about users, customers, employees and rooms is available for management.
+                        Each user can change their data in the "Profile".
+                        The code is available on the github platform at:</span>
+                    <a th:href="#{contact.github.boxBtn.address}" target="_blank" th:text="#{contact.github.boxBtn.address}"></a>
+                    <h2>Authentication</h2>
+                    <span>Admin account:</span>
+                    <ul>
+                        <li>username: admin,</li>
+                        <li>email: admin@gmail.com,</li>
+                        <li>password: admin.</li>
+                    </ul>
+                    <span>Manager account:</span>
+                    <ul>
+                        <li>username: manager,</li>
+                        <li>email: manager@gmail.com,</li>
+                        <li>password: manager.</li>
+                    </ul>
+                    <span>User account:</span>
+                    <ul>
+                        <li>username: user,</li>
+                        <li>email: user@gmail.com,</li>
+                        <li>password: user.</li>
+                    </ul>
+                    <span>The admin account differs from the manager in that the manager cannot delete users. Accounts created by signing in have access as normal users by default.</span>
+                    <h2>Database layer</h2>
+                    <span>The PostgreSQL database was used in this project. Created tables: users, customer, employee, employee contact, reservation, room.</span>
+                    <span>Relations between tables:</span>
+                    <ul>
+                        <li>users OneToOne customer,</li>
+                        <li>customer OneToMany reservation,</li>
+                        <li>reservation ManyToMany room,</li>
+                        <li>employee OneToOne employeeContact.</li>
+                    </ul>
+                    <h2>Back-end layer</h2>
+                    <span>Technologies used:</span>
+                    <ul>
+                        <li>Java 11,</li>
+                        <li>Spring Boot 2.4.0,</li>
+                        <li>Spring Data JPA,</li>
+                        <li>PostgeSQL Driver,</li>
+                        <li>Spring Web,</li>
+                        <li>Spring Security,</li>
+                        <li>Lombok,</li>
+                        <li>Maven.</li>
+                    </ul>
+                    <h2>Front-end layer</h2>
+                    <span>Technologies used:</span>
+                    <ul>
+                        <li>HTML5,</li>
+                        <li>CSS3,</li>
+                        <li>JavaScript,</li>
+                        <li>Thymeleaf,</li>
+                        <li>Bootstrap 4,</li>
+                        <li>jQuery.</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <footer class="footer">
     <div class="container">
         <div class="social_footer_ul">
@@ -80,7 +148,7 @@
             <li><a th:href="@{/about}">About</a></li>
             <li><a th:href="@{/contact}">Contact</a></li>
         </ul>
-        <p class="footer-text-center">Copyright @2021 | Designed With by <a th:href="#{footer.social.designedBy}" target="_blank"><b>Hubert Rogiński</b></a></p>
+        <p class="footer-text-center">Copyright @2021 | Designed by <a th:href="#{footer.social.designedBy}" target="_blank"><b>Hubert Rogiński</b></a></p>
     </div>
 </footer>
 </div>
