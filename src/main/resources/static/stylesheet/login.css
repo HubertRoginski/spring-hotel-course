@@ -60,12 +60,7 @@ html,body{
     background-repeat: no-repeat;
 }
 
-.card{
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 400px;
-    background-color: rgba(0,0,0,0.8) !important;
-}
+
 
 /*.social_icon span{*/
 /*    font-size: 60px;*/
@@ -88,19 +83,7 @@ html,body{
 /*    top: -45px;*/
 /*}*/
 
-.input-group-prepend span{
-    width: 50px;
-    background-color: rgb(66, 128, 210);
-    color: black;
-    border:0 !important;
-}
-.input-group{
-    width: 313px;
-}
-input:focus{
-    box-shadow: 0 0 0 0 !important;
 
-}
 
 .remember{
     color: white;
@@ -201,4 +184,59 @@ footer {
 }
 .social_footer_ul a i:hover {
     color: white;
+}
+
+
+
+@media (min-width: 800px) {
+    .card{
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 400px;
+        background-color: rgba(0,0,0,0.8) !important;
+    }
+    .input-group-prepend span{
+        width: 50px;
+        background-color: rgb(66, 128, 210);
+        color: black;
+        border:0 !important;
+    }
+    .input-group{
+        width: 313px;
+    }
+    .input-group input{
+
+    }
+    input:focus{
+        box-shadow: 0 0 0 0 !important;
+    }
+}
+
+@media (min-width: 300px) {
+    .card{
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 270px;
+        height: 190px;
+        background-color: rgba(0,0,0,0.8) !important;
+    }
+    .input-group-prepend span{
+        width: 80px;
+        font-size: 40px;
+        background-color: rgb(66, 128, 210);
+        color: black;
+        border:0 !important;
+    }
+    .input-group{
+        width: 90%;
+        margin: auto;
+        height: 70px;
+    }
+    .input-group input{
+        font-size: 40px;
+        height: 70px;
+    }
+    input:focus{
+        box-shadow: 0 0 0 0 !important;
+    }
 }
